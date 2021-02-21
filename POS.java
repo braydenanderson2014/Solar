@@ -140,7 +140,43 @@ public class POS{
      * Categories for POS items
      */
     private static void categories(){
-        mainBody.setNewMessage("[System]: This Feature is not yet Available");
+        mainBody.setNewMessage("[System]: This Feature is not yet Completed");
+        System.out.println("Categories: ");
+        System.out.println("========================================");
+        System.out.println("[APP]: Appliances");
+        System.out.println("[COM]: Computer And Electronics");
+        System.out.println("[FUR]: Furniture");
+        
+        
+        
+        System.out.println("[RET]: Return");
+        System.out.println();
+        System.out.println("Console: ");
+        int messageSize = mainBody.getMessageSize();
+        if(messageSize > 0){
+            messageSize --;
+            System.out.println(mainBody.getLastMessage());
+        }
+        Scanner scan = new Scanner(System.in);
+        String option = scan.nextLine().toLowerCase().trim();
+        if(option.equals("ret")){
+            POSMenu();
+        }else if(option.equals("app")){
+            System.out.println("[FRI]: Fridge");
+            System.out.println("[MIC]: Microwave");
+            System.out.println("[DIS]: Dishwasher");
+            System.out.println("[TOA]: Toaster");
+            System.out.println("[OVE]: Oven, Range, Cooktop");
+            System.out.println("[BLE]: Blender");
+        }else if(option.equals("com")){
+            
+        }else if(option.equals("fur")){
+            
+        }else{
+            mainBody.setNewMessage("[System]: Invalid Option, try again");
+            categories();
+        }
+        scan.close();
         POSMenu();
     }
 
