@@ -158,8 +158,8 @@ public class Setup{
                 System.out.println("Would you like to move all data from previous stored location to selected Path? \"Y/N\"");
                 String answer = scan.nextLine().toLowerCase();
                 if(answer.equals("y") || answer.equals("yes")){
-                    File oldFile = new File(oldPath);
-                    File newFile = new File(Path);
+                    File oldFile = new File(oldPath).getAbsoluteFile();
+                    File newFile = new File(Path).getAbsoluteFile();
                     if(!newFile.exists()){
                         newFile.mkdirs();
                     }

@@ -18,6 +18,7 @@ public class FileMovement {
             System.out.println(src);
         } catch (IOException e) {
             mainBody.setNewMessage("[System ERROR]: Exception while moving file: " + e.getMessage());
+            return false;
         }
         if(result != null) {
             mainBody.setNewMessage("[System]: File moved successfully.");
