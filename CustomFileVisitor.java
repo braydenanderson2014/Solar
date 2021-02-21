@@ -20,18 +20,14 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-    throws IOException
-    {      
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException{      
         Path newDirectory= target.resolve(source.relativize(dir));
         try{
             Files.copy(dir,newDirectory);
-        }
-        catch (FileAlreadyExistsException ioException){
+        }catch (FileAlreadyExistsException ioException){
             //log it and move
             return SKIP_SUBTREE; // skip processing
-        }
-        return FileVisitResult.CONTINUE;
+        }return FileVisitResult.CONTINUE;
     }
 
     @Override
@@ -41,14 +37,11 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
 
         try{
             Files.copy(file,newFile);
-        }
-        catch (IOException ioException){
+        }catch (IOException ioException){
             //log it and move
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
         }
-
         return FileVisitResult.CONTINUE;
-
     }
 
     @Override
@@ -61,11 +54,9 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
         if (exc instanceof FileSystemLoopException) {
             //log error
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
-
         } else {
             //log error
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
-
         }
         return CONTINUE;
     }
