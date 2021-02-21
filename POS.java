@@ -168,10 +168,38 @@ public class POS{
             System.out.println("[TOA]: Toaster");
             System.out.println("[OVE]: Oven, Range, Cooktop");
             System.out.println("[BLE]: Blender");
+			System.out.println("[RET]: Return to Menu");
+			String option2 = scan.nextLine();
+			if(option2.equals("ret")){
+				categories();
+			}else{
+				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+				categories();
+			}
         }else if(option.equals("com")){
-            
+            System.out.println("[LAP]: Laptops");
+			System.out.println("[DES]: Desktops");
+			System.out.println("[HAR]: Hardware");
+			System.out.println("[SOF]: Software");
+			System.out.println("[RET]: Return to Menu");
+			String option2 = scan.nextLine();
+			if(option2.equals("ret")){
+				categories();
+			}else{
+				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+				categories();
+			}
         }else if(option.equals("fur")){
-            
+            System.out.println("[COU]: Couch");
+			System.out.println("[CHA]: Chair");
+			System.out.println("[RET]: Return to Menu");
+			String option2 = scan.nextLine();
+			if(option2.equals("ret")){
+				categories();
+			}else{
+				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+				categories();
+			}
         }else{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
