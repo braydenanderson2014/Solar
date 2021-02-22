@@ -147,8 +147,7 @@ public class POS{
         System.out.println("[COM]: Computer And Electronics");
         System.out.println("[FUR]: Furniture");
         System.out.println("[DEC]: Decor");
-        
-        
+
         System.out.println("[RET]: Return");
         System.out.println();
         System.out.println("Console: ");
@@ -168,77 +167,129 @@ public class POS{
             System.out.println("[TOA]: Toaster");
             System.out.println("[OVE]: Oven, Range, Cooktop");
             System.out.println("[BLE]: Blender");
-			System.out.println("[RET]: Return to Menu");
-			String option2 = scan.nextLine();
-			if(option2.equals("ret")){
-				categories();
-			}else if(option2.equals("fri")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Fridge", Price);
-			}else if(option2.equals("mic")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Microwave", Price);
-			}else if(option2.equals("dis")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Dishwasher", Price);
-			}else if(option2.equals("toa")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Toaster", Price);
-			}else if(option2.equals("ove")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Oven, Range, Cooktop", Price);
-			}else if(option2.equals("ble")){
-				System.out.println("Price: ");
-				double Price = scan.nextDouble();
-				addItem("Blender", Price);
-			}else{
-				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
-				categories();
-			}
+            System.out.println("[RET]: Return to Menu");
+            String option2 = scan.nextLine();
+            if(option2.equals("ret")){
+                categories();
+            }else if(option2.equals("fri")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Fridge", Price);
+                categories();
+            }else if(option2.equals("mic")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Microwave", Price);				
+                categories();
+            }else if(option2.equals("dis")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Dishwasher", Price);				
+                categories();
+            }else if(option2.equals("toa")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Toaster", Price); 				
+                categories();
+            }else if(option2.equals("ove")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Oven, Range, Cooktop", Price); 				
+                categories();
+            }else if(option2.equals("ble")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Blender", Price);				
+                categories();
+            }else{
+                mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                categories();
+            }
         }else if(option.equals("com")){
             System.out.println("[LAP]: Laptops");
-			System.out.println("[DES]: Desktops");
-			System.out.println("[TEL]: Telephones");
-			System.out.println("[TEV]: Television");
-			System.out.println("[HAR]: Hardware");
-			System.out.println("[SOF]: Software");
-			System.out.println("[RET]: Return to Menu");
-			String option2 = scan.nextLine();
-			if(option2.equals("ret")){
-				categories();
-			}else{
-				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
-				categories();
-			}
+            System.out.println("[DES]: Desktops");
+            System.out.println("[TEL]: Telephones");
+            System.out.println("[TEV]: Television");
+            System.out.println("[HAR]: Hardware");
+            System.out.println("[SOF]: Software");
+            System.out.println("[RET]: Return to Menu");
+            String option2 = scan.nextLine();
+            if(option2.equals("ret")){
+                categories();
+            }else if(option2.equals("lap")){
+                System.out.println("Laptops");				        
+                System.out.println("========================================");
+                System.out.println("[GAM]: Gaming Laptops");
+                System.out.println("[NOR]: Normal Laptops");
+                System.out.println("[RET]: Return to Menu");
+                String option3 = scan.nextLine();
+                if(option3.equals("ret")){
+                    categories();	
+                }else if(option3.equals("gam")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Gaming Laptop", Price);				
+                    categories();
+                }else if(option3.equals("nor")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Normal Laptop", Price);				
+                    categories();
+                }else{
+                    mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                    categories();
+                }
+            }else if(option2.equals("des")){
+                System.out.println("Desktop");				        
+                System.out.println("========================================");
+                System.out.println("[GAM]: Gaming Desktop");
+                System.out.println("[NOR]: Normal Desktop");
+                System.out.println("[RET]: Return to Menu");
+                String option3 = scan.nextLine();
+                if(option3.equals("ret")){
+                    categories();	
+                }else if(option3.equals("gam")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Gaming Desktop", Price);				
+                    categories();
+                }else if(option3.equals("nor")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Normal Desktop", Price);				
+                    categories();
+                }else{
+                    mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                    categories();
+                }
+            }else{
+                mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                categories();
+            }
         }else if(option.equals("fur")){
             System.out.println("[COU]: Couch");
-			System.out.println("[CHA]: Chair");
-			System.out.println("[TAB]: Tables");
-			System.out.println("[BEN]: Benches")
-			
-			System.out.println("[RET]: Return to Menu");
-			String option2 = scan.nextLine();
-			if(option2.equals("ret")){
-				categories();
-			}else{
-				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
-				categories();
-			}
+            System.out.println("[CHA]: Chair");
+            System.out.println("[TAB]: Tables");
+            System.out.println("[BEN]: Benches");
+
+            System.out.println("[RET]: Return to Menu");
+            String option2 = scan.nextLine();
+            if(option2.equals("ret")){
+                categories();
+            }else{
+                mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                categories();
+            }
         }else if(option.equals("dec")){
-			System.out.println("[RET]: Return to Menu");
-			String option2 = scan.nextLine();
-			if(option2.equals("ret")){
-				categories();
-			}else{
-				mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
-				categories();
-			}
-		}else{
+            System.out.println("[RET]: Return to Menu");
+            String option2 = scan.nextLine();
+            if(option2.equals("ret")){
+                categories();
+            }else{
+                mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                categories();
+            }
+        }else{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
         }
