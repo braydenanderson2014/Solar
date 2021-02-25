@@ -147,7 +147,7 @@ public class POS{
         System.out.println("[COM]: Computer And Electronics");
         System.out.println("[FUR]: Furniture");
         System.out.println("[DEC]: Decor");
-		System.out.prinltn("[MAN]: Manual Entry");
+        System.out.println("[MAN]: Manual Entry");
         System.out.println("[RET]: Return");
         System.out.println();
         System.out.println("Console: ");
@@ -289,9 +289,9 @@ public class POS{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                 categories();
             }
-        }else if("man")){
-			manualEntry();
-		}else{
+        }else if(option.equals("man")){
+            manualEntry();
+        }else{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
         }
@@ -304,20 +304,20 @@ public class POS{
      * Manual Item input for POS
      */
     private static void manualEntry(){
-		System.out.println("Type \"[CAT]\" to go to Categories");
+        System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
         Scanner scan = new Scanner(System.in);
         String manualEntry = scan.nextLine();
-		if(manualEntry.equals("cat")){
-			categories();
-		}else if(manualEntry.equals("ret")){
-			POSMenu();
-		}else{
-			System.out.println("Price: ");
-			double manualPrice = scan.nextDouble();
-			addItem(manualEntry, manualPrice);
-			POSMenu();
-		} 
+        if(manualEntry.equals("cat")){
+            categories();
+        }else if(manualEntry.equals("ret")){
+            POSMenu();
+        }else{
+            System.out.println("Price: ");
+            double manualPrice = scan.nextDouble();
+            addItem(manualEntry, manualPrice);
+            POSMenu();
+        } 
     }
 
     /**
