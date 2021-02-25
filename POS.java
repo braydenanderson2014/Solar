@@ -457,7 +457,6 @@ public class POS{
             mainBody.setNewMessage("Invalid Option");
             return 0.00;
         }
-
     }
 
     /**
