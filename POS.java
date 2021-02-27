@@ -336,22 +336,22 @@ public class POS{
 				}else if(option3.equals("cas")){
 					System.out.println("Price: ");
 					double Price = scan.nextDouble();
-					addItem("Case", Price);
+					addItem("Computer Case", Price);
 					categories();
 				}else if(option3.equals("mon")){
 					System.out.println("Price: ");
 					double Price = scan.nextDouble();
-					addItem("Monitor", Price);
+					addItem("Computer Monitor", Price);
 					categories();
 				}else if(option3.equals("mou")){
 					System.out.println("Price: ");
 					double Price = scan.nextDouble();
-					addItem("Mouse", Price);
+					addItem("Computer Mouse", Price);
 					categories();
 				}else if(option3.equals("key")){
 					System.out.println("Price: ");
 					double Price = scan.nextDouble();
-					addItem("keyboard", Price);
+					addItem("Computer Keyboard", Price);
 					categories();
 				}else{
                     mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
