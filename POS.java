@@ -138,6 +138,7 @@ public class POS{
     /**
      * Method categories
      * Categories for POS items
+	 * Menu Logic is not neccessarily in the same order as the Menu Items
      */
     private static void categories(){
         mainBody.setNewMessage("[System]: This Feature is not yet Completed");
@@ -167,6 +168,7 @@ public class POS{
             System.out.println("[TOA]: Toaster");
             System.out.println("[OVE]: Oven, Range, Cooktop");
             System.out.println("[BLE]: Blender");
+			System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
             String option2 = scan.nextLine();
             if(option2.equals("ret")){
@@ -175,6 +177,11 @@ public class POS{
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
                 addItem("Fridge", Price);
+                categories();
+            }else if(option2.equals("mix")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Mixer", Price);
                 categories();
             }else if(option2.equals("mic")){
                 System.out.println("Price: ");
@@ -262,7 +269,107 @@ public class POS{
                     mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                     categories();
                 }
-            }else{
+            }else if(option2.equals("tel")){
+				//telephone
+				System.out.println("Price: ");
+				double Price = scan.nextDouble();
+				addItem("Telephones", Price);
+				categories();
+			}else if(option2.equals("tev")){
+				//TV
+				System.out.println("Price: ");
+				double Price = scan.nextDouble();
+				addItem("TV's", Price);
+				categories();
+			}else if(option2.equals("har")){
+				System.out.println("[CPU]: Central Processing Unit (Processor)");
+				System.out.println("[GPU]: Graphics Processing Unit (Graphics Card)");
+				System.out.println("[RAM]: Random Access Memory_Module (Ram stick/Memory module)");
+				System.out.println("[POW]: Power Supply");
+				System.out.println("[MOT]: Mother Board");
+				System.out.println("[THE]: Thermal Paste");
+				System.out.println("[FAN]: Fans");
+				System.out.println("[CAS]: Cases");
+				System.out.println("[MON]: Monitor");
+				System.out.println("[MOU]: Mouse");
+				System.out.println("[KEY]: Keyboard");
+				System.out.println("[RET]: Return");
+				String option3 = scan.nextLine().toLowerCase();
+				if(option3.equals("ret")){										
+					mainBody.setNewMessage("[System]: User Canceled Category Selection");
+					categories();
+				}else if(option3.equals("cpu")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("CPU", Price);
+					categories();
+				}else if(option3.equals("gpu")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("GPU", Price);
+					categories();
+				}else if(option3.equals("ram")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("RAM Module", Price);
+					categories();
+				}else if(option3.equals("pow")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Power Supply", Price);
+					categories();
+				}else if(option3.equals("mot")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("MotherBoard", Price);
+					categories();
+				}else if(option3.equals("the")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Thermal Paste", Price);
+					categories();
+				}else if(option3.equals("fan")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Fans", Price);
+					categories();
+				}else if(option3.equals("cas")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Case", Price);
+					categories();
+				}else if(option3.equals("mon")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Monitor", Price);
+					categories();
+				}else if(option3.equals("mou")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("Mouse", Price);
+					categories();
+				}else if(option3.equals("key")){
+					System.out.println("Price: ");
+					double Price = scan.nextDouble();
+					addItem("keyboard", Price);
+					categories();
+				}else{
+                    mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+					categories();
+				}
+			}else if(option2.equals("sof")){
+				System.out.println("[RET]: Return");
+				System.out.println("Name of Program: ");
+				String name = scan.nextLine();
+				if(name.equals("ret") || name.equals("RET")){
+					mainBody.setNewMessage("[System]: User Canceled Category Selection");
+					categories();
+				}else{
+					double Price = scan.nextDouble();
+					addItem(name, Price);
+					categories();
+				}
+			}else{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                 categories();
             }
