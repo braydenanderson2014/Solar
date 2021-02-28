@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Date>2/27/2021</Date>
+	<Author>Brayden Anderson</Author>
+	<Program>
+		<ProgramTitle>Solar</ProgramTitle>
+		<ProgramVersion>
+			<BaseVersion>ALPHA V2.1.4</BaseVersion>
+			<Snapshot>3xWav-4</Snapshot>
+		</ProgramVersion>
+		<ProgramAuthor>Brayden Anderson</ProgramAuthor>
+		<ReadMe>
+			<Instructions>
+			Starting Program:
+				<Step1>Start the Program Application. (run Solar.bat)</Step1> 
+				<Step2>
+					Start Setup by typing the number 1 and hitting [Enter] Pressing 2 and [Enter] will quit the program
+				</Step2>
+				<Step3>
+					<WARNING>
+					The Program will Halt Setup and wait for user Response} The program will prompt you a question
+					asking if you want to install the dependencies in the "C:" Drive folder, Type "Y" or "N" and then press [Enter]
+						<yes>
+							You will be asked to type out the path of the directory you would like to install dependencies in.
+							EX Path: "C:\Users\ *User* \Documents" -Note: *User* represents whatever profile you use. do not type *user* as the program will fail to find the path
+							You will not have to type the "C:" part or the "\" 
+							EX of how to do this... Users [Enter] *User* [Enter] Documents [Enter] done [Enter] -Note: done will not be added as part of the path
+							When you type done, the program will then convert the words you typed into a path, then it will install dependencies
+						</yes>
+						<no>
+							-program will search for a usable drive using brute force methods... ie trying letters of the alphabet with a ":" until it finds a valid path;
+							-program will then install dependencies
+						</no>
+					</WARNING>
+				</Step3>
+			</Instructions>
+			<General>
+				- In a Menu, [] indicate an option for you to use. EX [RET]: is a common menu item that brings you back to a menu
+				- In the Console, It is common to see System Messages such as [System]: or [System ERROR]: System ERROR means something went wrong
+				while System means a notification of some kind. EX [System]: Invalid Option  or [System ERROR]: Failed to Move Files
+				-The Console is typically located below a Menu, though it may be shown in other parts of the program
+			</General>
+			<Classes>
+				<mainBody>
+					<about>
+					
+					</about>
+					<Functions>
+					
+					</Functions>
+				</mainBody>
+				<Login>
+					<about>
+					
+					</about>
+					<Functions>
+					
+					</Functions>
+				</Login>
+				<Setup>
+					<about>
+					
+					</about>
+					<Functions>
+					
+					</Functions>
+				</Setup>
+					<about>
+					
+					</about>
+					<Functions>
+					
+					</Functions>
+				<POS>
+					<about>
+						<Title>
+							Point Of Sale extends java.lang.Object
+						</Title>
+						<body>
+							All Functions inside this Class have to do with Point of Sale.
+						</body>
+					</about>
+					<ClassImports>
+						java.util.*;
+						java.math.*;
+						java.text.*;
+					</ClassImports>
+					<ClassDependencies>
+						mainBody();
+						invoice();
+						Login();
+					</ClassDependencies>
+					<ClassFunctionCalls>
+						<mainBody>
+							mainBody.setNewMessage("");
+							mainBody.getLastMessage();
+							mainBody.getMessageSize();
+						</mainBody>
+						<Invoice>
+							invoice.invoiceNumGenerator();
+						</Invoice>
+						<Login>
+							Login.getUser();
+						</Login>
+					</ClassFunctionCalls>
+					<GlobalVariables>
+						double Savings = 0;
+						ArrayList<String> itemOnInvoice
+						ArrayList<Double> pricesForInvoice
+						ArrayList<String> allItemsSold
+						ArrayList<Double> allPricesSold
+						ArrayList<Double> invoiceSavings
+						int invoiceNum = invoice.invoiceNumGenerator();
+						double Subtotal;
+						DecimalFormat df = new DecimalFormat("0.00");
+					</GlobalVariables>
+					<Constructor>
+						POS();
+					</Constructor>
+					<Functions>
+						POSMenu();
+						categories();
+						manualEntry();
+						addItem();
+						addDiscount();
+						updateSubtotalDiscount();
+					</Functions>
+				</POS>
+			</Classes>
+		</ReadMe>
+	</Program>
