@@ -15,7 +15,7 @@ public class POS{
     private static ArrayList<String> allItemsSold = new ArrayList<String>();
     private static ArrayList<Double> allPricesSold = new ArrayList<Double>();
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
-    int invoiceNum = invoice.invoiceNumGenerator();
+    private int invoiceNum = invoice.invoiceNumGenerator();
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");
     /**
@@ -439,7 +439,7 @@ public class POS{
             System.out.println("[POT]: Pots");
             System.out.println("[PAN]: Pan");
             System.out.println("[Cut]: Cutting Board");
-            System.out.pritnln("[SIL]: Silverware");
+            System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
             String option2 = scan.nextLine();
             if(option2.equals("ret")){
