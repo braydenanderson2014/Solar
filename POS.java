@@ -6,7 +6,7 @@ import java.text.*;
  * Write a description of class POS here.
  *
  * @author (Brayden Anderson)
- * @version (a version number or a date)
+ * @version (Base Version: ALPHA V2.1.4, Snapshot 3xWav-3)
  */
 public class POS{
     private static double Savings = 0;//$amount saved
@@ -15,7 +15,7 @@ public class POS{
     private static ArrayList<String> allItemsSold = new ArrayList<String>();
     private static ArrayList<Double> allPricesSold = new ArrayList<Double>();
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
-    int invoiceNum = invoice.invoiceNumGenerator();
+    private int invoiceNum = invoice.invoiceNumGenerator();
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");
     /**
@@ -138,6 +138,7 @@ public class POS{
     /**
      * Method categories
      * Categories for POS items
+     * Menu Logic is not neccessarily in the same order as the Menu Items
      */
     private static void categories(){
         mainBody.setNewMessage("[System]: This Feature is not yet Completed");
@@ -147,7 +148,8 @@ public class POS{
         System.out.println("[COM]: Computer And Electronics");
         System.out.println("[FUR]: Furniture");
         System.out.println("[DEC]: Decor");
-
+        System.out.println("[KIT]: General Kithen Items (NON APPLIANCE)");
+        System.out.println("[MAN]: Manual Entry");
         System.out.println("[RET]: Return");
         System.out.println();
         System.out.println("Console: ");
@@ -167,6 +169,7 @@ public class POS{
             System.out.println("[TOA]: Toaster");
             System.out.println("[OVE]: Oven, Range, Cooktop");
             System.out.println("[BLE]: Blender");
+            System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
             String option2 = scan.nextLine();
             if(option2.equals("ret")){
@@ -175,6 +178,11 @@ public class POS{
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
                 addItem("Fridge", Price);
+                categories();
+            }else if(option2.equals("mix")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Mixer", Price);
                 categories();
             }else if(option2.equals("mic")){
                 System.out.println("Price: ");
@@ -262,6 +270,106 @@ public class POS{
                     mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                     categories();
                 }
+            }else if(option2.equals("tel")){
+                //telephone
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Telephones", Price);
+                categories();
+            }else if(option2.equals("tev")){
+                //TV
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("TV's", Price);
+                categories();
+            }else if(option2.equals("har")){
+                System.out.println("[CPU]: Central Processing Unit (Processor)");
+                System.out.println("[GPU]: Graphics Processing Unit (Graphics Card)");
+                System.out.println("[RAM]: Random Access Memory_Module (Ram stick/Memory module)");
+                System.out.println("[POW]: Power Supply");
+                System.out.println("[MOT]: Mother Board");
+                System.out.println("[THE]: Thermal Paste");
+                System.out.println("[FAN]: Fans");
+                System.out.println("[CAS]: Cases");
+                System.out.println("[MON]: Monitor");
+                System.out.println("[MOU]: Mouse");
+                System.out.println("[KEY]: Keyboard");
+                System.out.println("[RET]: Return");
+                String option3 = scan.nextLine().toLowerCase();
+                if(option3.equals("ret")){										
+                    mainBody.setNewMessage("[System]: User Canceled Category Selection");
+                    categories();
+                }else if(option3.equals("cpu")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("CPU", Price);
+                    categories();
+                }else if(option3.equals("gpu")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("GPU", Price);
+                    categories();
+                }else if(option3.equals("ram")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("RAM Module", Price);
+                    categories();
+                }else if(option3.equals("pow")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Power Supply", Price);
+                    categories();
+                }else if(option3.equals("mot")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("MotherBoard", Price);
+                    categories();
+                }else if(option3.equals("the")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Thermal Paste", Price);
+                    categories();
+                }else if(option3.equals("fan")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Fans", Price);
+                    categories();
+                }else if(option3.equals("cas")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Computer Case", Price);
+                    categories();
+                }else if(option3.equals("mon")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Computer Monitor", Price);
+                    categories();
+                }else if(option3.equals("mou")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Computer Mouse", Price);
+                    categories();
+                }else if(option3.equals("key")){
+                    System.out.println("Price: ");
+                    double Price = scan.nextDouble();
+                    addItem("Computer Keyboard", Price);
+                    categories();
+                }else{
+                    mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                    categories();
+                }
+            }else if(option2.equals("sof")){
+                System.out.println("[RET]: Return");
+                System.out.println("Name of Program: ");
+                String name = scan.nextLine();
+                if(name.equals("ret") || name.equals("RET")){
+                    mainBody.setNewMessage("[System]: User Canceled Category Selection");
+                    categories();
+                }else{
+                    double Price = scan.nextDouble();
+                    addItem(name, Price);
+                    categories();
+                }
             }else{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                 categories();
@@ -276,11 +384,62 @@ public class POS{
             String option2 = scan.nextLine();
             if(option2.equals("ret")){
                 categories();
+            }else if(option2.equals("cou")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Couch", Price);
+                categories();
+            }else if(option2.equals("cha")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Chair", Price);
+                categories();
+            }else if(option2.equals("tab")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Tables", Price);
+                categories();
+            }else if(option2.equals("ben")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Bench", Price);
+                categories();
             }else{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                 categories();
             }
         }else if(option.equals("dec")){
+            System.out.println("[PIC]: Pictures/Picture Frames");
+            System.out.println("[KNI]: Knick Knacks");
+            System.out.println("[STU]: Stuffed Animals");
+            System.out.println("[RET]: Return to Menu");
+            String option2 = scan.nextLine().toLowerCase();
+            if(option2.equals("ret")){
+                categories();
+            }else if(option2.equals("pic")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Pictures/Picture Frames", Price);
+                categories();
+            }else if(option2.equals("kni")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("General Knick Knacks", Price);
+                categories();
+            }else if(option2.equals("stu")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Stuffed Animals", Price);
+                categories();
+            }else{
+                mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
+                categories();
+            }
+        }else if(option.equals("kit")){
+            System.out.println("[POT]: Pots");
+            System.out.println("[PAN]: Pan");
+            System.out.println("[Cut]: Cutting Board");
+            System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
             String option2 = scan.nextLine();
             if(option2.equals("ret")){
@@ -289,6 +448,8 @@ public class POS{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                 categories();
             }
+        }else if(option.equals("man")){
+            manualEntry();
         }else{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
@@ -302,13 +463,20 @@ public class POS{
      * Manual Item input for POS
      */
     private static void manualEntry(){
+        System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
         Scanner scan = new Scanner(System.in);
         String manualEntry = scan.nextLine();
-        System.out.println("Price: ");
-        double manualPrice = scan.nextDouble();
-        addItem(manualEntry, manualPrice);
-        POSMenu();
+        if(manualEntry.equals("cat")){
+            categories();
+        }else if(manualEntry.equals("ret")){
+            POSMenu();
+        }else{
+            System.out.println("Price: ");
+            double manualPrice = scan.nextDouble();
+            addItem(manualEntry, manualPrice);
+            POSMenu();
+        } 
     }
 
     /**
