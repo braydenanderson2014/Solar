@@ -3,7 +3,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystemLoopException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Path; 
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -20,14 +20,18 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException{      
-        Path newDirectory= target.resolve(source.relativize(dir));
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+    throws IOException
+    {      
+        Path newDirectory = target.resolve(source.relativize(dir));
         try{
             Files.copy(dir,newDirectory);
-        }catch (FileAlreadyExistsException ioException){
+        }
+        catch (FileAlreadyExistsException ioException){
             //log it and move
             return SKIP_SUBTREE; // skip processing
-        }return FileVisitResult.CONTINUE;
+        }
+        return FileVisitResult.CONTINUE;
     }
 
     @Override
@@ -41,7 +45,9 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
             //log it and move
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
         }
+
         return FileVisitResult.CONTINUE;
+
     }
 
     @Override
@@ -54,9 +60,11 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
         if (exc instanceof FileSystemLoopException) {
             //log error
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
+
         } else {
             //log error
             mainBody.setNewMessage("[System ERROR]: Failed to Move File");
+
         }
         return CONTINUE;
     }

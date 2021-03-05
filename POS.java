@@ -18,6 +18,7 @@ public class POS{
     private int invoiceNum = invoice.invoiceNumGenerator();
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");
+    private static customScanner scan = new customScanner();
     /**
      * POS Constructor
      *
@@ -31,7 +32,7 @@ public class POS{
      * POS Menu
      */
     public static void POSMenu(){
-        Scanner scan = new Scanner(System.in);
+        
         String user = Login.getUser();
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
@@ -132,7 +133,7 @@ public class POS{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
             POSMenu();
         }
-        scan.close();
+        
     }
 
     /**
@@ -158,7 +159,7 @@ public class POS{
             messageSize --;
             System.out.println(mainBody.getLastMessage());
         }
-        Scanner scan = new Scanner(System.in);
+        
         String option = scan.nextLine().toLowerCase().trim();
         if(option.equals("ret")){
             POSMenu();
@@ -454,7 +455,7 @@ public class POS{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
         }
-        scan.close();
+        
         POSMenu();
     }
 
@@ -465,7 +466,7 @@ public class POS{
     private static void manualEntry(){
         System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
-        Scanner scan = new Scanner(System.in);
+        
         String manualEntry = scan.nextLine();
         if(manualEntry.equals("cat")){
             categories();
@@ -509,7 +510,7 @@ public class POS{
      * @return The return value
      */
     public static double addDiscount(){
-        Scanner scan = new Scanner(System.in);
+        
         System.out.println("Apply Discount");
         System.out.println("========================================");
         System.out.println("Would you like to Apply Discount to a specific item or total invoice?");
@@ -590,7 +591,7 @@ public class POS{
 
         System.out.println("1. $ off");
         System.out.println("2. % off");
-        //Scanner scan = new Scanner(System.in);
+        //
         int option = scan.nextInt();
         if(option == 1){
             System.out.println("$: ");

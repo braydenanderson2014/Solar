@@ -11,6 +11,7 @@ public class Login{
     private static ArrayList<String> allUsers = new ArrayList<String>(); // all users with acccounts
     private static String user;
     protected static String password;
+    private static customScanner scan = new customScanner();
     /**
      * Method displaySolarLogo
      *
@@ -35,7 +36,7 @@ public class Login{
      *
      */
     public static void loginPage() {
-        Scanner scan = new Scanner(System.in);
+        
         displaySolarLogo();
         System.out.println("Welcome to Solar!");
         System.out.println("========================================");
@@ -56,7 +57,7 @@ public class Login{
             }
         }
         String Password = scan.nextLine();
-        scan.close();
+        
         if(Username.equals("test") && Password.equals("testing")){
             if(!activeUsers.contains(Username)){
                 activeUsers.add(Username);
@@ -145,7 +146,7 @@ public class Login{
      * Controls active users, allows users to switch between other users, must use original password of account you are switching to.
      */
     public static void switchUserController(){
-        Scanner scan = new Scanner(System.in);
+        
         int allActiveUsers = activeUsers.size();
         int j =1;
         if(allActiveUsers > 1){// if the activeusers array has more than 1 value stored do this
@@ -178,7 +179,7 @@ public class Login{
                 Password = scan.nextLine();
                 mainBody.setNewMessage("[System]: Attempting to log in User");
                 System.out.println(mainBody.getLastMessage());
-                scan.close();
+                
                 validateUserSignIn(User, Password);
             }
         }else{
