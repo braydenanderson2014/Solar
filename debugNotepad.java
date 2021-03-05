@@ -28,6 +28,7 @@ public class debugNotepad
                     line++;
                     debugNotepad.add(x);
                 }
+                in.close();
                 return true;
             }catch(Exception e){
                 e.printStackTrace();
@@ -198,12 +199,14 @@ public class debugNotepad
 
         if(itemToRemove == 0){
             mainBody.setNewMessage("[Warning]: User Cancelled Deletion");
+            scan.close();
             return false;
         }else{
             itemToRemove--;
             String itemRemoved = debugNotepad.get(itemToRemove);
             debugNotepad.remove(itemToRemove);
             mainBody.setNewMessage("[System]: " + itemRemoved + " Removed Successfully");
+            scan.close();
             return true;
         }
     }

@@ -146,6 +146,7 @@ public class Setup{
             extraPath = scan.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
+                scan.close();
                 Settings();
             }else if(extraPath.equals("back") || extraPath.equals("Back")){
                 size = dirPath.size();
@@ -177,7 +178,7 @@ public class Setup{
                     // }catch(IOException e){
                     // mainBody.setNewMessage("[System ERROR]: " + e.toString());
                     // }//generateFileList.fileList(oldPath, Path);
-
+                    scan.close();
                     return Path;
                 }else if(answer.equals("n") || answer.equals("no")){
                     scan.close();
@@ -644,6 +645,7 @@ public class Setup{
                 double conversion = Double.parseDouble(x);
                 setTax(conversion);
             }
+            in.close();
             mainBody.setNewMessage("[System]: Tax Value set");
             System.out.println(mainBody.getLastMessage());
 

@@ -468,12 +468,15 @@ public class POS{
         Scanner scan = new Scanner(System.in);
         String manualEntry = scan.nextLine();
         if(manualEntry.equals("cat")){
+            scan.close();
             categories();
         }else if(manualEntry.equals("ret")){
+            scan.close();
             POSMenu();
         }else{
             System.out.println("Price: ");
             double manualPrice = scan.nextDouble();
+            scan.close();
             addItem(manualEntry, manualPrice);
             POSMenu();
         } 
@@ -554,6 +557,7 @@ public class POS{
                 itemOnInvoice.set(choice, itemOnInvoice.get(choice) + "*Discounted*");
                 invoiceSavings.add(dAmountOff * (-1));
                 mainBody.setNewMessage("[System]: Discount Applied to " + itemOnInvoice.get(choice));
+                scan.close();
                 POSMenu();
             }else if(choices == 2){
                 mainBody.setNewMessage("[System]: Please write as a % and not a decimal");

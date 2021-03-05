@@ -319,6 +319,7 @@ public class mainBody{
             System.out.println(e);
             setNewMessage("[Warning]: Unable to Write to File");
         }
+        scan.close();
         return "VERSION";
     }
 
@@ -346,6 +347,7 @@ public class mainBody{
                 String newNote = scan.nextLine().toLowerCase();
                 if(newNote.equals("cancel")){
                     setNewMessage("[Warning]: Developer Did not Update Change Log");
+                    scan.close();
                     return "Canceled";
                 }else if(newNote.equals("done")){
                     setNewMessage("[ChangeLog Updater]: Generating ChangeLog");
@@ -360,11 +362,13 @@ public class mainBody{
                     }
                     bw.close();
                     setNewMessage("[ChangeLog Updater]: ChangeLog Generated");
+                    scan.close();
                     return "Success";
                 }else{
                     changeLog.add(newNote);
                     updateChangeLog();
                 }
+                scan.close();
                 return "Failed";
             }catch(Exception e){
                 setNewMessage("[Warning]: Failed to start Task...([ChangeLog Updater])");
@@ -447,6 +451,7 @@ public class mainBody{
                 setNewMessage("[System]: Failed to create User account");
             }
         }
+        scan.close();
         return success;
     }
 
@@ -474,6 +479,7 @@ public class mainBody{
         }else{
             setNewMessage("[Warning]: Account Not Found");
         }
+        scan.close();
         return success;
     }
     //Region: DEBUG MODE
