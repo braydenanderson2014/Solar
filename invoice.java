@@ -15,7 +15,7 @@ public class invoice{
      * @param invoiceNum A number that gets added to invoices Arraylist
      * @return tests to see if invoiceNum was added to invoices
      */
-    public static boolean addInvoice(int invoiceNum){
+    public static boolean addInvoice(int invoiceNum){ 
         invoices.add(invoiceNum);
         if(invoices.contains(invoiceNum)){
             mainBody.setNewMessage("[System]: Successfully Generated Invoice Number"); 

@@ -73,7 +73,11 @@
 				<POS>
 					<about>
 						<Title>
+
 							Point Of Sale extends java.lang.Object
+
+							Point Of Sale...POS extends java.lang.Object
+
 						</Title>
 						<body>
 							All Functions inside this Class have to do with Point of Sale.

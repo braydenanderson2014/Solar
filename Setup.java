@@ -14,6 +14,7 @@ public class Setup{
     private static int i = 5;
     private static ArrayList <String> dirPath = new ArrayList <String>(); 
     private static double Tax;
+    private static customScanner scan = new customScanner();
     /**
      * Method startSetup
      * Starts program setup
@@ -124,7 +125,7 @@ public class Setup{
      * @return The New Path or Old Path
      */
     public static String setProgramDirectory(String oldPath){
-        Scanner scan = new Scanner(System.in);
+        
         String Path = "Default";
         System.out.println("Change Program Directory");
         System.out.println("========================================");
@@ -139,13 +140,13 @@ public class Setup{
         System.out.println(mainBody.getLastMessage());
         String extraPath = "null";
         int size;
-        scan = new Scanner(System.in);
         dirPath.clear();
         String pathLetter = scan.nextLine();
         while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
             extraPath = scan.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
+                
                 Settings();
             }else if(extraPath.equals("back") || extraPath.equals("Back")){
                 size = dirPath.size();
@@ -163,7 +164,7 @@ public class Setup{
                     if(!newFile.exists()){
                         newFile.mkdirs();
                     }
-                    scan.close();
+                    
                     System.out.println(oldPath);
                     System.out.println(Path);
                     // try{
@@ -177,14 +178,14 @@ public class Setup{
                     // }catch(IOException e){
                     // mainBody.setNewMessage("[System ERROR]: " + e.toString());
                     // }//generateFileList.fileList(oldPath, Path);
-
+                    
                     return Path;
                 }else if(answer.equals("n") || answer.equals("no")){
-                    scan.close();
+                    
 
                     return Path;
                 }else{
-                    scan.close();
+                    
 
                     return oldPath;
                 }
@@ -194,7 +195,7 @@ public class Setup{
                 dirPath.add(extraPath);
             }
         }
-        scan.close();
+        
         return Path;
     }
 
@@ -203,7 +204,7 @@ public class Setup{
      * Settings Menu
      */
     public static void Settings(){
-        Scanner scan = new Scanner(System.in);
+        
         String user = Login.getUser();
         System.out.println("Settings Menu");
         System.out.println("========================================");
@@ -261,7 +262,7 @@ public class Setup{
             break;
 
             default:
-            scan.close();
+            
             i--;
             mainBody.setNewMessage("[System]: You have " + i + " more attempts to choose an option before Auto Return Engages");
             if(i == 0){
@@ -303,13 +304,15 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
                 mainBody.setNewMessage("[Warning]: Setup Halted, Awaiting User Response");
                 System.out.println(mainBody.getLastMessage());
-                Scanner scan = new Scanner(System.in);
-                String option = scan.nextLine().toLowerCase();
+                
+                String option;
+                option = scan.nextLine();
+                option = option.toLowerCase();
                 mainBody.setNewMessage("[USER]: " + option);
                 System.out.println(mainBody.getLastMessage());
                 mainBody.setNewMessage("[Warning]: Setup Resumed");
                 System.out.println(mainBody.getLastMessage());
-                scan.close();
+                
                 if(option.equals("y")){
                     pathLetter = "C";
                     mainBody.setNewMessage("[System]: Please type out the Directory you would like to install System Files, You do not need to include the slashed \"\\\" ");
@@ -320,7 +323,6 @@ public class Setup{
                     System.out.println(mainBody.getLastMessage());
                     String extraPath = "null";
                     int size;
-                    scan = new Scanner(System.in);
                     while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
                         extraPath = scan.nextLine();  
                         if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
@@ -352,7 +354,7 @@ public class Setup{
                     System.out.println(mainBody.getLastMessage());
                     autoSearchForDir();
                 }
-                scan.close();
+                
                 break;
                 case 4:
                 pathLetter = "D";
@@ -490,8 +492,8 @@ public class Setup{
     public static String completeManualDir(String Path){
         int size = dirPath.size();
         size--;
-        Scanner scan = new Scanner(System.in);
-        scan.close();
+        
+        
         for(int j = 0; j < dirPath.size(); j++){
             Path = Path +  "\\" + dirPath.get(j).trim();
         }
@@ -644,6 +646,7 @@ public class Setup{
                 double conversion = Double.parseDouble(x);
                 setTax(conversion);
             }
+            in.close();
             mainBody.setNewMessage("[System]: Tax Value set");
             System.out.println(mainBody.getLastMessage());
 
