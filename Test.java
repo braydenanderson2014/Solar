@@ -1,6 +1,6 @@
 import java.io.*; 
   
-public class Test 
+public class Test  
 { 
     public static boolean moveFile(String oldPath, String newPath) 
     { 

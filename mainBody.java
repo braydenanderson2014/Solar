@@ -9,12 +9,13 @@ import java.io.*;
 public class mainBody{
     public static ArrayList<String> Messages = new ArrayList<String>();
     public static ArrayList<String> changeLog = new ArrayList<String>();
+    public static customScanner scan = new customScanner();
+
     /**
      * mainBody Constructor
      * Setup Menu
      */
     public mainBody(){
-        Scanner scan = new Scanner(System.in); 
         Login.displaySolarLogo();
         System.out.println("Welcome to Solar!");
         System.out.println("========================================");
@@ -30,7 +31,6 @@ public class mainBody{
         }else if(selection.equals("2")){
             System.exit(1);
         }else{
-            scan.close();
             new mainBody();
         }
     }
@@ -100,7 +100,6 @@ public class mainBody{
      * Main Menu
      */
     public static void mainMenu(){
-        Scanner scan = new Scanner(System.in);
         String user = Login.getUser();
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
@@ -266,7 +265,6 @@ public class mainBody{
             break;
 
             default:
-            scan.close();
             setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper privelages");
             mainMenu();
             break;
@@ -287,7 +285,6 @@ public class mainBody{
         }
         System.out.println("[System]: Press Enter to Continue");
         String Enter = scan.nextLine();
-        scan.close();
         return "Success";
     }
 
@@ -319,7 +316,6 @@ public class mainBody{
             System.out.println(e);
             setNewMessage("[Warning]: Unable to Write to File");
         }
-        scan.close();
         return "VERSION";
     }
 
@@ -347,7 +343,6 @@ public class mainBody{
                 String newNote = scan.nextLine().toLowerCase();
                 if(newNote.equals("cancel")){
                     setNewMessage("[Warning]: Developer Did not Update Change Log");
-                    scan.close();
                     return "Canceled";
                 }else if(newNote.equals("done")){
                     setNewMessage("[ChangeLog Updater]: Generating ChangeLog");
@@ -362,17 +357,15 @@ public class mainBody{
                     }
                     bw.close();
                     setNewMessage("[ChangeLog Updater]: ChangeLog Generated");
-                    scan.close();
                     return "Success";
                 }else{
                     changeLog.add(newNote);
                     updateChangeLog();
                 }
-                scan.close();
                 return "Failed";
             }catch(Exception e){
                 setNewMessage("[Warning]: Failed to start Task...([ChangeLog Updater])");
-                scan.close();
+                
                 return "Failed";
             }
         }else{
@@ -394,14 +387,14 @@ public class mainBody{
                 setNewMessage("[System]: Closing down task...([SystemRecovery])");
                 System.out.println("[System]: ([SystemRecovery]) Closed, Restarting ChangeLog Updater...");
                 setNewMessage("[System]: ([SystemRecovery]) Closed, Restarting ChangeLog Updater...");
-                scan.close();
+                
                 updateChangeLog();
             }catch(Exception e){
                 e.printStackTrace();
                 System.out.println(e);
                 setNewMessage("[SystemRecovery ERROR]: Failed to Repair File");
                 System.out.println("[SystemRecovery ERROR]: Failed to Repair File");
-                scan.close();
+                
                 return "Failed";
             }
         }
@@ -451,7 +444,6 @@ public class mainBody{
                 setNewMessage("[System]: Failed to create User account");
             }
         }
-        scan.close();
         return success;
     }
 
@@ -479,7 +471,6 @@ public class mainBody{
         }else{
             setNewMessage("[Warning]: Account Not Found");
         }
-        scan.close();
         return success;
     }
     //Region: DEBUG MODE

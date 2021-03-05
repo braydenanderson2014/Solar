@@ -11,6 +11,7 @@ import java.nio.file.*;
 public class debugNotepad 
 {
     public static ArrayList<String>debugNotepad = new ArrayList<String>();
+    private customScanner scan = new customScanner();
     /**
      * Method autoLoadDebugNotepad
      * reads notepad file if it exists and adds contents into debugNotepad Arraylist
@@ -28,7 +29,6 @@ public class debugNotepad
                     line++;
                     debugNotepad.add(x);
                 }
-                in.close();
                 return true;
             }catch(Exception e){
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class debugNotepad
         String User = Login.getUser();
         mainBody.setNewMessage("[System]: User: " + User);
         System.out.println(mainBody.getLastMessage());
-        Scanner scan = new Scanner(System.in);
+        
         System.out.println("NOTEPAD: ");
         System.out.println("========================================");
         System.out.println("[CRE]: Create Notebook");
@@ -69,7 +69,7 @@ public class debugNotepad
             size--;
             System.out.println(mainBody.Messages.get(size)); 
         }
-        String option = scan.nextLine();
+        String option = customScanner.nextLine();
         if(option.equals("cre")){
             //Create Notebook 
             newNotebook();
@@ -81,7 +81,7 @@ public class debugNotepad
         }else if(option.equals("vn")){
             //View Notebook
             viewNotes();
-            String Continue = scan.nextLine();
+            String Continue = customScanner.nextLine();
             Notepad();
         }else if(option.equals("del")){
             //Delete a Note
@@ -112,7 +112,7 @@ public class debugNotepad
             mainBody.mainMenu();
         }else{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper privelages");
-            scan.close();
+            
             Notepad();
         }
 
@@ -150,12 +150,12 @@ public class debugNotepad
      * @return useless value
      */
     public static boolean addNote(){
-        Scanner scan = new Scanner(System.in);
+        
         System.out.println("New Note: ");
-        String note = scan.nextLine();
+        String note = customScanner.nextLine();
         debugNotepad.add(note);
         mainBody.setNewMessage("[System]: Successfully added Note: " + note);
-        scan.close();
+        
         return true;
     }
 
@@ -182,7 +182,7 @@ public class debugNotepad
      * @return True or false based off abiltiy to delete a note
      */
     public static boolean deleteNote(){
-        Scanner scan = new Scanner(System.in);
+        
         int j = 1;
         for(int i = 0; i<debugNotepad.size();i++){
             System.out.println("[*]" + j + " " + debugNotepad.get(i));
@@ -195,18 +195,16 @@ public class debugNotepad
             size--;
             System.out.println(mainBody.Messages.get(size)); 
         }
-        int itemToRemove = scan.nextInt();
+        int itemToRemove = customScanner.nextInt();
 
         if(itemToRemove == 0){
             mainBody.setNewMessage("[Warning]: User Cancelled Deletion");
-            scan.close();
             return false;
         }else{
             itemToRemove--;
             String itemRemoved = debugNotepad.get(itemToRemove);
             debugNotepad.remove(itemToRemove);
             mainBody.setNewMessage("[System]: " + itemRemoved + " Removed Successfully");
-            scan.close();
             return true;
         }
     }
