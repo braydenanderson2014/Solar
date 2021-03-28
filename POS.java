@@ -172,7 +172,7 @@ public class POS{
             System.out.println("[BLE]: Blender");
             System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 =  customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("fri")){
@@ -222,7 +222,7 @@ public class POS{
             System.out.println("[HAR]: Hardware");
             System.out.println("[SOF]: Software");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 =  customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("lap")){
@@ -231,7 +231,7 @@ public class POS{
                 System.out.println("[GAM]: Gaming Laptops");
                 System.out.println("[NOR]: Normal Laptops");
                 System.out.println("[RET]: Return to Menu");
-                String option3 = scan.nextLine();
+                String option3 =  customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();	
                 }else if(option3.equals("gam")){
@@ -254,7 +254,7 @@ public class POS{
                 System.out.println("[GAM]: Gaming Desktop");
                 System.out.println("[NOR]: Normal Desktop");
                 System.out.println("[RET]: Return to Menu");
-                String option3 = scan.nextLine();
+                String option3 =  customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();	
                 }else if(option3.equals("gam")){
@@ -362,7 +362,7 @@ public class POS{
             }else if(option2.equals("sof")){
                 System.out.println("[RET]: Return");
                 System.out.println("Name of Program: ");
-                String name = scan.nextLine();
+                String name =  customScanner.nextLine();
                 if(name.equals("ret") || name.equals("RET")){
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
                     categories();
@@ -382,7 +382,7 @@ public class POS{
             System.out.println("[BEN]: Benches");
 
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 =  customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("cou")){
@@ -442,7 +442,7 @@ public class POS{
             System.out.println("[Cut]: Cutting Board");
             System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 =  customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else{
@@ -467,7 +467,7 @@ public class POS{
         System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
         
-        String manualEntry = scan.nextLine();
+        String manualEntry =  customScanner.nextLine();
         if(manualEntry.equals("cat")){
             categories();
         }else if(manualEntry.equals("ret")){

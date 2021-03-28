@@ -44,7 +44,7 @@ public class Login{
         mainBody.setNewMessage("Welcome to Solar, Version: " + Setup.getVersion());
         System.out.println("Type \"Switch\" to view and switch to an active user");
         System.out.println("Username: ");
-        String Username = scan.nextLine();
+        String Username =  customScanner.nextLine();
         String user = getUser();
         if(user.equals("Null")){
             System.out.println("Password: ");
@@ -56,7 +56,7 @@ public class Login{
                 System.out.println("Password: ");
             }
         }
-        String Password = scan.nextLine();
+        String Password =  customScanner.nextLine();
         
         if(Username.equals("test") && Password.equals("testing")){
             if(!activeUsers.contains(Username)){
@@ -165,7 +165,7 @@ public class Login{
             String oldUser = getUser();
             if(User.equals("Login Screen")){
                 activeUsers.remove(activeUser);
-                if(activeUsers.contains(activeUser)){
+                if(activeUsers.contains(User)){
                     activeUsers.remove(activeUser);
                 }
                 loginPage();
@@ -175,8 +175,8 @@ public class Login{
                 mainBody.mainMenu();
             }else{
                 System.out.println("Password: ");
-                String Password = scan.nextLine();
-                Password = scan.nextLine();
+                String Password =  customScanner.nextLine();
+                Password =  customScanner.nextLine();
                 mainBody.setNewMessage("[System]: Attempting to log in User");
                 System.out.println(mainBody.getLastMessage());
                 

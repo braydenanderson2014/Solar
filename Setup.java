@@ -141,9 +141,9 @@ public class Setup{
         String extraPath = "null";
         int size;
         dirPath.clear();
-        String pathLetter = scan.nextLine();
+        String pathLetter =  customScanner.nextLine();
         while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
-            extraPath = scan.nextLine();  
+            extraPath =  customScanner.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
                 
@@ -306,7 +306,7 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
                 
                 String option;
-                option = scan.nextLine();
+                option =  customScanner.nextLine();
                 option = option.toLowerCase();
                 mainBody.setNewMessage("[USER]: " + option);
                 System.out.println(mainBody.getLastMessage());
@@ -324,7 +324,7 @@ public class Setup{
                     String extraPath = "null";
                     int size;
                     while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
-                        extraPath = scan.nextLine();  
+                        extraPath =  customScanner.nextLine();  
                         if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                             dirPath.clear();
                             new mainBody();
