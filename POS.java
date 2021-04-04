@@ -32,7 +32,7 @@ public class POS{
      * POS Menu
      */
     public static void POSMenu(){
-        
+
         String user = Login.getUser();
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
@@ -64,9 +64,14 @@ public class POS{
         }else if(Subtotal <0){
             System.out.println("Subtotal: $" + df.format(Subtotal));
         }
-
+        double tempSavingsHolder = 0;
         if(invoiceSavings.size()>0){
-            System.out.println("Savings: $" + savings * (-1));
+            for(int i = 0; i<invoiceSavings.size(); i++){
+                tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);
+            }
+            if(tempSavingsHolder > 0){
+                System.out.println("Savings: $" + savings * (-1));   
+            }
         }
         System.out.println("Console: ");
         int messageSize = mainBody.getMessageSize();
@@ -85,7 +90,7 @@ public class POS{
             manualEntry();
         }else if(option.equals("app")){
             //apply coupon
-            if(Subtotal ==0){
+            if(Subtotal == 0){
                 mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be 0$");
                 POSMenu();
             }else if(Subtotal < 0){
@@ -100,7 +105,13 @@ public class POS{
             mainBody.setNewMessage("[System]: This Feature is not yet Available");
             POSMenu();
         }else if(option.equals("vii")){
-            mainBody.setNewMessage("[System]: This Feature is not yet Available");
+            int num = 0;
+            for(int i = 0; i < itemOnInvoice.size(); i++){
+                System.out.println(num + " " + itemOnInvoice.size());
+                num++;
+            }
+            mainBody.setNewMessage("[System]: Press Enter to Continue");
+            String Enter = scan.nextLine();
             POSMenu();
         }else if(option.equals("sil")){
             //save invoice for later (Learn XML or JSON)
@@ -133,7 +144,7 @@ public class POS{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
             POSMenu();
         }
-        
+
     }
 
     /**
@@ -142,7 +153,6 @@ public class POS{
      * Menu Logic is not neccessarily in the same order as the Menu Items
      */
     private static void categories(){
-        mainBody.setNewMessage("[System]: This Feature is not yet Completed");
         System.out.println("Categories: ");
         System.out.println("========================================");
         System.out.println("[APP]: Appliances");
@@ -159,7 +169,7 @@ public class POS{
             messageSize --;
             System.out.println(mainBody.getLastMessage());
         }
-        
+
         String option = scan.nextLine().toLowerCase().trim();
         if(option.equals("ret")){
             POSMenu();
@@ -172,7 +182,7 @@ public class POS{
             System.out.println("[BLE]: Blender");
             System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
-            String option2 =  customScanner.nextLine();
+            String option2 = scan.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("fri")){
@@ -188,27 +198,27 @@ public class POS{
             }else if(option2.equals("mic")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
-                addItem("Microwave", Price);				
+                addItem("Microwave", Price);                
                 categories();
             }else if(option2.equals("dis")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
-                addItem("Dishwasher", Price);				
+                addItem("Dishwasher", Price);               
                 categories();
             }else if(option2.equals("toa")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
-                addItem("Toaster", Price); 				
+                addItem("Toaster", Price);              
                 categories();
             }else if(option2.equals("ove")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
-                addItem("Oven, Range, Cooktop", Price); 				
+                addItem("Oven, Range, Cooktop", Price);                 
                 categories();
             }else if(option2.equals("ble")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
-                addItem("Blender", Price);				
+                addItem("Blender", Price);              
                 categories();
             }else{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
@@ -222,50 +232,50 @@ public class POS{
             System.out.println("[HAR]: Hardware");
             System.out.println("[SOF]: Software");
             System.out.println("[RET]: Return to Menu");
-            String option2 =  customScanner.nextLine();
+            String option2 = scan.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("lap")){
-                System.out.println("Laptops");				        
+                System.out.println("Laptops");                      
                 System.out.println("========================================");
                 System.out.println("[GAM]: Gaming Laptops");
                 System.out.println("[NOR]: Normal Laptops");
                 System.out.println("[RET]: Return to Menu");
-                String option3 =  customScanner.nextLine();
+                String option3 = scan.nextLine();
                 if(option3.equals("ret")){
-                    categories();	
+                    categories();   
                 }else if(option3.equals("gam")){
                     System.out.println("Price: ");
                     double Price = scan.nextDouble();
-                    addItem("Gaming Laptop", Price);				
+                    addItem("Gaming Laptop", Price);                
                     categories();
                 }else if(option3.equals("nor")){
                     System.out.println("Price: ");
                     double Price = scan.nextDouble();
-                    addItem("Normal Laptop", Price);				
+                    addItem("Normal Laptop", Price);                
                     categories();
                 }else{
                     mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
                     categories();
                 }
             }else if(option2.equals("des")){
-                System.out.println("Desktop");				        
+                System.out.println("Desktop");                      
                 System.out.println("========================================");
                 System.out.println("[GAM]: Gaming Desktop");
                 System.out.println("[NOR]: Normal Desktop");
                 System.out.println("[RET]: Return to Menu");
-                String option3 =  customScanner.nextLine();
+                String option3 = scan.nextLine();
                 if(option3.equals("ret")){
-                    categories();	
+                    categories();   
                 }else if(option3.equals("gam")){
                     System.out.println("Price: ");
                     double Price = scan.nextDouble();
-                    addItem("Gaming Desktop", Price);				
+                    addItem("Gaming Desktop", Price);               
                     categories();
                 }else if(option3.equals("nor")){
                     System.out.println("Price: ");
                     double Price = scan.nextDouble();
-                    addItem("Normal Desktop", Price);				
+                    addItem("Normal Desktop", Price);               
                     categories();
                 }else{
                     mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
@@ -297,7 +307,7 @@ public class POS{
                 System.out.println("[KEY]: Keyboard");
                 System.out.println("[RET]: Return");
                 String option3 = scan.nextLine().toLowerCase();
-                if(option3.equals("ret")){										
+                if(option3.equals("ret")){                                      
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
                     categories();
                 }else if(option3.equals("cpu")){
@@ -362,7 +372,7 @@ public class POS{
             }else if(option2.equals("sof")){
                 System.out.println("[RET]: Return");
                 System.out.println("Name of Program: ");
-                String name =  customScanner.nextLine();
+                String name = scan.nextLine();
                 if(name.equals("ret") || name.equals("RET")){
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
                     categories();
@@ -380,9 +390,8 @@ public class POS{
             System.out.println("[CHA]: Chair");
             System.out.println("[TAB]: Tables");
             System.out.println("[BEN]: Benches");
-
             System.out.println("[RET]: Return to Menu");
-            String option2 =  customScanner.nextLine();
+            String option2 = scan.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("cou")){
@@ -439,11 +448,31 @@ public class POS{
         }else if(option.equals("kit")){
             System.out.println("[POT]: Pots");
             System.out.println("[PAN]: Pan");
-            System.out.println("[Cut]: Cutting Board");
+            System.out.println("[CUT]: Cutting Board");
             System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
-            String option2 =  customScanner.nextLine();
+            String option2 = scan.nextLine();
             if(option2.equals("ret")){
+                categories();
+            }else if(option2.equals("pot")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Pot", Price);
+                categories();
+            }else if(option2.equals("pan")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Pan", Price);
+                categories();
+            }else if(option2.equals("cut")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Cutting Board", Price);
+                categories();
+            }else if(option2.equals("sil")){
+                System.out.println("Price: ");
+                double Price = scan.nextDouble();
+                addItem("Silverware", Price);
                 categories();
             }else{
                 mainBody.setNewMessage("[System]: Invalid Option, Functionality may not be available yet.");
@@ -455,7 +484,7 @@ public class POS{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
         }
-        
+
         POSMenu();
     }
 
@@ -466,8 +495,8 @@ public class POS{
     private static void manualEntry(){
         System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
-        
-        String manualEntry =  customScanner.nextLine();
+
+        String manualEntry = scan.nextLine();
         if(manualEntry.equals("cat")){
             categories();
         }else if(manualEntry.equals("ret")){
@@ -510,7 +539,7 @@ public class POS{
      * @return The return value
      */
     public static double addDiscount(){
-        
+
         System.out.println("Apply Discount");
         System.out.println("========================================");
         System.out.println("Would you like to Apply Discount to a specific item or total invoice?");
