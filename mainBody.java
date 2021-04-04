@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Scanner;
 import java.io.*;
 /**
  * Write a description of class mainBody here.
@@ -24,7 +25,7 @@ public class mainBody{
         System.out.println("Console: ");
         setNewMessage("[System]: Please Start Setup to Proceed");
         System.out.println(getLastMessage());
-        String selection =  customScanner.nextLine();
+        String selection = scan.nextLine();
         if(selection.equals("1")){
             setNewMessage("[USER]: " + selection);
             Setup.startSetup();
@@ -148,7 +149,7 @@ public class mainBody{
 
             case "vsm":
             viewSystemMessages();
-            String plsContinue =  customScanner.nextLine();
+            String plsContinue = scan.nextLine();
             int size = Messages.size();
             size--;
             Messages.remove(size);
@@ -279,12 +280,12 @@ public class mainBody{
      * @return Useless value
      */
     public static String viewChangeLog(){
-         
+        Scanner scan = new Scanner(System.in);
         for(int i = 0; i < changeLog.size(); i++){
             System.out.println("[*] " + changeLog.get(i));
         }
         System.out.println("[System]: Press Enter to Continue");
-        String Enter =  customScanner.nextLine();
+        String Enter = scan.nextLine();
         return "Success";
     }
 
@@ -295,10 +296,10 @@ public class mainBody{
      * @return Useless Value
      */
     public static String changeVersion(){
-         
+        Scanner scan = new Scanner(System.in);
         System.out.println("Old Version: " + Setup.getVersion());
         System.out.println("New Version: ");
-        String Version =  customScanner.nextLine();
+        String Version = scan.nextLine();
         Setup.setVersion(Version);
         String path = Setup.getPath() + "\\Settings/Version.txt";
         File file = new File(path);
@@ -325,7 +326,7 @@ public class mainBody{
      * @return Useless value
      */
     public static String updateChangeLog(){
-         
+        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath() + "\\Settings/ChangeLog.txt";
         String Version = Setup.getVersion();
         File file = new File(path);
@@ -422,11 +423,11 @@ public class mainBody{
      * @return success of account creation
      */
     public static boolean createNewAccount(){
-         
+        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath();
         boolean success = false;
         System.out.println("New User: ");
-        String newUser =  customScanner.nextLine();
+        String newUser = scan.nextLine();
         path = path + "\\Users/" + newUser + ".txt";
         File file = new File(path);
         if(!file.exists()){
@@ -453,11 +454,11 @@ public class mainBody{
      * @return account deletion success
      */
     public static boolean deleteAnAccount(){
-         
+        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath();//get standard program path
         boolean success = false;//needed a value;
         System.out.println("Account: ");
-        String Account =  customScanner.nextLine();//account name
+        String Account = scan.nextLine();//account name
         path = path + "\\Users/" + Account + ".txt";//path to account file
         File file = new File(path);
         if(file.exists()){//tests to see if file exists, if it does, delete account

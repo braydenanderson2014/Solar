@@ -6,7 +6,7 @@ import java.text.*;
  * Write a description of class POS here.
  *
  * @author (Brayden Anderson)
- * @version (Base Version: ALPHA V2.1.4, Snapshot 3xWav-3)
+ * @version (Base Version: ALPHA V2.1.4, Snapshot 3xWav-6)
  */
 public class POS{
     private static double Savings = 0;//$amount saved
@@ -106,12 +106,18 @@ public class POS{
             POSMenu();
         }else if(option.equals("vii")){
             int num = 0;
-            for(int i = 0; i < itemOnInvoice.size(); i++){
-                System.out.println(num + " " + itemOnInvoice.size());
-                num++;
+            if(itemOnInvoice.size() > 0){
+                for(int i = 0; i < itemOnInvoice.size(); i++){
+                    System.out.println(num + " " + itemOnInvoice.size());
+                    num++;
+                }
+            }else{
+                mainBody.setNewMessage("[System]: No Items On Invoice");   
             }
             mainBody.setNewMessage("[System]: Press Enter to Continue");
             String Enter = scan.nextLine();
+            int last = mainBody.getLastMessageNum();
+            mainBody.removeLastMessage(last);
             POSMenu();
         }else if(option.equals("sil")){
             //save invoice for later (Learn XML or JSON)
