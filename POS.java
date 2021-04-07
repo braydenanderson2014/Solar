@@ -19,6 +19,8 @@ public class POS{
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");
     private static customScanner scan = new customScanner();
+    private static double origSubTotal;
+    private static double fullInvoiceDiscount;
     /**
      * POS Constructor
      *
@@ -32,7 +34,6 @@ public class POS{
      * POS Menu
      */
     public static void POSMenu(){
-
         String user = Login.getUser();
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
@@ -55,6 +56,7 @@ public class POS{
         }
         for(int i = 0; i <pricesForInvoice.size(); i++){
             Subtotal = Subtotal + pricesForInvoice.get(i);
+            origSubTotal = origSubTotal + pricesForInvoice.get(i);
         }
         //Subtotal = Subtotal - savings;
         if(Subtotal == 0){
@@ -645,16 +647,16 @@ public class POS{
             for(int i = 0; i < pricesForInvoice.size(); i++){
                 subtotal = subtotal + pricesForInvoice.get(i);//getting value for subtotal
             }
-            System.out.println("Subtotal: " + subtotal);
-            df.format(percentOff);
+            System.out.println("Subtotal: " + subtotal);//displays subtotal
+            df.format(percentOff);//formats percent to 0.00 appearance
+            System.out.println("Percent: " + percentOff);//displays percent off decimal
+            percentOff = percentOff / 100; //converts percent to decimal
             System.out.println("Percent: " + percentOff);
-            percentOff = percentOff / 100;
-            System.out.println("Percent: " + percentOff);
-            savingsAmount = subtotal * percentOff;
-            System.out.println("Savings: " + savingsAmount);
+            savingsAmount = subtotal * percentOff; // savings calc
+            System.out.println("Savings: " + savingsAmount);// savings amount displays
             Savings = (Savings + savingsAmount);
             System.out.println("Savings: " + savingsAmount);
-            invoiceSavings.add(Savings);
+            invoiceSavings.add(Savings);// adds savings to total savings
             addItem("Discount", 0);
             return subtotal;
         }else{
