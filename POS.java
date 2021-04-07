@@ -15,7 +15,7 @@ public class POS{
     private static ArrayList<String> allItemsSold = new ArrayList<String>();
     private static ArrayList<Double> allPricesSold = new ArrayList<Double>();
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
-    private int invoiceNum = invoice.invoiceNumGenerator();
+    private static int invoiceNum = invoice.invoiceNumGenerator();
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");
     private static customScanner scan = new customScanner();
@@ -49,25 +49,25 @@ public class POS{
         System.out.println("[TOT]: Total");
         System.out.println("[RET]: Return to Main Menu");
         System.out.println();
-        double savings=0;
+        double savings = 0;
         Subtotal = 0;
         for(int j = 0; j < invoiceSavings.size(); j++){
             savings = savings + invoiceSavings.get(j);
         }
-        for(int i = 0; i <pricesForInvoice.size(); i++){
+        for(int i = 0; i < pricesForInvoice.size(); i++){
             Subtotal = Subtotal + pricesForInvoice.get(i);
             origSubTotal = origSubTotal + pricesForInvoice.get(i);
         }
         //Subtotal = Subtotal - savings;
         if(Subtotal == 0){
             System.out.println("Subtotal: $" + df.format(0.00));
-        }else if(Subtotal >0){
+        }else if(Subtotal > 0){
             System.out.println("Subtotal: $" + df.format(Subtotal));
-        }else if(Subtotal <0){
+        }else if(Subtotal < 0){
             System.out.println("Subtotal: $" + df.format(Subtotal));
         }
         double tempSavingsHolder = 0;
-        if(invoiceSavings.size()>0){
+        if(invoiceSavings.size() > 0){
             for(int i = 0; i<invoiceSavings.size(); i++){
                 tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);
             }
@@ -152,7 +152,6 @@ public class POS{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
             POSMenu();
         }
-
     }
 
     /**
@@ -492,7 +491,6 @@ public class POS{
             mainBody.setNewMessage("[System]: Invalid Option, try again");
             categories();
         }
-
         POSMenu();
     }
 
@@ -503,7 +501,6 @@ public class POS{
     private static void manualEntry(){
         System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
-
         String manualEntry = scan.nextLine();
         if(manualEntry.equals("cat")){
             categories();
@@ -547,7 +544,6 @@ public class POS{
      * @return The return value
      */
     public static double addDiscount(){
-
         System.out.println("Apply Discount");
         System.out.println("========================================");
         System.out.println("Would you like to Apply Discount to a specific item or total invoice?");
@@ -673,5 +669,6 @@ public class POS{
      */
     public static boolean updateSubtotalDiscount(){
         return true;
+        //not implemented yet
     }
 }
