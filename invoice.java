@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.*;
+//import java.io.*;
 /**
  * Write a description of class invoice here.
  *
@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class invoice{  
     private static ArrayList<Integer> invoices = new ArrayList<Integer>();
-    private static int lastInvoice;
+    //private static int lastInvoice;
     /**
      * Method addInvoice
      *

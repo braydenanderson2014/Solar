@@ -50,7 +50,6 @@ public class Setup{
             bw.write(Version);
             bw.close();
             mainBody.setNewMessage("[System]: Successfully Set Version in Version File");
-
         }catch(IOException e){
             e.printStackTrace();
             System.out.println(e);
@@ -146,7 +145,6 @@ public class Setup{
             extraPath =  customScanner.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
-                
                 Settings();
             }else if(extraPath.equals("back") || extraPath.equals("Back")){
                 size = dirPath.size();
@@ -164,7 +162,6 @@ public class Setup{
                     if(!newFile.exists()){
                         newFile.mkdirs();
                     }
-                    
                     System.out.println(oldPath);
                     System.out.println(Path);
                     // try{
@@ -178,15 +175,10 @@ public class Setup{
                     // }catch(IOException e){
                     // mainBody.setNewMessage("[System ERROR]: " + e.toString());
                     // }//generateFileList.fileList(oldPath, Path);
-                    
                     return Path;
                 }else if(answer.equals("n") || answer.equals("no")){
-                    
-
                     return Path;
                 }else{
-                    
-
                     return oldPath;
                 }
             }else if(!extraPath.equals("") || !extraPath.equals(" ")){
@@ -195,7 +187,6 @@ public class Setup{
                 dirPath.add(extraPath);
             }
         }
-        
         return Path;
     }
 
@@ -204,7 +195,6 @@ public class Setup{
      * Settings Menu
      */
     public static void Settings(){
-        
         String user = Login.getUser();
         System.out.println("Settings Menu");
         System.out.println("========================================");
@@ -243,7 +233,6 @@ public class Setup{
                 Settings();
             }
             break;
-
             case "cpd":
             if(user.equals("test") || user.equals("admin")){
                 mainBody.setNewMessage("[System]: " + user + " is Changing the Program Directory");
@@ -256,13 +245,10 @@ public class Setup{
                 Settings();
             }
             break;
-
             case "ret":
             mainBody.mainMenu();
             break;
-
             default:
-            
             i--;
             mainBody.setNewMessage("[System]: You have " + i + " more attempts to choose an option before Auto Return Engages");
             if(i == 0){
@@ -284,19 +270,16 @@ public class Setup{
         // to see if it exists.
         String pathLetter;
         mainBody.setNewMessage("[System]: Searching for a directory");
-
         for (int i = 1; i < 26; i++) {
             switch (i) {
                 case 1:
                 pathLetter = "A";
                 testDirBasic(pathLetter);
                 break;
-
                 case 2:
                 pathLetter = "B";
                 testDirBasic(pathLetter);
                 break;
-
                 case 3:
                 mainBody.setNewMessage("[System]: Would you like to use drive \" C \" for Installation");
                 System.out.println(mainBody.getLastMessage());
@@ -304,7 +287,6 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
                 mainBody.setNewMessage("[Warning]: Setup Halted, Awaiting User Response");
                 System.out.println(mainBody.getLastMessage());
-                
                 String option;
                 option =  customScanner.nextLine();
                 option = option.toLowerCase();
@@ -312,7 +294,6 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
                 mainBody.setNewMessage("[Warning]: Setup Resumed");
                 System.out.println(mainBody.getLastMessage());
-                
                 if(option.equals("y")){
                     pathLetter = "C";
                     mainBody.setNewMessage("[System]: Please type out the Directory you would like to install System Files, You do not need to include the slashed \"\\\" ");
@@ -335,11 +316,9 @@ public class Setup{
                         }else if(extraPath.equals("done") || extraPath.equals("Done")){
                             mainBody.setNewMessage("[System]: User Completed Program Directory Path");
                             System.out.println(mainBody.getLastMessage());
-
                             String Path = completeManualDir("C:");
                             createProgramDir(Path);
                             Login.loginPage();
-
                         }else if(!extraPath.equals("") || !extraPath.equals(" ")){
                             dirPath.add(extraPath);
                         } else{
@@ -354,124 +333,100 @@ public class Setup{
                     System.out.println(mainBody.getLastMessage());
                     autoSearchForDir();
                 }
-                
                 break;
                 case 4:
                 pathLetter = "D";
                 mainBody.setNewMessage("[System ERROR]: Skipping D: drive... D: is Recovery");        
                 System.out.println(mainBody.getLastMessage());
                 break;
-
                 case 5:
                 pathLetter = "E";
                 testDirBasic(pathLetter);
                 break;
-
                 case 6:
                 pathLetter = "F";
                 testDirBasic(pathLetter);
                 break;
-
                 case 7:
                 pathLetter = "G";
                 testDirBasic(pathLetter);
                 break;
-
                 case 8:
                 pathLetter = "H";
                 testDirBasic(pathLetter);
                 break;
-
                 case 9:
                 pathLetter = "I";
                 testDirBasic(pathLetter);
                 break;
-
                 case 10:
                 pathLetter = "J";
                 testDirBasic(pathLetter);
                 break;
-
                 case 11:
                 pathLetter = "K";
                 testDirBasic(pathLetter);
                 break;
-
                 case 12:
                 pathLetter = "L";
                 testDirBasic(pathLetter);
                 break;
-
                 case 13:
                 pathLetter = "M";
                 testDirBasic(pathLetter);
                 break;
-
                 case 14:
                 pathLetter = "N";
                 testDirBasic(pathLetter);
                 break;
-
                 case 15:
                 pathLetter = "O";
                 testDirBasic(pathLetter);
                 break;
-
                 case 16:
                 pathLetter = "P";
                 testDirBasic(pathLetter);
                 break;
-
                 case 17:
                 pathLetter = "Q";
                 testDirBasic(pathLetter);
                 break;
-
                 case 18:
                 pathLetter = "R";
                 testDirBasic(pathLetter);
                 break;
-
                 case 19:
                 pathLetter = "S";
                 testDirBasic(pathLetter);
                 break;
-
                 case 20:
                 pathLetter = "T";
                 testDirBasic(pathLetter);
                 break;
-
                 case 21:
                 pathLetter = "U";
                 testDirBasic(pathLetter);
                 break;
-
                 case 22:
                 pathLetter = "V";
                 testDirBasic(pathLetter);
                 break;
-
                 case 23:
                 pathLetter = "W";
                 testDirBasic(pathLetter);
                 break;
-
                 case 24:
                 pathLetter = "X";
                 testDirBasic(pathLetter);
                 break;
-
                 case 25:
                 pathLetter = "Y";
                 testDirBasic(pathLetter);
                 break;
-
                 case 26:
                 pathLetter = "Z";
                 testDirBasic(pathLetter);
                 break;
-
                 default:
                 mainBody.setNewMessage("[Warning]: No other Drives were Detected");
                 System.out.println(mainBody.getLastMessage());
@@ -492,8 +447,6 @@ public class Setup{
     public static String completeManualDir(String Path){
         int size = dirPath.size();
         size--;
-        
-        
         for(int j = 0; j < dirPath.size(); j++){
             Path = Path +  "\\" + dirPath.get(j).trim();
         }
@@ -649,7 +602,6 @@ public class Setup{
             in.close();
             mainBody.setNewMessage("[System]: Tax Value set");
             System.out.println(mainBody.getLastMessage());
-
             path = getPath() + "\\Settings/Version.txt";
             file = new File(path);
             if(!file.exists()){

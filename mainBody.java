@@ -280,7 +280,6 @@ public class mainBody{
      * @return Useless value
      */
     public static String viewChangeLog(){
-        Scanner scan = new Scanner(System.in);
         for(int i = 0; i < changeLog.size(); i++){
             System.out.println("[*] " + changeLog.get(i));
         }
@@ -296,7 +295,6 @@ public class mainBody{
      * @return Useless Value
      */
     public static String changeVersion(){
-        Scanner scan = new Scanner(System.in);
         System.out.println("Old Version: " + Setup.getVersion());
         System.out.println("New Version: ");
         String Version = scan.nextLine();
@@ -326,7 +324,6 @@ public class mainBody{
      * @return Useless value
      */
     public static String updateChangeLog(){
-        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath() + "\\Settings/ChangeLog.txt";
         String Version = Setup.getVersion();
         File file = new File(path);
@@ -423,7 +420,6 @@ public class mainBody{
      * @return success of account creation
      */
     public static boolean createNewAccount(){
-        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath();
         boolean success = false;
         System.out.println("New User: ");
@@ -454,7 +450,6 @@ public class mainBody{
      * @return account deletion success
      */
     public static boolean deleteAnAccount(){
-        Scanner scan = new Scanner(System.in);
         String path = Setup.getPath();//get standard program path
         boolean success = false;//needed a value;
         System.out.println("Account: ");

@@ -1,6 +1,6 @@
 
 import java.util.*;
-import java.math.*;
+//import java.math.*;
 import java.text.*;
 /**
  * Write a description of class POS here.
@@ -10,23 +10,23 @@ import java.text.*;
  */
 public class POS{
     private static double Savings = 0;//$amount saved
-    private static ArrayList<String> itemOnInvoice = new ArrayList<String>();
-    private static ArrayList<Double> pricesForInvoice = new ArrayList<Double>();
-    private static ArrayList<String> allItemsSold = new ArrayList<String>();
-    private static ArrayList<Double> allPricesSold = new ArrayList<Double>();
+    private static ArrayList<String> itemOnInvoice = new ArrayList<String>();//Items on Current invoice
+    private static ArrayList<Double> pricesForInvoice = new ArrayList<Double>();//Prices for current invoice (in same order as itemsOnInvoice Array[])
+   // private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
+   // private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
-    private static int invoiceNum = invoice.invoiceNumGenerator();
+    private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
     private static double Subtotal;//invoice subtotal
-    private static DecimalFormat df = new DecimalFormat("0.00");
-    private static customScanner scan = new customScanner();
-    private static double origSubTotal;
-    private static double fullInvoiceDiscount;
+    private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
+    private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
+    private static double origSubTotal;//original Subtotal Before Discount
+    private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
     /**
      * POS Constructor
      *
      */
-    public POS(){
-        POSMenu();
+    public POS(){//new instance of POS class
+        POSMenu();//goto POSMenu Function 
     }
 
     /**
@@ -34,10 +34,10 @@ public class POS{
      * POS Menu
      */
     public static void POSMenu(){
-        String user = Login.getUser();
+        String user = Login.getUser(); //Get Current User Logged in
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
-        System.out.println("[CAT]: Categories");
+        System.out.println("[CAT]: Categories"); //[Menu item code] item name
         System.out.println("[MAN]: Manual Entry");
         System.out.println("[APP]: Apply Discount");
         if(user.equals("admin") || user.equals("test")){
@@ -49,8 +49,9 @@ public class POS{
         System.out.println("[TOT]: Total");
         System.out.println("[RET]: Return to Main Menu");
         System.out.println();
-        double savings = 0;
-        Subtotal = 0;
+        double savings = 0; //reset savings amount fo recalculation
+        Subtotal = 0; //reset Subtotal amount
+        origSubTotal = 0; //reset origSubTotal amount
         for(int j = 0; j < invoiceSavings.size(); j++){
             savings = savings + invoiceSavings.get(j);
         }
@@ -69,7 +70,7 @@ public class POS{
         double tempSavingsHolder = 0;
         if(invoiceSavings.size() > 0){
             for(int i = 0; i<invoiceSavings.size(); i++){
-                tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);
+                tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);//Temporaily holds the savings amount
             }
             if(tempSavingsHolder > 0){
                 System.out.println("Savings: $" + savings * (-1));   
@@ -550,7 +551,7 @@ public class POS{
         System.out.println("1. Sigle item");
         System.out.println("2. Total Invoice");
         int selection = scan.nextInt();
-        switch(selection){
+        switch(selection){//single item discount
             case 1:
             int item = 0;//numbers for items
             int choice = 0;//user choice
@@ -615,20 +616,21 @@ public class POS{
             break;
             case 2:
             double subtotal = 0;
-            break;
-            default:
-            mainBody.setNewMessage("[System]: Invalid Option, try again");
-            POSMenu();
-            break;
-        }
-
-        System.out.println("1. $ off");
+            if(fullInvoiceDiscount > 0){
+                mainBody.setNewMessage("[System]: A Invoice Level Discount was already applied.");
+                System.out.println(mainBody.getLastMessage());
+            }else if(fullInvoiceDiscount < 0){
+                mainBody.setNewMessage("[System]: Warning, Invoice Level Discount cannot be Negative! Setting Discount to 0");
+                fullInvoiceDiscount = 0;
+                POSMenu();
+            }else{
+                System.out.println("1. $ off");
         System.out.println("2. % off");
         //
         int option = scan.nextInt();
         if(option == 1){
             System.out.println("$: ");
-            double dAmountOff = scan.nextDouble();
+            dAmountOff = scan.nextDouble();
             dAmountOff = dAmountOff * -1;
             addItem("Discount", 0);
             Savings = Savings + dAmountOff;
@@ -636,7 +638,6 @@ public class POS{
             return dAmountOff;
         }else if(option == 2){
             System.out.println("%: ");
-            double subtotal;
             double percentOff = scan.nextDouble();//% off
             subtotal = 0;
             double savingsAmount;//$amount off based of percentage
@@ -659,7 +660,15 @@ public class POS{
             mainBody.setNewMessage("Invalid Option");
             return 0.00;
         }
-
+            }
+            break;
+            default:
+            mainBody.setNewMessage("[System]: Invalid Option, try again");
+            POSMenu();
+            break;
+        }
+        
+        return 0.00;
     }
 
     /**

@@ -11,7 +11,6 @@ import java.nio.file.*;
 public class debugNotepad 
 {
     public static ArrayList<String>debugNotepad = new ArrayList<String>();
-    private customScanner scan = new customScanner();
     /**
      * Method autoLoadDebugNotepad
      * reads notepad file if it exists and adds contents into debugNotepad Arraylist
@@ -29,6 +28,7 @@ public class debugNotepad
                     line++;
                     debugNotepad.add(x);
                 }
+                in.close();
                 return true;
             }catch(Exception e){
                 e.printStackTrace();
@@ -50,7 +50,6 @@ public class debugNotepad
         String User = Login.getUser();
         mainBody.setNewMessage("[System]: User: " + User);
         System.out.println(mainBody.getLastMessage());
-        
         System.out.println("NOTEPAD: ");
         System.out.println("========================================");
         System.out.println("[CRE]: Create Notebook");
@@ -112,10 +111,8 @@ public class debugNotepad
             mainBody.mainMenu();
         }else{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper privelages");
-            
             Notepad();
         }
-
     }
 
     /**
@@ -150,12 +147,10 @@ public class debugNotepad
      * @return useless value
      */
     public static boolean addNote(){
-        
         System.out.println("New Note: ");
         String note = customScanner.nextLine();
         debugNotepad.add(note);
-        mainBody.setNewMessage("[System]: Successfully added Note: " + note);
-        
+        mainBody.setNewMessage("[System]: Successfully added Note: " + note);     
         return true;
     }
 
@@ -181,8 +176,7 @@ public class debugNotepad
      * allows you to delete a note off of the notebook
      * @return True or false based off abiltiy to delete a note
      */
-    public static boolean deleteNote(){
-        
+    public static boolean deleteNote(){  
         int j = 1;
         for(int i = 0; i<debugNotepad.size();i++){
             System.out.println("[*]" + j + " " + debugNotepad.get(i));
@@ -196,7 +190,6 @@ public class debugNotepad
             System.out.println(mainBody.Messages.get(size)); 
         }
         int itemToRemove = customScanner.nextInt();
-
         if(itemToRemove == 0){
             mainBody.setNewMessage("[Warning]: User Cancelled Deletion");
             return false;
