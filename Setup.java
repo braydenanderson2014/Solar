@@ -9,6 +9,7 @@ import static java.nio.file.StandardCopyOption.*;
  */
 public class Setup{ 
     private static String path;
+    private static String oldPath;
     private static String defaultPath = "\\ThingsRememberedSLC\\Solar";
     private static String Version;
     private static int i = 5;
@@ -91,7 +92,13 @@ public class Setup{
     public static double getTax(){
         return Tax;
     }
-
+    public static String getOldPath(){
+        return oldPath;
+    }
+    public static String setOldPath(String oldPath){
+        Setup.oldPath = oldPath;
+        return Setup.oldPath;
+    }
     /**
      * Method getPath
      *
@@ -123,12 +130,12 @@ public class Setup{
      * @param oldPath A parameter
      * @return The New Path or Old Path
      */
-    public static String setProgramDirectory(String oldPath){
-        
+    public static String setProgramDirectory(){
+        setOldPath(getPath());
         String Path = "Default";
         System.out.println("Change Program Directory");
         System.out.println("========================================");
-        System.out.println("Current Base Directory: " + oldPath);
+        System.out.println("Current Base Directory: " + Setup.oldPath);
         mainBody.setNewMessage("[System]: Please type out the Directory you would like to Change Solar's working Directory to, You do not need to include the slashed \"\\\" ");
         System.out.println(mainBody.getLastMessage());
         mainBody.setNewMessage("[System]: Press [ENTER] to submit each folder, Please type Which Drive Letter You would like to use");
@@ -154,6 +161,7 @@ public class Setup{
                 mainBody.setNewMessage("[System]: User Completed Program Directory Path");
                 System.out.println(mainBody.getLastMessage());
                 Path = completeManualDir(pathLetter + ":");
+                setPath(Path);
                 System.out.println("Would you like to move all data from previous stored location to selected Path? \"Y/N\"");
                 String answer = scan.nextLine().toLowerCase();
                 if(answer.equals("y") || answer.equals("yes")){
@@ -170,6 +178,7 @@ public class Setup{
                         mainBody.setNewMessage("[System]: Successfully transfered Files");
                     }else{
                         mainBody.setNewMessage("[System ERROR]: Failed to Transfer Files");
+                        setPath(oldPath);
                         Path = oldPath;
                     }
                     // }catch(IOException e){
@@ -177,6 +186,7 @@ public class Setup{
                     // }//generateFileList.fileList(oldPath, Path);
                     return Path;
                 }else if(answer.equals("n") || answer.equals("no")){
+                    setPath(Path);
                     return Path;
                 }else{
                     return oldPath;
@@ -237,7 +247,7 @@ public class Setup{
             if(user.equals("test") || user.equals("admin")){
                 mainBody.setNewMessage("[System]: " + user + " is Changing the Program Directory");
                 //change program Directory
-                path = setProgramDirectory(path);
+                path = setProgramDirectory();
                 setPath(path);
                 Settings();
             }else{

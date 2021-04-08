@@ -48,7 +48,6 @@ public class debugNotepad
      */
     public static void Notepad(){
         String User = Login.getUser();
-        mainBody.setNewMessage("[System]: User: " + User);
         System.out.println(mainBody.getLastMessage());
         System.out.println("NOTEPAD: ");
         System.out.println("========================================");
@@ -161,7 +160,7 @@ public class debugNotepad
      */
     public static boolean viewNotes(){
         for(int i = 0; i<debugNotepad.size();i++){
-            System.out.println("[*]" + debugNotepad.get(i));
+            System.out.println("[*] " + debugNotepad.get(i));
         }
         System.out.println("Console: ");
         mainBody.setNewMessage("[System]: Press Enter To Continue");
@@ -258,10 +257,10 @@ public class debugNotepad
         try{
             Files.deleteIfExists(Paths.get(path));
             if(file.exists()){
-                mainBody.setNewMessage("[Warning]: Failed to Delete File");
+                mainBody.setNewMessage("[Warning]: Failed to Delete Notebook");
                 return false;
             }else{
-                mainBody.setNewMessage("[System]: Successfully Deleted File");
+                mainBody.setNewMessage("[System]: Successfully Deleted Notebook");
                 return true;
             }
         }catch(Exception e){

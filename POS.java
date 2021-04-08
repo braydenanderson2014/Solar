@@ -580,7 +580,6 @@ public class POS{
             choices = scan.nextInt();
             if(choices == 1){
                 System.out.println("$ Amount Off: ");
-                choice--;
                 dAmountOff = scan.nextDouble();
                 dAmountOff = dAmountOff;
                 double placeHolder = choice;

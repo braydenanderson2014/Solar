@@ -20,7 +20,8 @@ public class generateFileList
                     file.getAbsolutePath();
                     System.out.println("Files array size: " + file.length());
                     System.out.println(src + name);
-                    success = FileMovement.moveFile(src + "/" + name, destination + "/" + name);//FileMovement.moveFile(src+name, destination+name);//
+                    //success = FileMovement.moveFile(src + "/" + name, destination + "/" + name);//FileMovement.moveFile(src+name, destination+name);//
+                    success = CopyFilesRecursively.moveFiles(src, destination);
                     listOfFiles.add(name);
                     System.out.println("listOfFiles Size: " + listOfFiles.size());
                     System.out.println(listOfFiles.get(i));
