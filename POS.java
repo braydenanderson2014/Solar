@@ -108,14 +108,17 @@ public class POS{
             mainBody.setNewMessage("[System]: This Feature is not yet Available");
             POSMenu();
         }else if(option.equals("vii")){
-            int num = 0;
+            int num = 1;
             if(itemOnInvoice.size() > 0){
+                System.out.println("Items On Invoice:");
+                System.out.println("========================================");
                 for(int i = 0; i < itemOnInvoice.size(); i++){
-                    System.out.println(num + " " + itemOnInvoice.size());
+                    System.out.println(num + " " + itemOnInvoice.get(i));
                     num++;
                 }
             }else{
                 mainBody.setNewMessage("[System]: No Items On Invoice");   
+                System.out.println(mainBody.getLastMessage());
             }
             mainBody.setNewMessage("[System]: Press Enter to Continue");
             String Enter = scan.nextLine();
@@ -161,6 +164,7 @@ public class POS{
      * Menu Logic is not neccessarily in the same order as the Menu Items
      */
     private static void categories(){
+        mainBody.setNewMessage("[System]: Welcome to the Categories Page, Please select a categorey");
         System.out.println("Categories: ");
         System.out.println("========================================");
         System.out.println("[APP]: Appliances");
@@ -177,7 +181,6 @@ public class POS{
             messageSize --;
             System.out.println(mainBody.getLastMessage());
         }
-
         String option = scan.nextLine().toLowerCase().trim();
         if(option.equals("ret")){
             POSMenu();

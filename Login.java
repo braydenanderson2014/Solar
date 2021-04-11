@@ -68,6 +68,30 @@ public class Login{
             switchUserController();
         }else if(Username.equals("quit")){
             System.exit(1);
+        }else if(Username.equals("reload") || Username.equals("Reload")){
+            mainBody.setNewMessage("[System]: Reloading Login Page...");
+            System.out.println(mainBody.getLastMessage());
+            loginPage();
+        }else if(Username.equals("Restart") || Username.equals("restart")){
+            mainBody.setNewMessage("[System]: Restarting Application..."); 
+            System.out.println(mainBody.getLastMessage()); 
+            Setup.setTax(Setup.getTax());
+            System.out.println(mainBody.getLastMessage());
+            boolean success = setUser(getUser());
+            if(success){
+                mainBody.setNewMessage("[System]: Setting User to Original User");
+            }else{
+                mainBody.setNewMessage("[System]: Failed to set User");
+            }
+            System.out.println(mainBody.getLastMessage());
+            Setup.setPath("Null");
+            if(success){
+                mainBody.setNewMessage("[System]: Setting path to null");
+            }else{
+                mainBody.setNewMessage("[System]: Failed to set path");
+            }
+            System.out.println(mainBody.getLastMessage());
+            Setup.autoSearchForDir(); 
         }else{
             validateUserSignIn(Username, Password);
         }

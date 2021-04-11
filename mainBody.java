@@ -135,19 +135,23 @@ public class mainBody{
         String selection = scan.nextLine().toLowerCase();
         switch(selection){
             case "pos":
+            setNewMessage("[System]: POS Invoked");
             POS.POSMenu();
             break;
 
             case "set":
+            setNewMessage("[System]: Settings Menu Invoked");
             Setup.Settings();
             break;
 
             case "sfi":
             //search for invoice
+            setNewMessage("[System]: This Feature is Not Yet Available, Try again Later");
             mainMenu();
             break;
 
             case "vsm":
+            setNewMessage("[System]: View System Messages Invoked");
             viewSystemMessages();
             String plsContinue = scan.nextLine();
             int size = Messages.size();
@@ -159,8 +163,9 @@ public class mainBody{
             case "rab":
             if(!user.equals("test")){
                 //report a bug
+                setNewMessage("[System]: This Feature is not yet Available, Try again later");
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
@@ -168,8 +173,9 @@ public class mainBody{
             case "di":
             if(user.equals("admin") || user.equals("test")){
                 //delete an invoice
+                setNewMessage("[System]: This Feature is not yet Available, Try again Later");
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
@@ -177,26 +183,29 @@ public class mainBody{
             case "rfr":
             if(user.equals("admin") || user.equals("test")){
                 //run final report
+                setNewMessage("[System]: This Feature is not yet Available, Try again Later");
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
 
             case "cna":
             if(user.equals("admin") || user.equals("test")){
+                setNewMessage("[System]: Create New Account Invoked...");
                 createNewAccount();
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
 
             case "dea":
             if(user.equals("admin") || user.equals("test")){
+                setNewMessage("[System]: Delete Account Invoked");
                 deleteAnAccount();
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu(); 
             break;
@@ -204,18 +213,20 @@ public class mainBody{
             case "cap":
             if(user.equals("test")){
                 //change admin password
+                setNewMessage("[System]: This Feature is not yet Available");
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
 
             case "cv":
             if(user.equals("test")){
+                setNewMessage("[System]: ADMINISTRATIVE FEATURE: CHANGE VERSION INVOKED");
                 //change version
                 changeVersion();
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
@@ -223,26 +234,29 @@ public class mainBody{
             case "not":
             if(user.equals("test")){
                 //notepad
+                setNewMessage("[System]: ADMINISTRATIVE FEATURE: NOTEBOOK INVOKED");
                 mainBody.setNewMessage("[System]: [CRE]: Only 1 Notebook can exist at one time");
                 debugNotepad.autoLoadDebugNotepad();
-
                 debugNotepad.Notepad();
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
 
             case "bug":
             if(user.equals("test")){
+                setNewMessage("[System]: ADMINISTRATIVE FEATURE: BUG REPORT INVOKED...");
+                setNewMessage("[System]: This Funtion is not yet available, try again later");
                 //bug report
             }else{
-                setNewMessage("[Warning]: you do not have the proper permissions");
+                setNewMessage("[Warning]: You do not have the proper permissions");
             }
             mainMenu();
             break;
 
             case "off":
+            setNewMessage("[System]: LOGOFF INVOKED");
             setNewMessage("[System]: " + user + "Logged off successfully");
             Login.removeActiveUser(user);
             Login.setUser("");
@@ -250,16 +264,18 @@ public class mainBody{
             break;
 
             case "swi":
+            setNewMessage("[System]: Switch user Invoked");
             setNewMessage("[System]: Swapping User");
             Login.switchUserController();
             break;
 
             case "vcl":
+            setNewMessage("[System]: Changelog Invoked");
             String path = Setup.getPath() + "\\Settings/ChangeLog.txt";
             File file = new File(path);
             if(file.exists()){
                 viewChangeLog();
-            }else{
+            }else if(!file.exists()){
                 setNewMessage("[Warning]: No Change Log Exists, Please Contact Developer");
             }
             mainMenu();
