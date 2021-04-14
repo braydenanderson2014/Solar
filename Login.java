@@ -11,7 +11,7 @@ public class Login{
     private static ArrayList<String> allUsers = new ArrayList<String>(); // all users with acccounts
     private static String user;
     protected static String password;
-    private static customScanner scan = new customScanner();
+    //private static customScanner scan = new customScanner();
     /**
      * Method displaySolarLogo
      *
@@ -147,6 +147,7 @@ public class Login{
                         if(Password.equals(password)){
                             if(!activeUsers.contains(Username)){
                                 activeUsers.add(Username);
+                                mainBody.setNewMessage("[System]: Obtained Password on line: " + line);
                             }
                             setUser(Username);
                             mainBody.setNewMessage("[System]: " + Username + " Successfully Logged On!");
@@ -183,7 +184,7 @@ public class Login{
                 System.out.println(j + " " + activeUsers.get(i));//find and print the indexes of activeUsers
                 j++;
             }
-            int activeUser = scan.nextInt();
+            int activeUser = customScanner.nextInt();
             activeUser--;
             String User = activeUsers.get(activeUser);
             String oldUser = getUser();

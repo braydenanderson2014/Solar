@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.Scanner;
 import java.io.*;
 /**
  * Write a description of class mainBody here.
@@ -25,7 +24,7 @@ public class mainBody{
         System.out.println("Console: ");
         setNewMessage("[System]: Please Start Setup to Proceed");
         System.out.println(getLastMessage());
-        String selection = scan.nextLine();
+        String selection = customScanner.nextLine();
         if(selection.equals("1")){
             setNewMessage("[USER]: " + selection);
             Setup.startSetup();
@@ -132,7 +131,7 @@ public class mainBody{
             size--;
             System.out.println(Messages.get(size)); 
         }
-        String selection = scan.nextLine().toLowerCase();
+        String selection = customScanner.nextLine().toLowerCase();
         switch(selection){
             case "pos":
             setNewMessage("[System]: POS Invoked");
@@ -153,7 +152,8 @@ public class mainBody{
             case "vsm":
             setNewMessage("[System]: View System Messages Invoked");
             viewSystemMessages();
-            String plsContinue = scan.nextLine();
+            String plsContinue = customScanner.nextLine();
+            setNewMessage("[System]: User pressed: " + plsContinue);
             int size = Messages.size();
             size--;
             Messages.remove(size);
@@ -300,7 +300,8 @@ public class mainBody{
             System.out.println("[*] " + changeLog.get(i));
         }
         System.out.println("[System]: Press Enter to Continue");
-        String Enter = scan.nextLine();
+        String Enter = customScanner.nextLine();
+        setNewMessage("[System]: User pressed: " + Enter);
         return "Success";
     }
 
@@ -313,7 +314,7 @@ public class mainBody{
     public static String changeVersion(){
         System.out.println("Old Version: " + Setup.getVersion());
         System.out.println("New Version: ");
-        String Version = scan.nextLine();
+        String Version = customScanner.nextLine();
         Setup.setVersion(Version);
         String path = Setup.getPath() + "\\Settings/Version.txt";
         File file = new File(path);
@@ -342,6 +343,7 @@ public class mainBody{
     public static String updateChangeLog(){
         String path = Setup.getPath() + "\\Settings/ChangeLog.txt";
         String Version = Setup.getVersion();
+        setNewMessage("[System]: Obtained Version: " + Version);
         File file = new File(path);
         if(file.exists()){
             try{
@@ -354,7 +356,7 @@ public class mainBody{
                 }
                 System.out.println("[ChangeLog Updater]: Type \"cancel\" to cancel, Type \"Done\" when Finished");
                 System.out.println("Note: ");
-                String newNote = scan.nextLine().toLowerCase();
+                String newNote = customScanner.nextLine().toLowerCase();
                 if(newNote.equals("cancel")){
                     setNewMessage("[Warning]: Developer Did not Update Change Log");
                     return "Canceled";
@@ -439,7 +441,7 @@ public class mainBody{
         String path = Setup.getPath();
         boolean success = false;
         System.out.println("New User: ");
-        String newUser = scan.nextLine();
+        String newUser = customScanner.nextLine();
         path = path + "\\Users/" + newUser + ".txt";
         File file = new File(path);
         if(!file.exists()){
@@ -469,7 +471,7 @@ public class mainBody{
         String path = Setup.getPath();//get standard program path
         boolean success = false;//needed a value;
         System.out.println("Account: ");
-        String Account = scan.nextLine();//account name
+        String Account = customScanner.nextLine();//account name
         path = path + "\\Users/" + Account + ".txt";//path to account file
         File file = new File(path);
         if(file.exists()){//tests to see if file exists, if it does, delete account

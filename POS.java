@@ -15,7 +15,7 @@ public class POS{
    // private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
    // private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
-    private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
+    //private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
     private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
@@ -82,7 +82,7 @@ public class POS{
             messageSize --;
             System.out.println(mainBody.getLastMessage());
         }
-        String option = scan.nextLine().toLowerCase();
+        String option = customScanner.nextLine().toLowerCase();
         if(option.equals("ret")){
             mainBody.mainMenu();        
         }else if(option.equals("cat")){
@@ -121,7 +121,8 @@ public class POS{
                 System.out.println(mainBody.getLastMessage());
             }
             mainBody.setNewMessage("[System]: Press Enter to Continue");
-            String Enter = scan.nextLine();
+            String Enter = customScanner.nextLine();
+            mainBody.setNewMessage("[System]: User Pressed: " + Enter);
             int last = mainBody.getLastMessageNum();
             mainBody.removeLastMessage(last);
             POSMenu();
@@ -133,7 +134,7 @@ public class POS{
             // clear sales data
             mainBody.setNewMessage("[System]: Are You Sure you want To Clear Sales Data?");
             System.out.println(mainBody.getLastMessage());
-            String answer = scan.nextLine().toLowerCase();
+            String answer = customScanner.nextLine().toLowerCase();
             if(answer.equals("y") || answer.equals("yes")){
                 pricesForInvoice.clear();
                 itemOnInvoice.clear();
@@ -181,7 +182,7 @@ public class POS{
             messageSize --;
             System.out.println(mainBody.getLastMessage());
         }
-        String option = scan.nextLine().toLowerCase().trim();
+        String option = customScanner.nextLine().toLowerCase().trim();
         if(option.equals("ret")){
             POSMenu();
         }else if(option.equals("app")){
@@ -193,7 +194,7 @@ public class POS{
             System.out.println("[BLE]: Blender");
             System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("fri")){
@@ -243,7 +244,7 @@ public class POS{
             System.out.println("[HAR]: Hardware");
             System.out.println("[SOF]: Software");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("lap")){
@@ -252,7 +253,7 @@ public class POS{
                 System.out.println("[GAM]: Gaming Laptops");
                 System.out.println("[NOR]: Normal Laptops");
                 System.out.println("[RET]: Return to Menu");
-                String option3 = scan.nextLine();
+                String option3 = customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();   
                 }else if(option3.equals("gam")){
@@ -275,7 +276,7 @@ public class POS{
                 System.out.println("[GAM]: Gaming Desktop");
                 System.out.println("[NOR]: Normal Desktop");
                 System.out.println("[RET]: Return to Menu");
-                String option3 = scan.nextLine();
+                String option3 = customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();   
                 }else if(option3.equals("gam")){
@@ -317,7 +318,7 @@ public class POS{
                 System.out.println("[MOU]: Mouse");
                 System.out.println("[KEY]: Keyboard");
                 System.out.println("[RET]: Return");
-                String option3 = scan.nextLine().toLowerCase();
+                String option3 = customScanner.nextLine().toLowerCase();
                 if(option3.equals("ret")){                                      
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
                     categories();
@@ -383,7 +384,7 @@ public class POS{
             }else if(option2.equals("sof")){
                 System.out.println("[RET]: Return");
                 System.out.println("Name of Program: ");
-                String name = scan.nextLine();
+                String name = customScanner.nextLine();
                 if(name.equals("ret") || name.equals("RET")){
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
                     categories();
@@ -402,7 +403,7 @@ public class POS{
             System.out.println("[TAB]: Tables");
             System.out.println("[BEN]: Benches");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("cou")){
@@ -434,7 +435,7 @@ public class POS{
             System.out.println("[KNI]: Knick Knacks");
             System.out.println("[STU]: Stuffed Animals");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine().toLowerCase();
+            String option2 = customScanner.nextLine().toLowerCase();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("pic")){
@@ -462,7 +463,7 @@ public class POS{
             System.out.println("[CUT]: Cutting Board");
             System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
-            String option2 = scan.nextLine();
+            String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
             }else if(option2.equals("pot")){
@@ -505,7 +506,7 @@ public class POS{
     private static void manualEntry(){
         System.out.println("Type \"[CAT]\" to go to Categories");
         System.out.println("Manual Entry: ");
-        String manualEntry = scan.nextLine();
+        String manualEntry = customScanner.nextLine();
         if(manualEntry.equals("cat")){
             categories();
         }else if(manualEntry.equals("ret")){
@@ -553,7 +554,7 @@ public class POS{
         System.out.println("Would you like to Apply Discount to a specific item or total invoice?");
         System.out.println("1. Sigle item");
         System.out.println("2. Total Invoice");
-        int selection = scan.nextInt();
+        int selection = customScanner.nextInt();
         switch(selection){//single item discount
             case 1:
             int item = 0;//numbers for items
@@ -567,7 +568,7 @@ public class POS{
             }
             System.out.println("Choice: ");
             try{
-                choice = scan.nextInt();
+                choice = customScanner.nextInt();
                 choice--;
                 System.out.println("Item Selected: " + itemOnInvoice.get(choice) + " $" + pricesForInvoice.get(choice));
             }catch(Exception e){
@@ -580,11 +581,11 @@ public class POS{
             System.out.println("2. %off");
             System.out.println("Choice: ");
             int choices = 0;
-            choices = scan.nextInt();
+            choices = customScanner.nextInt();
             if(choices == 1){
                 System.out.println("$ Amount Off: ");
                 dAmountOff = scan.nextDouble();
-                dAmountOff = dAmountOff;
+                //dAmountOff = dAmountOff;
                 double placeHolder = choice;
                 placeHolder = placeHolder - dAmountOff;
                 pricesForInvoice.set(choice, placeHolder);
@@ -629,7 +630,7 @@ public class POS{
                 System.out.println("1. $ off");
         System.out.println("2. % off");
         //
-        int option = scan.nextInt();
+        int option = customScanner.nextInt();
         if(option == 1){
             System.out.println("$: ");
             dAmountOff = scan.nextDouble();

@@ -27,6 +27,7 @@ public class debugNotepad
                 for(String x= in.readLine(); x != null; x= in.readLine()){
                     line++;
                     debugNotepad.add(x);
+                    mainBody.setNewMessage("[System]: Reading from Notepad, Line : " + line);
                 }
                 in.close();
                 return true;
@@ -49,7 +50,7 @@ public class debugNotepad
     public static void Notepad(){
         String User = Login.getUser();
         System.out.println(mainBody.getLastMessage());
-        System.out.println("NOTEPAD: ");
+        System.out.println("NOTEPAD, User: " + User);
         System.out.println("========================================");
         System.out.println("[CRE]: Create Notebook");
         System.out.println("[ADD]: Add a New Note");
@@ -80,6 +81,7 @@ public class debugNotepad
             //View Notebook
             viewNotes();
             String Continue = customScanner.nextLine();
+            mainBody.setNewMessage("[System]: User pressed: " + Continue);
             Notepad();
         }else if(option.equals("del")){
             //Delete a Note

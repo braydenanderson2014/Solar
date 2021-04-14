@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import static java.nio.file.StandardCopyOption.*;
 /**
  * Write a description of class Setup here.
  *
@@ -163,9 +162,12 @@ public class Setup{
                 Path = completeManualDir(pathLetter + ":");
                 setPath(Path);
                 System.out.println("Would you like to move all data from previous stored location to selected Path? \"Y/N\"");
-                String answer = scan.nextLine().toLowerCase();
+                String answer = customScanner.nextLine().toLowerCase();
                 if(answer.equals("y") || answer.equals("yes")){
                     File oldFile = new File(oldPath).getAbsoluteFile();
+                    if(!oldFile.exists()){
+                        mainBody.setNewMessage("[Warning]: The old Path does not exist!");
+                    }
                     File newFile = new File(Path).getAbsoluteFile();
                     if(!newFile.exists()){
                         newFile.mkdirs();
@@ -223,7 +225,7 @@ public class Setup{
             size--;
             System.out.println(mainBody.Messages.get(size)); 
         }
-        String settingsToChange = scan.nextLine().toLowerCase();
+        String settingsToChange = customScanner.nextLine().toLowerCase();
         switch(settingsToChange){
             case "ct":
             double tax = getTax();
@@ -456,6 +458,7 @@ public class Setup{
      */
     public static String completeManualDir(String Path){
         int size = dirPath.size();
+        mainBody.setNewMessage("[System]: Auto Completing directory path, Size: " + size);
         size--;
         for(int j = 0; j < dirPath.size(); j++){
             Path = Path +  "\\" + dirPath.get(j).trim();
@@ -606,6 +609,7 @@ public class Setup{
             int line = 0;
             for(String x= in.readLine(); x != null; x= in.readLine()){
                 line++;
+                mainBody.setNewMessage("[System]: Converting Tax from a String to a double, Line: " + line);
                 double conversion = Double.parseDouble(x);
                 setTax(conversion);
             }
