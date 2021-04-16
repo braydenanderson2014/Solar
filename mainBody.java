@@ -213,7 +213,7 @@ public class mainBody{
             case "cap":
             if(user.equals("test")){
                 //change admin password
-                setNewMessage("[System]: This Feature is not yet Available");
+                Login.changeAdminPass();
             }else{
                 setNewMessage("[Warning]: You do not have the proper permissions");
             }
@@ -356,13 +356,14 @@ public class mainBody{
                 }
                 System.out.println("[ChangeLog Updater]: Type \"cancel\" to cancel, Type \"Done\" when Finished");
                 System.out.println("Note: ");
-                String newNote = customScanner.nextLine().toLowerCase();
-                if(newNote.equals("cancel")){
+                String newNote = customScanner.nextLine();
+                if(newNote.equals("cancel") || newNote.equals("Cancel")){
                     setNewMessage("[Warning]: Developer Did not Update Change Log");
+                    System.out.println(getLastMessage());
                     return "Canceled";
-                }else if(newNote.equals("done")){
+                }else if(newNote.equals("done") || newNote.equals("Done")){
                     setNewMessage("[ChangeLog Updater]: Generating ChangeLog");
-                    System.out.println("[ChangeLog Updater]: Generating ChangeLog");
+                    System.out.println(getLastMessage());
                     FileWriter fw = new FileWriter(file.getAbsoluteFile());
                     BufferedWriter bw = new BufferedWriter(fw);
                     bw.write("ChangeLog: \r\n");
@@ -458,6 +459,9 @@ public class mainBody{
                 System.out.println(e);
                 setNewMessage("[System]: Failed to create User account");
             }
+        }else{
+            setNewMessage("[System]: User Account already exists");
+            success = false;
         }
         return success;
     }

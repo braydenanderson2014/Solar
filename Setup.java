@@ -7,7 +7,7 @@ import java.io.*;
  * @version (a version number or a date)
  */
 public class Setup{ 
-    private static String path;
+    private static String path = "Null";
     private static String oldPath;
     private static String defaultPath = "\\ThingsRememberedSLC\\Solar";
     private static String Version;
@@ -22,7 +22,11 @@ public class Setup{
     public static void startSetup(){
         mainBody.setNewMessage("[System]: Starting Setup!...");
         System.out.println(mainBody.getLastMessage());
-        autoSearchForDir(); 
+        if(path.equals("Null")){
+            autoSearchForDir(); 
+        }else{
+            createProgramDir(path);
+        }
     }
 
     /**
@@ -238,6 +242,7 @@ public class Setup{
             case "cp":
             if(!user.equals("test") || !user.equals("admin")){
                 mainBody.setNewMessage("[System]: " + user + " is requesting a password change");
+                Login.changePass();
                 //change password logic
                 Settings();
             }else{
@@ -310,7 +315,7 @@ public class Setup{
                     pathLetter = "C";
                     mainBody.setNewMessage("[System]: Please type out the Directory you would like to install System Files, You do not need to include the slashed \"\\\" ");
                     System.out.println(mainBody.getLastMessage());
-                    mainBody.setNewMessage("[System]: EXAMPLE \" \\Users\\* User *\\Documents \" ");
+                    mainBody.setNewMessage("[System]: EXAMPLE: \"Users\" _Enter_ \"* User *\" _Enter_ \"Documents\"_Enter_\"Done\"_Enter");
                     System.out.println(mainBody.getLastMessage());
                     mainBody.setNewMessage("[System]: Type \"Cancel\" to cancel and start over, Type \"Back\" to remove last directory ");
                     System.out.println(mainBody.getLastMessage());

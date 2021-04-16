@@ -6,7 +6,7 @@ import java.nio.file.*;
  * Write a description of class debugNotepad here.
  *
  * @author (Brayden Anderson)
- * @version (a version number or a date)
+ * @version (ALPHA V2.1.4, Snapshot 3xWav-6, Beta 1.0.0)
  */
 public class debugNotepad 
 {
@@ -28,8 +28,10 @@ public class debugNotepad
                     line++;
                     debugNotepad.add(x);
                     mainBody.setNewMessage("[System]: Reading from Notepad, Line : " + line);
+                    System.out.println(mainBody.getLastMessage());
                 }
                 in.close();
+                mainBody.setNewMessage("[System]: Successfully loaded Notes...");
                 return true;
             }catch(Exception e){
                 e.printStackTrace();
