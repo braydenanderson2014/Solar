@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 import java.net.URI;
-import java.awt.desktop.*;
 /**
  * Write a description of class mainBody here.
  *
@@ -142,6 +141,7 @@ public class mainBody{
 
             case "set":
             setNewMessage("[System]: Settings Menu Invoked");
+            Setup.i = 5;
             Setup.Settings();
             break;
 

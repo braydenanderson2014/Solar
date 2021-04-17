@@ -11,7 +11,7 @@ public class Setup{
     private static String oldPath;
     private static String defaultPath = "\\ThingsRememberedSLC\\Solar";
     private static String Version;
-    private static int i = 5;
+    public static int i = 5;
     private static ArrayList <String> dirPath = new ArrayList <String>(); 
     private static double Tax;
     private static customScanner scan = new customScanner();
@@ -155,6 +155,7 @@ public class Setup{
             extraPath =  customScanner.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
+                mainBody.setNewMessage("[System]: User Cancelled Changes to the Program Directory");
                 Settings();
             }else if(extraPath.equals("back") || extraPath.equals("Back")){
                 size = dirPath.size();
