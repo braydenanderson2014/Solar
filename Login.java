@@ -78,7 +78,7 @@ public class Login{
         }else if(Username.equals("reload") || Username.equals("Reload")){
             mainBody.setNewMessage("[System]: Reloading Login Page...");
             System.out.println(mainBody.getLastMessage());
-            loginPage();
+            Setup.createProgramDir(Setup.getPath());
         }else if(Username.equals("Restart") || Username.equals("restart")){
             mainBody.setNewMessage("[System]: Restarting Application..."); 
             System.out.println(mainBody.getLastMessage()); 
@@ -125,10 +125,41 @@ public class Login{
         String path = Setup.getPath();
         System.out.println("ChangePass:");
         System.out.println("========================================");
-        mainBody.setNewMessage("[System]: This Feature is not yet Available");
-        if(user.equals("admin") || user.equals("test")){
+        if(user.equals("admin")){
             mainBody.setNewMessage("[Warning]: Administrative Accounts Cannot Change Their Password");
             return false;
+        }else if(user.equals("test")){
+            System.out.println("Username: ");
+            String username = customScanner.nextLine();
+            if(username.equals("admin")){
+                mainBody.setNewMessage("[System]: Transferring to Change Admin Password Function");
+                changeAdminPass();
+                return true;
+            }else if(username.equals("test")){
+                mainBody.setNewMessage("[Warning]: You Cannot Change Debug Password");
+                return false;
+            }else{
+                System.out.println("New Password: ");
+                String password = customScanner.nextLine();
+                path = path + "\\Users/" + username + ".txt";
+                File file = new File(path);
+                if(file.exists()){
+                    try {
+                        mainBody.setNewMessage("[System]: Changing Password for User: " + username);
+                        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        bw.write(password);
+                        bw.close();
+                        return true;
+                    } catch (Exception e) {
+                        mainBody.setNewMessage("[Warning]: " + e.toString());
+                        return false;
+                    }
+                }else{
+                    mainBody.setNewMessage("[Warning]: Failed to find User, Unable to change Password");
+                    return false;
+                }
+            }
         }else{
             System.out.println("User: " + user);
             System.out.println("Old Password: ");
@@ -181,7 +212,7 @@ public class Login{
         String path = Setup.getPath();
         System.out.println("ChangePass:");
         System.out.println("========================================");
-        if(!user.equals("admin") || !user.equals("test")){
+        if(!user.equals("test")){
             mainBody.setNewMessage("[Warning]: Invalid User, Cannot change Pass");
             return false;
         }else{
@@ -195,12 +226,12 @@ public class Login{
                     BufferedWriter bw = new BufferedWriter(fw);
                     bw.write(password);
                     bw.close();
+                    mainBody.setNewMessage("[System]: Successfully updated Admin Password");
                     return true;
                 } catch (Exception e) {
                     mainBody.setNewMessage("[Warning]: " + e.toString());
                     return false;
                 }
-
                 //change Password
             }else{
                 mainBody.setNewMessage("[Warning]: Unable to locate admin file");
