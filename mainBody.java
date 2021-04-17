@@ -1,5 +1,7 @@
 import java.util.*;
 import java.io.*;
+import java.net.URI;
+import java.awt.desktop.*;
 /**
  * Write a description of class mainBody here.
  *
@@ -163,7 +165,16 @@ public class mainBody{
             case "rab":
             if(!user.equals("test")){
                 //report a bug
-                setNewMessage("[System]: This Feature is not yet Available, Try again later");
+                setNewMessage("[System]: Report A Bug Invoked");
+                try {
+                    URI uri= new URI("https://github.com/braydenanderson2014/Solar/issues/new/choose");
+   
+                    java.awt.Desktop.getDesktop().browse(uri);
+                    System.out.println("[System]: Web page opened in browser");
+                } catch (Exception e) {
+                    setNewMessage("[Warning]: " + e.toString());
+                }
+                
             }else{
                 setNewMessage("[Warning]: You do not have the proper permissions");
             }
@@ -247,7 +258,14 @@ public class mainBody{
             case "bug":
             if(user.equals("test")){
                 setNewMessage("[System]: ADMINISTRATIVE FEATURE: BUG REPORT INVOKED...");
-                setNewMessage("[System]: This Funtion is not yet available, try again later");
+                try {
+                    URI uri= new URI("https://github.com/braydenanderson2014/Solar/issues");
+   
+                    java.awt.Desktop.getDesktop().browse(uri);
+                    System.out.println("[System]: Web page opened in browser");
+                } catch (Exception e) {
+                    setNewMessage("[Warning]: " + e.toString());
+                }
                 //bug report
             }else{
                 setNewMessage("[Warning]: You do not have the proper permissions");
