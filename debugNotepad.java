@@ -17,6 +17,8 @@ public class debugNotepad
      * @return True or False based off abiltiy to load debug notepad into arraylist
      */
     public static boolean autoLoadDebugNotepad(){
+        mainBody.setNewMessage("[System]: AutoLoading Notebook...");
+        System.out.println(mainBody.getLastMessage());
         String path = Setup.getPath(); 
         path = path + "\\debugNotepad/Notepad.txt";
         File file = new File(path);

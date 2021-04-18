@@ -125,10 +125,7 @@ public class Login{
         String path = Setup.getPath();
         System.out.println("ChangePass:");
         System.out.println("========================================");
-        if(user.equals("admin")){
-            mainBody.setNewMessage("[Warning]: Administrative Accounts Cannot Change Their Password");
-            return false;
-        }else if(user.equals("test")){
+        if(user.equals("test") || user.equals("admin")){
             System.out.println("Username: ");
             String username = customScanner.nextLine();
             if(username.equals("admin")){

@@ -322,7 +322,11 @@ public class Setup{
                     System.out.println(mainBody.getLastMessage());
                     String extraPath = "null";
                     int size;
+                    String tempPath;
                     while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
+                        tempPath = completeManualDir("C:");
+                        mainBody.setNewMessage("[System]: Current Path Defined as: " + tempPath);
+                        System.out.println(mainBody.getLastMessage());
                         extraPath =  customScanner.nextLine();  
                         if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                             dirPath.clear();
@@ -470,7 +474,6 @@ public class Setup{
             Path = Path +  "\\" + dirPath.get(j).trim();
         }
         mainBody.setNewMessage("[System]: Path Defined as " + Path);
-        System.out.println(mainBody.getLastMessage());
         return Path;
     }
 

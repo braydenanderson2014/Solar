@@ -112,7 +112,7 @@ public class mainBody{
         if(user.equals("admin") || user.equals("test")){   
             System.out.println("[DI]:  Delete an Invoice");
             System.out.println("[RFR]: Run Final Report");
-            System.out.println("[CNA]: Create new Account"); 
+            System.out.println("[CRE]: Create new Account"); 
             System.out.println("[DEA]: Delete an Existing Account");
         }
         if(!user.equals("test")){
@@ -201,7 +201,7 @@ public class mainBody{
             mainMenu();
             break;
 
-            case "cna":
+            case "cre":
             if(user.equals("admin") || user.equals("test")){
                 setNewMessage("[System]: Create New Account Invoked...");
                 createNewAccount();
