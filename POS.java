@@ -151,14 +151,30 @@ public class POS{
             }
         }else if(option.equals("tot")){
             //Total
-            mainBody.setNewMessage("[System]: This Feature is not yet Available");
-            POSMenu();
+            Total();
         }else{
             mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
             POSMenu();
         }
     }
-
+    public static void Total(){
+        double total = 0;
+        double taxP = Setup.getTax();//Tax Percentage
+        double taxD = Setup.getTax()/100;//Tax as a Decimal
+        for(int i = 0; i < itemOnInvoice.size(); i++){
+            System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
+            total = total + pricesForInvoice.get(i);//Temporary Subtotal Calc
+        }
+        System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
+        System.out.println("Discounts: " + df.format(Savings) + "$");//Discounts 
+        System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(total * taxD) + "$");//Tax Percentage and then the $ Amount of tax
+        total = total * taxD; //Dollar amount of tax Calculated
+        total = total + Subtotal;//Total amount
+        System.out.println("Total: " + df.format(total) + "$");//Display total
+        itemOnInvoice.clear();//Clear items on invoice
+        pricesForInvoice.clear();//Clear Prices on Invoice
+        POSMenu();
+    }
     /**
      * Method categories
      * Categories for POS items
@@ -584,7 +600,7 @@ public class POS{
             choices = customScanner.nextInt();
             if(choices == 1){
                 System.out.println("$ Amount Off: ");
-                dAmountOff = scan.nextDouble();
+                dAmountOff = scan.nextDouble();//The Amount off
                 //dAmountOff = dAmountOff;
                 double placeHolder = choice;
                 placeHolder = placeHolder - dAmountOff;
