@@ -27,7 +27,7 @@ public class Login{
         System.out.println("#     # #     # #       #     # #    #  ");
         System.out.println(" #####  ####### ####### #     # #     #  ");   
         System.out.println("==========================================");
-        System.out.println("copyright 2021");    
+        System.out.println("Copyright 2021");    
         return Logo;
     }
 
@@ -78,7 +78,8 @@ public class Login{
         }else if(Username.equals("reload") || Username.equals("Reload")){
             mainBody.setNewMessage("[System]: Reloading Login Page...");
             System.out.println(mainBody.getLastMessage());
-            Setup.createProgramDir(Setup.getPath());
+            Setup.createProgramDir(Setup.getPathLetter() + Setup.getBaseDir());
+            loginPage();
         }else if(Username.equals("Restart") || Username.equals("restart")){
             mainBody.setNewMessage("[System]: Restarting Application..."); 
             System.out.println(mainBody.getLastMessage()); 

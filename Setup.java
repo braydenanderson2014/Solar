@@ -8,8 +8,10 @@ import java.io.*;
  */
 public class Setup{ 
     private static String path = "Null";
+    private static String PATHLETTER = "C:";
+    private static String baseDir = "";
     private static String oldPath;
-    private static String defaultPath = "\\ThingsRememberedSLC\\Solar";
+    public static String defaultPath = "\\ThingsRememberedSLC\\Solar";
     private static String Version;
     public static int i = 5;
     private static ArrayList <String> dirPath = new ArrayList <String>(); 
@@ -28,7 +30,20 @@ public class Setup{
             createProgramDir(path);
         }
     }
-
+    public static boolean setBaseDir(String _baseDir){
+        baseDir = _baseDir;
+        return true;
+    }
+    public static String getBaseDir(){
+        return baseDir;
+    }
+    public static boolean setPathLetter(String _pathLetter){
+        PATHLETTER = _pathLetter + ":";
+        return true;
+    }
+    public static String getPathLetter(){
+        return PATHLETTER;
+    }
     /**
      * Method getVersion
      *
@@ -151,7 +166,12 @@ public class Setup{
         int size;
         dirPath.clear();
         String pathLetter =  customScanner.nextLine();
+        String tempPath;
         while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
+            //here
+            tempPath = completeManualDir(pathLetter + ":");
+            mainBody.setNewMessage("[System]: Current Path Defined as: " + tempPath);
+            System.out.println(mainBody.getLastMessage());
             extraPath =  customScanner.nextLine();  
             if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                 dirPath.clear();
@@ -165,28 +185,36 @@ public class Setup{
                 mainBody.setNewMessage("[System]: User Completed Program Directory Path");
                 System.out.println(mainBody.getLastMessage());
                 Path = completeManualDir(pathLetter + ":");
+                oldPath = getPath();
+                setOldPath(oldPath);
                 setPath(Path);
                 System.out.println("Would you like to move all data from previous stored location to selected Path? \"Y/N\"");
                 String answer = customScanner.nextLine().toLowerCase();
                 if(answer.equals("y") || answer.equals("yes")){
                     File oldFile = new File(oldPath).getAbsoluteFile();
+                    File newPath = new File(Path).getAbsoluteFile();
                     if(!oldFile.exists()){
-                        mainBody.setNewMessage("[Warning]: The old Path does not exist!");
+                        mainBody.setNewMessage("[Warning]: The old Path does not Exist!");
+                        return Path;
                     }
-                    File newFile = new File(Path).getAbsoluteFile();
-                    if(!newFile.exists()){
-                        newFile.mkdirs();
+                    if(!newPath.exists()){
+                        mainBody.setNewMessage("[Warning]: The New Path does not Exist!");
+                        newPath.mkdirs();
                     }
+                    createProgramDir(Path);
+                    
+                    
                     System.out.println(oldPath);
                     System.out.println(Path);
                     // try{
-                    boolean success = generateFileList.fileList(oldPath, Path);//CopyFilesRecursively.moveFiles(oldPath, Path);generateFileList.fileList(oldPath, Path);//CopyFilesRecursively.moveFiles(oldPath, Path);
-                    if(success == true){
+                    boolean fileList = generateFileList.fileList(oldPath, Path);//CopyFilesRecursively.moveFiles(oldPath, Path);generateFileList.fileList(oldPath, Path);//CopyFilesRecursively.moveFiles(oldPath, Path);
+                    if(fileList == true){
                         mainBody.setNewMessage("[System]: Successfully transfered Files");
                     }else{
-                        mainBody.setNewMessage("[System ERROR]: Failed to Transfer Files");
+                        mainBody.setNewMessage("[Warning]: Failed to Transfer Files");
                         setPath(oldPath);
                         Path = oldPath;
+                        Login.loginPage();
                     }
                     // }catch(IOException e){
                     // mainBody.setNewMessage("[System ERROR]: " + e.toString());
@@ -286,7 +314,7 @@ public class Setup{
      */
     public static void autoSearchForDir() {// auto searches for a usable directory, then passes the directory to testDir
         // to see if it exists.
-        String pathLetter;
+        String pathLetter=  "A";
         mainBody.setNewMessage("[System]: Searching for a directory");
         for (int i = 1; i < 26; i++) {
             switch (i) {
@@ -338,6 +366,8 @@ public class Setup{
                         }else if(extraPath.equals("done") || extraPath.equals("Done")){
                             mainBody.setNewMessage("[System]: User Completed Program Directory Path");
                             System.out.println(mainBody.getLastMessage());
+                            String temporaryPath = completeManualDir("");
+                            setBaseDir(temporaryPath);
                             String Path = completeManualDir("C:");
                             createProgramDir(Path);
                             Login.loginPage();
@@ -502,7 +532,8 @@ public class Setup{
             System.out.println(mainBody.getLastMessage());
             mainBody.setNewMessage("[System]: Successfully found Directory");
             System.out.println(mainBody.getLastMessage());
-            String path = pathLetter + ":";
+            String path = pathLetter;
+            setPathLetter(path);
             createProgramDir(path);
             Login.loginPage();
             return success; 
