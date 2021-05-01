@@ -292,6 +292,7 @@ public class Setup{
             }
             break;
             case "ret":
+            mainBody.setNewMessage("[System]: Welcome to Solar, Version: "+ getVersion());
             mainBody.mainMenu();
             break;
             default:
@@ -388,8 +389,23 @@ public class Setup{
                 break;
                 case 4:
                 pathLetter = "D";
-                mainBody.setNewMessage("[System ERROR]: Skipping D: drive... D: is Recovery");        
+                mainBody.setNewMessage("[Warning]: Drive \"D\" is usally used as a recovery drive");
                 System.out.println(mainBody.getLastMessage());
+                mainBody.setNewMessage("[System]: Would you like to use drive \" D \" for Installation");        
+                System.out.println(mainBody.getLastMessage());
+                mainBody.setNewMessage("[System]: Y/N?");
+                System.out.println(mainBody.getLastMessage());
+                mainBody.setNewMessage("[Warning]: Setup Halted, Awaiting User Response");
+                System.out.println(mainBody.getLastMessage());
+                String option2 = customScanner.nextLine();
+                option2.toLowerCase();
+                if(option2.equals("yes") || option2.equals("y")){
+                    pathLetter = "D";
+                    testDirBasic(pathLetter);
+                }else{
+                    mainBody.setNewMessage("[System]: Skipping drive \"D\" ");
+                    System.out.println(mainBody.getLastMessage());
+                }
                 break;
                 case 5:
                 pathLetter = "E";
@@ -532,7 +548,7 @@ public class Setup{
             System.out.println(mainBody.getLastMessage());
             mainBody.setNewMessage("[System]: Successfully found Directory");
             System.out.println(mainBody.getLastMessage());
-            String path = pathLetter;
+            String path = pathLetter + ":";
             setPathLetter(path);
             createProgramDir(path);
             Login.loginPage();
@@ -688,23 +704,6 @@ public class Setup{
                     setVersion(x);
                 }
                 mainBody.setNewMessage("[System]: Version set");
-                System.out.println(mainBody.getLastMessage());
-            }
-            path = getPath() + "\\Bug Reports/";
-            file = new File(path);
-            if(!file.exists()){
-                try{
-                    file.mkdir();
-                    mainBody.setNewMessage("[System]: " + path + " was successfully created");
-                    System.out.println(mainBody.getLastMessage());
-                }catch(Exception e){
-                    mainBody.setNewMessage("[Warning]: Failed to Create Directory at: " + path);
-                    System.out.println(mainBody.getLastMessage());
-                    e.printStackTrace();
-                    System.out.println(e);
-                }
-            }else{
-                mainBody.setNewMessage("[Warning]: " + path + " already exists");
                 System.out.println(mainBody.getLastMessage());
             }
             path = getPath();

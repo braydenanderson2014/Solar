@@ -317,7 +317,6 @@ public class mainBody{
         for(int i = 0; i < changeLog.size(); i++){
             System.out.println("[*] " + changeLog.get(i));
         }
-        System.out.println("[System]: Press Enter to Continue");
         String Enter = customScanner.nextLine();
         setNewMessage("[System]: User pressed: " + Enter);
         return "Success";
@@ -448,7 +447,22 @@ public class mainBody{
         for(int i = 0; i < Messages.size(); i++){
             System.out.println("[*] " + Messages.get(i));
         }
-        return "hello";
+        System.out.println("[SAV]: Save Changelog");
+        System.out.println("[CLS]: Clear Changelog");
+        System.out.println("[RET]: Return to Home");
+        String Enter = customScanner.nextLine();
+        if(Enter.equals("sav") || Enter.equals("SAV")){
+            setNewMessage("[Warning]: This Feature is not yet available");
+            return "Flagged";
+        }else if(Enter.equals("CLS") || Enter.equals("cls")){
+            Messages.clear();
+            return "Cleared";
+        }else if(Enter.equals("RET") || Enter.equals("ret")){
+            return "Return";
+        }else{
+            setNewMessage("[Warning]: Invalid option");
+            return "Invalid";
+        }
     }
     //admin region
     /**

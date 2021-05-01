@@ -1,4 +1,3 @@
-
 import java.util.*;
 //import java.math.*;
 import java.text.*;
@@ -19,7 +18,7 @@ public class POS{
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
     private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
-    private static double origSubTotal;//original Subtotal Before Discount
+    private static double origSubtotal;//original Subtotal Before Discount
     private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
     /**
      * POS Constructor
@@ -51,13 +50,13 @@ public class POS{
         System.out.println();
         double savings = 0; //reset savings amount fo recalculation
         Subtotal = 0; //reset Subtotal amount
-        origSubTotal = 0; //reset origSubTotal amount
+        origSubtotal = 0; //reset origSubtotal amount
         for(int j = 0; j < invoiceSavings.size(); j++){
             savings = savings + invoiceSavings.get(j);
         }
         for(int i = 0; i < pricesForInvoice.size(); i++){
             Subtotal = Subtotal + pricesForInvoice.get(i);
-            origSubTotal = origSubTotal + pricesForInvoice.get(i);
+            origSubtotal = origSubtotal + pricesForInvoice.get(i);
         }
         //Subtotal = Subtotal - savings;
         if(Subtotal == 0){
@@ -69,7 +68,7 @@ public class POS{
         }
         double tempSavingsHolder = 0;
         if(invoiceSavings.size() > 0){
-            for(int i = 0; i<invoiceSavings.size(); i++){
+            for(int i = 0; i < invoiceSavings.size(); i++){
                 tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);//Temporaily holds the savings amount
             }
             if(tempSavingsHolder > 0){
@@ -83,84 +82,117 @@ public class POS{
             System.out.println(mainBody.getLastMessage());
         }
         String option = customScanner.nextLine().toLowerCase();
-        if(option.equals("ret")){
-            mainBody.mainMenu();        
-        }else if(option.equals("cat")){
-            //categories
-            categories();
-        }else if(option.equals("man")){
-            //manual entry
-            manualEntry();
-        }else if(option.equals("app")){
-            //apply coupon
-            if(Subtotal == 0){
-                mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be 0$");
-                POSMenu();
-            }else if(Subtotal < 0){
-                mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be negative");
-                POSMenu();
-            }else{
-                addDiscount();            
-                POSMenu();
-            }
-        }else if(option.equals("rit") && user.equals("test") || user.equals("admin")){
-            //return items
-            mainBody.setNewMessage("[System]: This Feature is not yet Available");
-            POSMenu();
-        }else if(option.equals("vii")){
-            int num = 1;
-            if(itemOnInvoice.size() > 0){
-                System.out.println("Items On Invoice:");
-                System.out.println("========================================");
-                for(int i = 0; i < itemOnInvoice.size(); i++){
-                    System.out.println(num + " " + itemOnInvoice.get(i));
-                    num++;
+        switch (option) {
+            case "ret":
+                mainBody.mainMenu();  
+            break;
+            case "cat":
+                categories();
+            break;
+            case "man":
+                manualEntry();
+            break;
+            case "app":
+                if(Subtotal == 0){
+                    mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be 0$");
+                    POSMenu();
+                }else if(Subtotal < 0){
+                    mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be negative");
+                    POSMenu();
+                }else{
+                    addDiscount();            
+                    POSMenu();
                 }
-            }else{
-                mainBody.setNewMessage("[System]: No Items On Invoice");   
+            break;
+            case "rit":
+                if(!user.equals("test") || !user.equals("admin")){
+                    mainBody.setNewMessage("[System]: This is an Administrative Feature, Please check your Permissions");
+                    POSMenu();
+                }else{
+                    mainBody.setNewMessage("[System]: This Feature is not yet Available");
+                    POSMenu();
+                }
+            break;
+            case "vii":
+                int num = 1;
+                if(itemOnInvoice.size() > 0){
+                    System.out.println("Items On Invoice:");
+                    System.out.println("========================================");
+                    for(int i = 0; i < itemOnInvoice.size(); i++){
+                        System.out.println(num + " " + itemOnInvoice.get(i));
+                        num++;
+                    }
+                }else{
+                    mainBody.setNewMessage("[System]: No Items On Invoice");   
+                    System.out.println(mainBody.getLastMessage());
+                }
+                mainBody.setNewMessage("[System]: Press Enter to Continue");
+                String Enter = customScanner.nextLine();
+                mainBody.setNewMessage("[System]: User Pressed: " + Enter);
+                int last = mainBody.getLastMessageNum();
+                mainBody.removeLastMessage(last);
+                POSMenu();
+            break;
+            case "sil":
+                mainBody.setNewMessage("[System]: This Feature is not yet Available");
+                POSMenu();
+            break;
+            case "cls":
+                mainBody.setNewMessage("[System]: Are You Sure you want To Clear Sales Data?");
                 System.out.println(mainBody.getLastMessage());
-            }
-            mainBody.setNewMessage("[System]: Press Enter to Continue");
-            String Enter = customScanner.nextLine();
-            mainBody.setNewMessage("[System]: User Pressed: " + Enter);
-            int last = mainBody.getLastMessageNum();
-            mainBody.removeLastMessage(last);
-            POSMenu();
-        }else if(option.equals("sil")){
-            //save invoice for later (Learn XML or JSON)
-            mainBody.setNewMessage("[System]: This Feature is not yet Available");
-            POSMenu();
-        }else if(option.equals("cls")){
-            // clear sales data
-            mainBody.setNewMessage("[System]: Are You Sure you want To Clear Sales Data?");
-            System.out.println(mainBody.getLastMessage());
-            String answer = customScanner.nextLine().toLowerCase();
-            if(answer.equals("y") || answer.equals("yes")){
-                pricesForInvoice.clear();
-                itemOnInvoice.clear();
-                invoiceSavings.clear();
-                Savings = 0;
-                mainBody.setNewMessage("[System]: Sales Data Cleared");
+                String answer = customScanner.nextLine().toLowerCase();
+                if(answer.equals("y") || answer.equals("yes")){
+                    pricesForInvoice.clear();
+                    itemOnInvoice.clear();
+                    invoiceSavings.clear();
+                    Savings = 0;
+                    mainBody.setNewMessage("[System]: Sales Data Cleared");
+                    POSMenu();
+                }else if(answer.equals("n") || answer.equals("no")){
+                    mainBody.setNewMessage("[System]: No Sales Data Cleared");
+                    POSMenu();
+                }else{
+                    mainBody.setNewMessage("[System]: Invalid Option");
+                    POSMenu();
+                }
+            case "tot":
+                mainBody.setNewMessage("[System]: Calculating Total...");
+                Total();
+            default:
+                mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
                 POSMenu();
-            }else if(answer.equals("n") || answer.equals("no")){
-                mainBody.setNewMessage("[System]: No Sales Data Cleared");
-                POSMenu();
-            }else{
-                mainBody.setNewMessage("[System]: Invalid Option");
-                POSMenu();
-            }
-        }else if(option.equals("tot")){
-            //Total
-            Total();
-        }else{
-            mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper permissions");
-            POSMenu();
+            break;
         }
     }
     public static void Total(){
         double total = 0;
         double taxP = Setup.getTax();//Tax Percentage
         double taxD = Setup.getTax()/100;//Tax as a Decimal
+        if(Subtotal < 0){
+            mainBody.setNewMessage("[Warning]: Total Cannot be Negative");
+            POSMenu();
+        }else if(Subtotal == 0){
+            mainBody.setNewMessage("[Warning]: Total is 0$, Would you like to process Invoice or Cancel?");
+            System.out.println(mainBody.getLastMessage());
+            System.out.println("1. [PRO]: Process Invoice");
+            System.out.println("2. [CAN]: Cancel");
+            System.out.println("Selection: ");
+            String selection = customScanner.nextLine();
+            selection.toLowerCase();
+            if(selection.equals("1") || selection.equals("pro")){
+                //create invoice
+                mainBody.setNewMessage("[System]: This Feature is not Yet Available...");
+                POSMenu();
+            }else if(selection.equals("can") || selection.equals("2")){
+                mainBody.setNewMessage("[System]: User Cancelled Payment");
+                POSMenu();
+            }else{
+                mainBody.setNewMessage("[Warning]: Invalid option selected...");
+                POSMenu();
+            }
+        }
+        System.out.println("Items On Invoice:");
+        System.out.println("========================================");
         for(int i = 0; i < itemOnInvoice.size(); i++){
             System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
             total = total + pricesForInvoice.get(i);//Temporary Subtotal Calc
@@ -173,7 +205,68 @@ public class POS{
         System.out.println("Total: " + df.format(total) + "$");//Display total
         itemOnInvoice.clear();//Clear items on invoice
         pricesForInvoice.clear();//Clear Prices on Invoice
-        POSMenu();
+        System.out.println("Method of Payment:");        
+        System.out.println("1. Cash");
+        System.out.println("2. Card");
+        System.out.println("3. Check");
+        String option = customScanner.nextLine();
+        option.toLowerCase();
+        if(option.equals("1") || option.equals("cash")){
+            System.out.println("Cash Amount: ");
+            double cashT = 0; // Tendered Cash
+            double Total = 0;
+            double change = 0;//change amount
+            double cashP = scan.nextDouble();//amount to tender
+            Total = total;
+            for(double i = cashT; i < total; i++){
+                i--;
+                cashT = cashT + cashP;
+                Total = Total - cashP;
+                cashP = 0;
+                if(cashT >= total){
+                    mainBody.setNewMessage("[System]: Calculating Change...");
+                    System.out.println(mainBody.getLastMessage());
+                    change = total - cashT;
+                    change = change * (-1);
+                    break;
+                }else{
+                    if(cashT >= total){
+                        mainBody.setNewMessage("[Warning]: An Issue has Occured, Please Input \"0.00\" to Continue");
+                        System.out.println(mainBody.getLastMessage());
+                    }
+                    cashP = 0;
+                    mainBody.setNewMessage("[System]: Amount Tendered is not equals or greater than total amount");
+                    System.out.println(mainBody.getLastMessage());
+                    mainBody.setNewMessage("[System]: Total $:" + df.format(Total));
+                    System.out.println(mainBody.getLastMessage());
+                    System.out.println("Amount to Tender: ");
+                    cashP = scan.nextDouble();
+                    //try using a real scanner instead of a custom scanner
+                }
+                i = cashT;
+            }
+            mainBody.setNewMessage("[System]: Change due: $" + df.format(change));
+            System.out.println(mainBody.getLastMessage());
+            POSMenu();
+        }else if(option.equals("2") || option.equals("card")){
+            System.out.println("Amount to charge: ");
+            double chargeA = scan.nextDouble();// charge Amount
+            if(chargeA < total){
+                mainBody.setNewMessage("[System]: Amount Charged is Less Than the Total Amount");
+                System.out.println(mainBody.getLastMessage());
+                mainBody.setNewMessage("[System]: How would you like to pay for the remaining amount?");
+                System.out.println(mainBody.getLastMessage());
+                System.out.println("[CAS]: Cash");
+                System.out.println("[CAR]: Card");
+                System.out.println("[CHE]: Check");
+                System.out.println("[CAN]: Cancel Payment");
+                String choice = customScanner.nextLine();
+            }else{
+
+            }
+        }else if(option.equals("3") || option.equals("check")){
+
+        }
     }
     /**
      * Method categories
@@ -193,6 +286,17 @@ public class POS{
         System.out.println("[RET]: Return");
         System.out.println();
         System.out.println("Console: ");
+        Subtotal = 0; 
+        for(int i = 0; i < pricesForInvoice.size(); i++){
+            Subtotal = Subtotal + pricesForInvoice.get(i);
+        }
+        if(Subtotal == 0){
+            System.out.println("Subtotal: $" + df.format(0.00));
+        }else if(Subtotal > 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }else if(Subtotal < 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }
         int messageSize = mainBody.getMessageSize();
         if(messageSize > 0){
             messageSize --;
@@ -210,9 +314,20 @@ public class POS{
             System.out.println("[BLE]: Blender");
             System.out.println("[MIX]: Mixer");
             System.out.println("[RET]: Return to Menu");
+            Subtotal = 0; 
+            for(int i = 0; i < pricesForInvoice.size(); i++){
+                Subtotal = Subtotal + pricesForInvoice.get(i);
+            }
+            if(Subtotal == 0){
+                System.out.println("Subtotal: $" + df.format(0.00));
+            }else if(Subtotal > 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }else if(Subtotal < 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }
             String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
-                categories();
+                 categories();
             }else if(option2.equals("fri")){
                 System.out.println("Price: ");
                 double Price = scan.nextDouble();
@@ -260,6 +375,17 @@ public class POS{
             System.out.println("[HAR]: Hardware");
             System.out.println("[SOF]: Software");
             System.out.println("[RET]: Return to Menu");
+            Subtotal = 0; 
+            for(int i = 0; i < pricesForInvoice.size(); i++){
+                Subtotal = Subtotal + pricesForInvoice.get(i);
+            }
+            if(Subtotal == 0){
+                System.out.println("Subtotal: $" + df.format(0.00));
+            }else if(Subtotal > 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }else if(Subtotal < 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }
             String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
@@ -269,6 +395,17 @@ public class POS{
                 System.out.println("[GAM]: Gaming Laptops");
                 System.out.println("[NOR]: Normal Laptops");
                 System.out.println("[RET]: Return to Menu");
+                Subtotal = 0; 
+                for(int i = 0; i < pricesForInvoice.size(); i++){
+                    Subtotal = Subtotal + pricesForInvoice.get(i);
+                }
+                if(Subtotal == 0){
+                    System.out.println("Subtotal: $" + df.format(0.00));
+                }else if(Subtotal > 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }else if(Subtotal < 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }
                 String option3 = customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();   
@@ -292,6 +429,17 @@ public class POS{
                 System.out.println("[GAM]: Gaming Desktop");
                 System.out.println("[NOR]: Normal Desktop");
                 System.out.println("[RET]: Return to Menu");
+                Subtotal = 0; 
+                for(int i = 0; i < pricesForInvoice.size(); i++){
+                    Subtotal = Subtotal + pricesForInvoice.get(i);
+                }
+                if(Subtotal == 0){
+                    System.out.println("Subtotal: $" + df.format(0.00));
+                }else if(Subtotal > 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }else if(Subtotal < 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }
                 String option3 = customScanner.nextLine();
                 if(option3.equals("ret")){
                     categories();   
@@ -334,6 +482,17 @@ public class POS{
                 System.out.println("[MOU]: Mouse");
                 System.out.println("[KEY]: Keyboard");
                 System.out.println("[RET]: Return");
+                Subtotal = 0; 
+                for(int i = 0; i < pricesForInvoice.size(); i++){
+                    Subtotal = Subtotal + pricesForInvoice.get(i);
+                }
+                if(Subtotal == 0){
+                    System.out.println("Subtotal: $" + df.format(0.00));
+                }else if(Subtotal > 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }else if(Subtotal < 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }
                 String option3 = customScanner.nextLine().toLowerCase();
                 if(option3.equals("ret")){                                      
                     mainBody.setNewMessage("[System]: User Canceled Category Selection");
@@ -399,6 +558,17 @@ public class POS{
                 }
             }else if(option2.equals("sof")){
                 System.out.println("[RET]: Return");
+                Subtotal = 0; 
+                for(int i = 0; i < pricesForInvoice.size(); i++){
+                    Subtotal = Subtotal + pricesForInvoice.get(i);
+                }
+                if(Subtotal == 0){
+                    System.out.println("Subtotal: $" + df.format(0.00));
+                }else if(Subtotal > 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }else if(Subtotal < 0){
+                    System.out.println("Subtotal: $" + df.format(Subtotal));
+                }
                 System.out.println("Name of Program: ");
                 String name = customScanner.nextLine();
                 if(name.equals("ret") || name.equals("RET")){
@@ -419,6 +589,17 @@ public class POS{
             System.out.println("[TAB]: Tables");
             System.out.println("[BEN]: Benches");
             System.out.println("[RET]: Return to Menu");
+            Subtotal = 0; 
+            for(int i = 0; i < pricesForInvoice.size(); i++){
+                Subtotal = Subtotal + pricesForInvoice.get(i);
+            }
+            if(Subtotal == 0){
+                System.out.println("Subtotal: $" + df.format(0.00));
+            }else if(Subtotal > 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }else if(Subtotal < 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }
             String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
@@ -451,6 +632,17 @@ public class POS{
             System.out.println("[KNI]: Knick Knacks");
             System.out.println("[STU]: Stuffed Animals");
             System.out.println("[RET]: Return to Menu");
+            Subtotal = 0; 
+            for(int i = 0; i < pricesForInvoice.size(); i++){
+                Subtotal = Subtotal + pricesForInvoice.get(i);
+            }
+            if(Subtotal == 0){
+                System.out.println("Subtotal: $" + df.format(0.00));
+            }else if(Subtotal > 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }else if(Subtotal < 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }
             String option2 = customScanner.nextLine().toLowerCase();
             if(option2.equals("ret")){
                 categories();
@@ -479,6 +671,17 @@ public class POS{
             System.out.println("[CUT]: Cutting Board");
             System.out.println("[SIL]: Silverware");
             System.out.println("[RET]: Return to Menu");
+            Subtotal = 0; 
+            for(int i = 0; i < pricesForInvoice.size(); i++){
+                Subtotal = Subtotal + pricesForInvoice.get(i);
+            }
+            if(Subtotal == 0){
+                System.out.println("Subtotal: $" + df.format(0.00));
+            }else if(Subtotal > 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }else if(Subtotal < 0){
+                System.out.println("Subtotal: $" + df.format(Subtotal));
+            }
             String option2 = customScanner.nextLine();
             if(option2.equals("ret")){
                 categories();
@@ -521,6 +724,17 @@ public class POS{
      */
     private static void manualEntry(){
         System.out.println("Type \"[CAT]\" to go to Categories");
+        Subtotal = 0; 
+        for(int i = 0; i < pricesForInvoice.size(); i++){
+            Subtotal = Subtotal + pricesForInvoice.get(i);
+        }
+        if(Subtotal == 0){
+            System.out.println("Subtotal: $" + df.format(0.00));
+        }else if(Subtotal > 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }else if(Subtotal < 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }
         System.out.println("Manual Entry: ");
         String manualEntry = customScanner.nextLine();
         if(manualEntry.equals("cat")){
