@@ -20,6 +20,9 @@ public class POS{
     private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
     private static double origSubtotal;//original Subtotal Before Discount
     private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
+    private static double amountT = 0;//All Payments made
+    private static double Total = 0; // Global total
+    private static double origTotal = 0;//Place Holder of original Total (Incase of payment Cancellation)
     /**
      * POS Constructor
      *
@@ -197,77 +200,64 @@ public class POS{
             System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
             total = total + pricesForInvoice.get(i);//Temporary Subtotal Calc
         }
+        System.out.println();
         System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
         System.out.println("Discounts: " + df.format(Savings) + "$");//Discounts 
         System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(total * taxD) + "$");//Tax Percentage and then the $ Amount of tax
         total = total * taxD; //Dollar amount of tax Calculated
         total = total + Subtotal;//Total amount
-        System.out.println("Total: " + df.format(total) + "$");//Display total
-        itemOnInvoice.clear();//Clear items on invoice
-        pricesForInvoice.clear();//Clear Prices on Invoice
+        origTotal = total;
+        Payment(origTotal);
+    }
+    public static void Payment(double pTotal){
+        //pTotal is just the total(Payment Total)
+        System.out.println("Total: " + df.format(pTotal) + "$");//Display total
         System.out.println("Method of Payment:");        
-        System.out.println("1. Cash");
-        System.out.println("2. Card");
-        System.out.println("3. Check");
+        System.out.println("[CAS]: Cash");
+        System.out.println("[CAR]: Card");
+        System.out.println("[CHE]: Check"); 
+        System.out.println("[CAN]: Cancel");
         String option = customScanner.nextLine();
         option.toLowerCase();
-        if(option.equals("1") || option.equals("cash")){
-            System.out.println("Cash Amount: ");
-            double cashT = 0; // Tendered Cash
-            double Total = 0;
-            double change = 0;//change amount
-            double cashP = scan.nextDouble();//amount to tender
-            Total = total;
-            for(double i = cashT; i < total; i++){
-                i--;
-                cashT = cashT + cashP;
-                Total = Total - cashP;
-                cashP = 0;
-                if(cashT >= total){
-                    mainBody.setNewMessage("[System]: Calculating Change...");
-                    System.out.println(mainBody.getLastMessage());
-                    change = total - cashT;
-                    change = change * (-1);
-                    break;
-                }else{
-                    if(cashT >= total){
-                        mainBody.setNewMessage("[Warning]: An Issue has Occured, Please Input \"0.00\" to Continue");
-                        System.out.println(mainBody.getLastMessage());
-                    }
-                    cashP = 0;
-                    mainBody.setNewMessage("[System]: Amount Tendered is not equals or greater than total amount");
-                    System.out.println(mainBody.getLastMessage());
-                    mainBody.setNewMessage("[System]: Total $:" + df.format(Total));
-                    System.out.println(mainBody.getLastMessage());
-                    System.out.println("Amount to Tender: ");
-                    cashP = scan.nextDouble();
-                    //try using a real scanner instead of a custom scanner
-                }
-                i = cashT;
-            }
-            mainBody.setNewMessage("[System]: Change due: $" + df.format(change));
-            System.out.println(mainBody.getLastMessage());
-            POSMenu();
+        if(option.equals("cas") || option.equals("cash")){
+            //cash
+            cash(pTotal, amountT);
         }else if(option.equals("2") || option.equals("card")){
-            System.out.println("Amount to charge: ");
-            double chargeA = scan.nextDouble();// charge Amount
-            if(chargeA < total){
-                mainBody.setNewMessage("[System]: Amount Charged is Less Than the Total Amount");
-                System.out.println(mainBody.getLastMessage());
-                mainBody.setNewMessage("[System]: How would you like to pay for the remaining amount?");
-                System.out.println(mainBody.getLastMessage());
-                System.out.println("[CAS]: Cash");
-                System.out.println("[CAR]: Card");
-                System.out.println("[CHE]: Check");
-                System.out.println("[CAN]: Cancel Payment");
-                String choice = customScanner.nextLine();
-            }else{
-
-            }
+            mainBody.setNewMessage("[System]: This option is not Yet Available...");
+            Payment(pTotal);
         }else if(option.equals("3") || option.equals("check")){
-
+            mainBody.setNewMessage("[System]: This option is not Yet Available...");
+            Payment(pTotal);
         }
+        mainBody.setNewMessage("[System]: Generating Receipt");
+        //Generate receipt
+        POSMenu();
     }
+    public static boolean cash(double total, double cashT){
+		mainBody.setNewMessage("[System]: Remaining Total: " + df.format(total));
+        System.out.println(mainBody.getLastMessage());
+		System.out.println("Cash Amount: ");
+		double cashP = scan.nextDouble();
+		cashT = cashT + cashP;
+		if(cashP == 99999){
+			cashT = cashT - 99999;
+			amountT = amountT + cashT;
+			POS.Total = POS.Total - amountT;
+			return false;
+		}else if(cashT >= total){
+			mainBody.setNewMessage("[System]: Calculating Change ...");
+            System.out.println(mainBody.getLastMessage());
+            //Calculate Change
+			return true;
+		}else{
+            mainBody.setNewMessage("[System]: Amount Tendered is not equals or greater than total amount");
+			System.out.println(mainBody.getLastMessage());
+			POS.Total = POS.Total - cashP;
+            cashT = cashT + cashP;
+			cash(POS.Total, cashT);
+		}
+        return false;
+	}
     /**
      * Method categories
      * Categories for POS items

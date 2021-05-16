@@ -1,6 +1,8 @@
 import java.util.*;
 import java.io.*;
 import java.net.URI;
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 /**
  * Write a description of class mainBody here.
  *
@@ -10,7 +12,13 @@ import java.net.URI;
 public class mainBody{
     public static ArrayList<String> Messages = new ArrayList<String>();
     public static ArrayList<String> changeLog = new ArrayList<String>();
+    public static ArrayList<String> timeStamp = new ArrayList<String>();
     public static customScanner scan = new customScanner();
+    public static LocalDateTime myDateObj = LocalDateTime.now();
+    public static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    public static String dTime  = myDateObj.format(myFormatObj);
+    public static boolean timeSet = true;
+
 
     /**
      * mainBody Constructor
@@ -35,7 +43,18 @@ public class mainBody{
             new mainBody();
         }
     }
-
+    public static boolean setTimeSet(boolean timeOnOff){
+        timeSet = timeOnOff;
+        return timeSet;
+    }
+    public static boolean getTimeSet(){
+        return timeSet;
+    }
+    public static String getLastTime(){
+        int size = timeStamp.size();
+        size--;
+        return timeStamp.get(size);
+    }
     /**
      * Method setNewMessage
      *
@@ -45,6 +64,7 @@ public class mainBody{
     public static boolean setNewMessage(String message){
         boolean success;
         Messages.add(message);
+        timeStamp.add(" [" + dTime + "]");
         if(Messages.contains(message)){
             success = true;
             return success;
@@ -127,10 +147,16 @@ public class mainBody{
         System.out.println("[OFF]: Log off");
         System.out.println("[SWI]: Switch User");
         System.out.println("Console: ");
-        if(Messages.size() > 0){
-            int size = Messages.size();
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
             size--;
-            System.out.println(Messages.get(size)); 
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(Messages.get(size) + time); 
         }
         String selection = customScanner.nextLine().toLowerCase();
         switch(selection){

@@ -101,7 +101,7 @@ public class Setup{
         }
         return tax;
     }
-
+    
     /**
      * Method getTax
      *
@@ -250,13 +250,20 @@ public class Setup{
         if(user.equals("test") || user.equals("admin")){
             System.out.println("[CPD]: Change Program Directory");
         }
+        System.out.println("[DTI]: Display Time");
         System.out.println("[RET]: Return to Main Menu");
         System.out.println();
         System.out.println("Console: ");
         if(mainBody.Messages.size() > 0){
             int size = mainBody.Messages.size();
             size--;
-            System.out.println(mainBody.Messages.get(size)); 
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size ) + time); 
         }
         String settingsToChange = customScanner.nextLine().toLowerCase();
         switch(settingsToChange){
@@ -288,6 +295,31 @@ public class Setup{
                 Settings();
             }else{
                 mainBody.setNewMessage("[Warning]: Invalid Option: Please make sure you have the proper privelages");
+                Settings();
+            }
+            break;
+            case "dti":
+            if(mainBody.getTimeSet() == true){
+                mainBody.setTimeSet(false);
+            }else if(mainBody.getTimeSet() == false){
+                mainBody.setTimeSet(true);
+            }
+            mainBody.setNewMessage("[System]: Display Time: " + mainBody.getTimeSet());
+            String path = getPath() + "\\Settings/time.txt";
+            File file = new File(path);
+            if(file.exists()){
+                try {
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    String boolToString = Boolean.toString(mainBody.getTimeSet());
+                    bw.write(boolToString);
+                    bw.close();
+                    Settings();
+                } catch (Exception e) {
+                    //TODO: handle exception
+                }
+            }else{
+                mainBody.setNewMessage("[Warning]: Failed to Save Setting in File");
                 Settings();
             }
             break;
@@ -619,12 +651,18 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
             }
             // Settings files
-            path = Path + defaultPath + "\\Settings/path.txt";
+            path = Path + defaultPath + "\\Settings/time.txt";
             file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
                 if (file.exists()) {
                     mainBody.setNewMessage("[System]: " + path + " was successfully created");
+                    System.out.println(mainBody.getLastMessage());
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write("true");
+                    bw.close();
+                    mainBody.setNewMessage("[System]: Successfully Set Setting for time");
                     System.out.println(mainBody.getLastMessage());
                 } else {
                     mainBody.setNewMessage("[Warning]: Failed to create directory at " + path);
@@ -634,12 +672,37 @@ public class Setup{
                 mainBody.setNewMessage("[System]: " + path + " was successfully created");
                 System.out.println(mainBody.getLastMessage());
             }
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(Path + defaultPath);
-            bw.close();
-            mainBody.setNewMessage("[Notification]: Path written to file successfully");
-            System.out.println(mainBody.getLastMessage());
+            boolean timeSet;
+            BufferedReader in = new BufferedReader(new FileReader(new File(path)));
+            int line = 0;
+            for(String x= in.readLine(); x != null; x= in.readLine()){
+                line++;
+                mainBody.setNewMessage("[System]: Reading in Time Setting on Line: " + line);
+                timeSet = Boolean.parseBoolean(x);
+                mainBody.setTimeSet(timeSet);
+            }
+            in.close();
+            path = Path + defaultPath + "\\Settings/path.txt";
+            file = new File(path);
+            if (!file.exists()) {
+                file.createNewFile();
+                if (file.exists()) {
+                    mainBody.setNewMessage("[System]: " + path + " was successfully created");
+                    System.out.println(mainBody.getLastMessage());
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(Path + defaultPath);
+                    bw.close();
+                    mainBody.setNewMessage("[Notification]: Path written to file successfully");
+                    System.out.println(mainBody.getLastMessage());
+                } else {
+                    mainBody.setNewMessage("[Warning]: Failed to create directory at " + path);
+                    System.out.println(mainBody.getLastMessage());
+                }
+            } else {
+                mainBody.setNewMessage("[System]: " + path + " was successfully created");
+                System.out.println(mainBody.getLastMessage());
+            }
             path = Path + defaultPath + "\\Settings/" + "taxValue.txt";
             file = new File(path);
             if(!file.exists()){
@@ -647,8 +710,8 @@ public class Setup{
                 if (file.exists()) {
                     mainBody.setNewMessage("[System]: " + path + " was successfully created");
                     System.out.println(mainBody.getLastMessage());
-                    fw = new FileWriter(file.getAbsoluteFile());
-                    bw = new BufferedWriter(fw);
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
                     bw.write("7.56");
                     bw.close();
                     mainBody.setNewMessage("[System]: Successfully Wrote Default Tax Value");
@@ -661,8 +724,8 @@ public class Setup{
                 mainBody.setNewMessage("[System]: Tax File Already Exists, Reading from file...");
                 System.out.println(mainBody.getLastMessage());
             }
-            BufferedReader in = new BufferedReader(new FileReader(new File(path)));
-            int line = 0;
+            in = new BufferedReader(new FileReader(new File(path)));
+            line = 0;
             for(String x= in.readLine(); x != null; x= in.readLine()){
                 line++;
                 mainBody.setNewMessage("[System]: Converting Tax from a String to a double, Line: " + line);
@@ -680,8 +743,8 @@ public class Setup{
                     mainBody.setNewMessage("[System]: Version File Created, Applying Default Version...");
                     System.out.println(mainBody.getLastMessage());
                     String Version = "ALPHA TEST";
-                    fw = new FileWriter(file.getAbsoluteFile());
-                    bw = new BufferedWriter(fw);
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
                     bw.write(Version);
                     bw.close();
                     mainBody.setNewMessage("[System]: " + Version + " Written to File");
@@ -740,16 +803,17 @@ public class Setup{
                 if (file.exists()) {
                     mainBody.setNewMessage("[System]: " + path + " was successfully created");
                     System.out.println(mainBody.getLastMessage());
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write("adminPassword");
+                    bw.close();
+                    mainBody.setNewMessage("[Notification]: Admin Password written to file successfully");
+                    System.out.println(mainBody.getLastMessage());
                 } else {
                     mainBody.setNewMessage("[Warning]: Failed to create directory at " + path);
                     System.out.println(mainBody.getLastMessage());
                 }
-                fw = new FileWriter(file.getAbsoluteFile());
-                bw = new BufferedWriter(fw);
-                bw.write("adminPassword");
-                bw.close();
-                mainBody.setNewMessage("[Notification]: Password written to file successfully");
-                System.out.println(mainBody.getLastMessage());
+             
                 //next Step in process
                 Login.setUser("Null");
                 return true;
