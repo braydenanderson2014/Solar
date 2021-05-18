@@ -43,14 +43,14 @@ public class mainBody{
             new mainBody();
         }
     }
-    public static boolean setTimeSet(boolean timeOnOff){
+    public static boolean setTimeSet(boolean timeOnOff){//set time setting
         timeSet = timeOnOff;
         return timeSet;
     }
-    public static boolean getTimeSet(){
+    public static boolean getTimeSet(){//get time setting
         return timeSet;
     }
-    public static String getLastTime(){
+    public static String getLastTime(){//get last reported time for a message
         int size = timeStamp.size();
         size--;
         return timeStamp.get(size);

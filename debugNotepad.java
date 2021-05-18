@@ -70,7 +70,13 @@ public class debugNotepad
         if(mainBody.Messages.size() > 0){
             int size = mainBody.Messages.size();
             size--;
-            System.out.println(mainBody.Messages.get(size)); 
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size ) + time); 
         }
         String option = customScanner.nextLine();
         if(option.equals("cre")){

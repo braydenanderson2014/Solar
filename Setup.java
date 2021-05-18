@@ -85,7 +85,7 @@ public class Setup{
      */
     public static double setTax(double tax){
         Tax = tax;
-        String path = getPath() + "\\Settings/" + "taxValue.txt";
+        String path = getPath() + "\\Settings/" + "TaxValuetxt";
         File file = new File(path);
         try{
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -250,7 +250,7 @@ public class Setup{
         if(user.equals("test") || user.equals("admin")){
             System.out.println("[CPD]: Change Program Directory");
         }
-        System.out.println("[DTI]: Display Time");
+        System.out.println("[DTS]: Display Time Stamps");
         System.out.println("[RET]: Return to Main Menu");
         System.out.println();
         System.out.println("Console: ");
@@ -298,14 +298,14 @@ public class Setup{
                 Settings();
             }
             break;
-            case "dti":
+            case "dts":
             if(mainBody.getTimeSet() == true){
                 mainBody.setTimeSet(false);
             }else if(mainBody.getTimeSet() == false){
                 mainBody.setTimeSet(true);
             }
             mainBody.setNewMessage("[System]: Display Time: " + mainBody.getTimeSet());
-            String path = getPath() + "\\Settings/time.txt";
+            String path = getPath() + "\\Settings/DisplayTimestamp.txt";
             File file = new File(path);
             if(file.exists()){
                 try {
@@ -651,7 +651,7 @@ public class Setup{
                 System.out.println(mainBody.getLastMessage());
             }
             // Settings files
-            path = Path + defaultPath + "\\Settings/time.txt";
+            path = Path + defaultPath + "\\Settings/DisplayTimestamp.txt";
             file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
@@ -682,7 +682,7 @@ public class Setup{
                 mainBody.setTimeSet(timeSet);
             }
             in.close();
-            path = Path + defaultPath + "\\Settings/path.txt";
+            path = Path + defaultPath + "\\Settings/ProgramDirectory.txt";
             file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
@@ -703,7 +703,7 @@ public class Setup{
                 mainBody.setNewMessage("[System]: " + path + " was successfully created");
                 System.out.println(mainBody.getLastMessage());
             }
-            path = Path + defaultPath + "\\Settings/" + "taxValue.txt";
+            path = Path + defaultPath + "\\Settings/" + "TaxValuetxt";
             file = new File(path);
             if(!file.exists()){
                 file.createNewFile();
