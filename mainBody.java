@@ -56,7 +56,7 @@ public class mainBody{
         return timeStamp.get(size);
     }
     /**
-     * Method setNewMessage
+     * Method setNewMessage 
      *
      * @param message message to set into systemlog
      * @return useless return value... not needed
@@ -467,14 +467,21 @@ public class mainBody{
      * @return useless value
      */
     public static String viewSystemMessages(){
+        boolean timeSet = getTimeSet();
+        System.out.println(timeSet);
         System.out.println("System Messages: ");
         System.out.println("========================================");
-        setNewMessage("[System]: Press Enter To Continue");
-        for(int i = 0; i < Messages.size(); i++){
-            System.out.println("[*] " + Messages.get(i));
+        if(timeSet == true){
+            for(int i = 0; i < Messages.size(); i++){
+                System.out.println("[*] " + timeStamp.get(i) + Messages.get(i));
+            }
+        }else if(timeSet == false){
+            for(int i = 0; i < Messages.size(); i++){
+                System.out.println("[*] " + Messages.get(i));
+            }
         }
-        System.out.println("[SAV]: Save Changelog");
-        System.out.println("[CLS]: Clear Changelog");
+        System.out.println("[SAV]: Save System Messages");
+        System.out.println("[CLS]: Clear System Messages");
         System.out.println("[RET]: Return to Home");
         String Enter = customScanner.nextLine();
         if(Enter.equals("sav") || Enter.equals("SAV")){
@@ -482,6 +489,7 @@ public class mainBody{
             return "Flagged";
         }else if(Enter.equals("CLS") || Enter.equals("cls")){
             Messages.clear();
+            timeStamp.clear();
             return "Cleared";
         }else if(Enter.equals("RET") || Enter.equals("ret")){
             return "Return";

@@ -43,8 +43,16 @@ public class Login{
         System.out.println("Version: " + Setup.getVersion());
         mainBody.setNewMessage("Welcome to Solar, Version: " + Setup.getVersion());
         System.out.println("Console: ");
-        if(mainBody.getMessageSize() > 0){
-            System.out.println(mainBody.getLastMessage());
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size ) + time); 
         }
         if(activeUsers.size()>1){
             System.out.println("Type \"Swi\" to view and switch to an active user");

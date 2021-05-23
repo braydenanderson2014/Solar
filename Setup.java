@@ -202,8 +202,6 @@ public class Setup{
                         newPath.mkdirs();
                     }
                     createProgramDir(Path);
-                    
-                    
                     System.out.println(oldPath);
                     System.out.println(Path);
                     // try{
@@ -263,7 +261,7 @@ public class Setup{
             }else{
                 time = "";
             }
-            System.out.println(mainBody.Messages.get(size ) + time); 
+            System.out.println(mainBody.Messages.get(size) + time); 
         }
         String settingsToChange = customScanner.nextLine().toLowerCase();
         switch(settingsToChange){
@@ -304,7 +302,7 @@ public class Setup{
             }else if(mainBody.getTimeSet() == false){
                 mainBody.setTimeSet(true);
             }
-            mainBody.setNewMessage("[System]: Display Time: " + mainBody.getTimeSet());
+            mainBody.setNewMessage("[System]: Display Date/Time Stamps: " + mainBody.getTimeSet());
             String path = getPath() + "\\Settings/DisplayTimestamp.txt";
             File file = new File(path);
             if(file.exists()){
@@ -316,10 +314,11 @@ public class Setup{
                     bw.close();
                     Settings();
                 } catch (Exception e) {
-                    //TODO: handle exception
+                    mainBody.setNewMessage("[Warning]: Failed to save Setting to File");
+                    Settings();
                 }
             }else{
-                mainBody.setNewMessage("[Warning]: Failed to Save Setting in File");
+                mainBody.setNewMessage("[Warning]: Failed to find Setting File");
                 Settings();
             }
             break;

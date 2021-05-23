@@ -11,8 +11,8 @@ public class POS{
     private static double Savings = 0;//$amount saved
     private static ArrayList<String> itemOnInvoice = new ArrayList<String>();//Items on Current invoice
     private static ArrayList<Double> pricesForInvoice = new ArrayList<Double>();//Prices for current invoice (in same order as itemsOnInvoice Array[])
-   // private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
-   // private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
+    // private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
+    // private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
     //private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
     private static double Subtotal;//invoice subtotal
@@ -20,9 +20,8 @@ public class POS{
     private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
     private static double origSubtotal;//original Subtotal Before Discount
     private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
-    private static double amountT = 0;//All Payments made
-    private static double Total = 0; // Global total
-    private static double origTotal = 0;//Place Holder of original Total (Incase of payment Cancellation)
+    private static double origTotal = 0;
+    private static double amountT = 0;
     /**
      * POS Constructor
      *
@@ -30,7 +29,21 @@ public class POS{
     public POS(){//new instance of POS class
         POSMenu();//goto POSMenu Function 
     }
-
+    public static String viewItemsOnInvoice(){
+        int num = 1;
+            if(itemOnInvoice.size() > 0){
+                System.out.println("Items On Invoice:");
+                System.out.println("========================================");
+                for(int i = 0; i < itemOnInvoice.size(); i++){
+                    System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
+                    num++;
+                }
+            }else{
+                mainBody.setNewMessage("[System]: No Items On Invoice");   
+                System.out.println(mainBody.getLastMessage());
+            }
+        return "";
+    }
     /**
      * Method POSMenu
      * POS Menu
@@ -79,10 +92,16 @@ public class POS{
             }
         }
         System.out.println("Console: ");
-        int messageSize = mainBody.getMessageSize();
-        if(messageSize > 0){
-            messageSize --;
-            System.out.println(mainBody.getLastMessage());
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size ) + time); 
         }
         String option = customScanner.nextLine().toLowerCase();
         switch (option) {
@@ -117,23 +136,7 @@ public class POS{
                 }
             break;
             case "vii":
-                int num = 1;
-                if(itemOnInvoice.size() > 0){
-                    System.out.println("Items On Invoice:");
-                    System.out.println("========================================");
-                    for(int i = 0; i < itemOnInvoice.size(); i++){
-                        System.out.println(num + " " + itemOnInvoice.get(i));
-                        num++;
-                    }
-                }else{
-                    mainBody.setNewMessage("[System]: No Items On Invoice");   
-                    System.out.println(mainBody.getLastMessage());
-                }
-                mainBody.setNewMessage("[System]: Press Enter to Continue");
-                String Enter = customScanner.nextLine();
-                mainBody.setNewMessage("[System]: User Pressed: " + Enter);
-                int last = mainBody.getLastMessageNum();
-                mainBody.removeLastMessage(last);
+                viewItemsOnInvoice();
                 POSMenu();
             break;
             case "sil":
@@ -166,99 +169,7 @@ public class POS{
                 POSMenu();
             break;
         }
-    }
-    public static void Total(){
-        double total = 0;
-        double taxP = Setup.getTax();//Tax Percentage
-        double taxD = Setup.getTax()/100;//Tax as a Decimal
-        if(Subtotal < 0){
-            mainBody.setNewMessage("[Warning]: Total Cannot be Negative");
-            POSMenu();
-        }else if(Subtotal == 0){
-            mainBody.setNewMessage("[Warning]: Total is 0$, Would you like to process Invoice or Cancel?");
-            System.out.println(mainBody.getLastMessage());
-            System.out.println("1. [PRO]: Process Invoice");
-            System.out.println("2. [CAN]: Cancel");
-            System.out.println("Selection: ");
-            String selection = customScanner.nextLine();
-            selection.toLowerCase();
-            if(selection.equals("1") || selection.equals("pro")){
-                //create invoice
-                mainBody.setNewMessage("[System]: This Feature is not Yet Available...");
-                POSMenu();
-            }else if(selection.equals("can") || selection.equals("2")){
-                mainBody.setNewMessage("[System]: User Cancelled Payment");
-                POSMenu();
-            }else{
-                mainBody.setNewMessage("[Warning]: Invalid option selected...");
-                POSMenu();
-            }
-        }
-        System.out.println("Items On Invoice:");
-        System.out.println("========================================");
-        for(int i = 0; i < itemOnInvoice.size(); i++){
-            System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
-            total = total + pricesForInvoice.get(i);//Temporary Subtotal Calc
-        }
-        System.out.println();
-        System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
-        System.out.println("Discounts: " + df.format(Savings) + "$");//Discounts 
-        System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(total * taxD) + "$");//Tax Percentage and then the $ Amount of tax
-        total = total * taxD; //Dollar amount of tax Calculated
-        total = total + Subtotal;//Total amount
-        origTotal = total;
-        Payment(origTotal);
-    }
-    public static void Payment(double pTotal){
-        //pTotal is just the total(Payment Total)
-        System.out.println("Total: " + df.format(pTotal) + "$");//Display total
-        System.out.println("Method of Payment:");        
-        System.out.println("[CAS]: Cash");
-        System.out.println("[CAR]: Card");
-        System.out.println("[CHE]: Check"); 
-        System.out.println("[CAN]: Cancel");
-        String option = customScanner.nextLine();
-        option.toLowerCase();
-        if(option.equals("cas") || option.equals("cash")){
-            //cash
-            cash(pTotal, amountT);
-        }else if(option.equals("2") || option.equals("card")){
-            mainBody.setNewMessage("[System]: This option is not Yet Available...");
-            Payment(pTotal);
-        }else if(option.equals("3") || option.equals("check")){
-            mainBody.setNewMessage("[System]: This option is not Yet Available...");
-            Payment(pTotal);
-        }
-        mainBody.setNewMessage("[System]: Generating Receipt");
-        //Generate receipt
-        POSMenu();
-    }
-    public static boolean cash(double total, double cashT){
-		mainBody.setNewMessage("[System]: Remaining Total: " + df.format(total));
-        System.out.println(mainBody.getLastMessage());
-		System.out.println("Cash Amount: ");
-		double cashP = scan.nextDouble();
-		cashT = cashT + cashP;
-		if(cashP == 99999){
-			cashT = cashT - 99999;
-			amountT = amountT + cashT;
-			POS.Total = POS.Total - amountT;
-			return false;
-		}else if(cashT >= total){
-			mainBody.setNewMessage("[System]: Calculating Change ...");
-            System.out.println(mainBody.getLastMessage());
-            //Calculate Change
-			return true;
-		}else{
-            mainBody.setNewMessage("[System]: Amount Tendered is not equals or greater than total amount");
-			System.out.println(mainBody.getLastMessage());
-			POS.Total = POS.Total - cashP;
-            cashT = cashT + cashP;
-			cash(POS.Total, cashT);
-		}
-        return false;
-	}
-    /**
+    }/**
      * Method categories
      * Categories for POS items
      * Menu Logic is not neccessarily in the same order as the Menu Items
@@ -287,10 +198,16 @@ public class POS{
         }else if(Subtotal < 0){
             System.out.println("Subtotal: $" + df.format(Subtotal));
         }
-        int messageSize = mainBody.getMessageSize();
-        if(messageSize > 0){
-            messageSize --;
-            System.out.println(mainBody.getLastMessage());
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size ) + time); 
         }
         String option = customScanner.nextLine().toLowerCase().trim();
         if(option.equals("ret")){
@@ -707,7 +624,146 @@ public class POS{
         }
         POSMenu();
     }
-
+    public static double setTotal(double setTotal){
+        origTotal = setTotal;
+        return origTotal;
+    }
+    public static double getTotal(){
+        return origTotal;
+    }
+    public static void Total(){
+        double total = 0;
+        double taxP = Setup.getTax();//Tax Percentage
+        double taxD = Setup.getTax()/100;//Tax as a Decimal
+        if(Subtotal < 0){
+            mainBody.setNewMessage("[Warning]: Total Cannot be Negative");
+            POSMenu();
+        }else if(Subtotal == 0){
+            mainBody.setNewMessage("[Warning]: Total is 0$, Would you like to process Invoice or Cancel?");
+            System.out.println(mainBody.getLastMessage());
+            System.out.println("1. [PRO]: Process Invoice");
+            System.out.println("2. [CAN]: Cancel");
+            System.out.println("Selection: ");
+            String selection = customScanner.nextLine();
+            selection.toLowerCase();
+            if(selection.equals("1") || selection.equals("pro")){
+                //create invoice
+                mainBody.setNewMessage("[System]: This Feature is not Yet Available...");
+                POSMenu();
+            }else if(selection.equals("can") || selection.equals("2")){
+                mainBody.setNewMessage("[System]: User Cancelled Payment");
+                POSMenu();
+            }else{
+                mainBody.setNewMessage("[Warning]: Invalid option selected...");
+                POSMenu();
+            }
+        }
+        viewItemsOnInvoice();
+        System.out.println();
+        System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
+        System.out.println("Discounts: " + df.format(Savings) + "$");//Discounts 
+        setTotal(Subtotal);
+        System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(total * taxD) + "$");//Tax Percentage and then the $ Amount of tax
+        origTotal = origTotal * taxD; //Dollar amount of tax Calculated
+        origTotal = origTotal + Subtotal;//Total amount
+        setTotal(origTotal);
+        paymentMenu();
+    }
+    public static void paymentMenu(){
+        double origTotal = getTotal();
+        double amountT = 0;
+        System.out.println("Payment Options");
+        System.out.println("========================================");
+        System.out.println("[CAS]: Cash Payment");
+        System.out.println("[CHE]: Check Payment");
+        System.out.println("[CAR]: Card Payment");
+        System.out.println("[CAN]: Cancel Payment");
+        String option = customScanner.nextLine();
+        option.toLowerCase();
+        //boolean success = updateTenderedAmount(amountT);
+        if(option.equals("cas")){
+            cashPayment();
+        }else if(option.equals("che")){
+            checkPayment();
+        }else if(option.equals("car")){
+            cardPayment();
+        }else if(option.equals("can")){
+            POSMenu();
+        }else{
+            mainBody.setNewMessage("[Warning]: Improper Selection, try again");
+            System.out.println(mainBody.getLastMessage());
+            paymentMenu();
+        }
+    }
+    public static void cashPayment(){
+        System.out.println("Cash: ");
+        System.out.println("========================================");
+        System.out.println("Type 0 to Return to Payment Menu");
+        System.out.println("Amount To Tender: ");
+        double cashP = scan.nextDouble();
+        if(cashP == 0){
+            paymentMenu();
+        }else if(cashP > 0){
+            boolean Success = updateTenderedAmount(cashP);
+            if(Success){
+                mainBody.setNewMessage("[System]: Success!");
+                System.out.println(mainBody.getLastMessage());
+            }else{
+                cashPayment();
+            }
+        }else if(cashP < 0){
+            mainBody.setNewMessage("[Warning]: Amount Cannot Be Under 0$");
+            cashPayment();
+        }
+    }
+    public static void checkPayment(){
+        System.out.println("Check: ");
+        System.out.println("========================================");
+        System.out.println("Type 0 to Return to Payment Menu");
+        double checkP = scan.nextDouble();
+        if(checkP == 0){
+            paymentMenu();
+        }else if(checkP > 0){
+            boolean Success = updateTenderedAmount(checkP);
+            if(Success){
+                mainBody.setNewMessage("[System]: Success!");
+                System.out.println(mainBody.getLastMessage());
+            }
+        }else if(checkP < 0){
+            mainBody.setNewMessage("[Warning]: Amount Cannot be Under 0$");
+            checkPayment();
+        }
+    }
+    public static void cardPayment(){
+        System.out.println("Card: ");
+        System.out.println("========================================");
+        System.out.println("Type 0 to Return to Payment Menu");
+        double cardP = scan.nextDouble();
+        if(cardP == 0){
+            paymentMenu();
+        }else if(cardP > 0){
+            boolean Success = updateTenderedAmount(cardP);
+            if(Success){
+                mainBody.setNewMessage("[System]: Success!");
+                System.out.println(mainBody.getLastMessage());
+            }
+        }else if(cardP < 0){
+            mainBody.setNewMessage("[Warning]: Amount Cannot be Under 0$");
+            checkPayment();
+        }
+    }
+    public static boolean updateTenderedAmount(double amountToT){
+        amountT = amountT + amountToT;
+        System.out.println("Amount Tendered: " + amountT);
+        double Total = getTotal();
+        if(amountT >= Total){
+            mainBody.setNewMessage("[System]: Processing Total");
+            System.out.println(mainBody.getLastMessage());
+            return true;
+        }else{
+            return false;
+        }
+    }
     /**
      * Method manualEntry
      * Manual Item input for POS
