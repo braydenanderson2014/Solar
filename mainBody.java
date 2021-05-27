@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
  * Write a description of class mainBody here.
  *
  * @author (Brayden Anderson)
- * @version (a version number or a date) 
+ * @version (Beta 1.0.1, 05/26/2021)
  */
 public class mainBody{
     public static ArrayList<String> Messages = new ArrayList<String>();
@@ -26,21 +26,48 @@ public class mainBody{
      */
     public mainBody(){
         Login.displaySolarLogo();
+        System.out.println();
         System.out.println("Welcome to Solar!");
         System.out.println("========================================");
-        System.out.println("1. Start Setup");
-        System.out.println("2. Quit Program");
+        System.out.println("1. [SS]: Start Setup");
+        System.out.println("2. [MS]: Manual Setup");
+	    System.out.println("3. [SP]: Start Program [WARNING]: Program must be installed First");
+        System.out.println("4. [QP]: Quit Program");
         System.out.println("Console: ");
-        setNewMessage("[System]: Please Start Setup to Proceed");
         System.out.println(getLastMessage());
         String selection = customScanner.nextLine();
-        if(selection.equals("1")){
+        if(selection.equals("1") || selection.equals("ss")){
             setNewMessage("[USER]: " + selection);
+            clear();
             Setup.startSetup();
-        }else if(selection.equals("2")){
+        }else if(selection.equals("2") || selection.equals("ms")){
+	        mainBody.setNewMessage("[WARNING]: This Feature is not yet Available");
+	        System.out.println(mainBody.getLastMessage());
+            clear();
+            new mainBody();
+	    }else if(selection.equals("3") || selection.equals("sp")){
+	        mainBody.setNewMessage("[WARNING]: This Feature is not yet Available");
+	        System.out.println(mainBody.getLastMessage());
+	        clear();
+            new mainBody();
+	    }else if(selection.equals("4") || selection.equals("qp")){
             System.exit(1);
         }else{
+            clear();
             new mainBody();
+        }
+    }
+    public static boolean clear(){
+        try {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else{
+                Runtime.getRuntime().exec("clear");
+            }
+            return true;
+        } catch (IOException | InterruptedException e) {
+            setNewMessage(e.toString());
+            return false;
         }
     }
     public static boolean setTimeSet(boolean timeOnOff){//set time setting
@@ -121,7 +148,9 @@ public class mainBody{
      * Main Menu
      */
     public static void mainMenu(){
+        Login.displaySolarLogo();
         String user = Login.getUser();
+        System.out.println();
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
         System.out.println("[POS]: POS Menu");
@@ -467,6 +496,8 @@ public class mainBody{
      * @return useless value
      */
     public static String viewSystemMessages(){
+        Login.displaySolarLogo();
+        System.out.println();
         boolean timeSet = getTimeSet();
         System.out.println(timeSet);
         System.out.println("System Messages: ");
@@ -565,6 +596,7 @@ public class mainBody{
      * @param args A parameter
      */
     public static void main(String[] args) {
-        new mainBody();
+        setNewMessage("[System]: Please Start Setup to Proceed");
+	new mainBody();
     }
 }

@@ -6,7 +6,7 @@ import java.io.*;
  * @author (Brayden Anderson)
  * @version (a version number or a date)
  */
-public class Setup{ 
+public class Setup{
     private static String path = "Null";
     private static String PATHLETTER = "C:";
     private static String baseDir = "";
@@ -14,7 +14,7 @@ public class Setup{
     public static String defaultPath = "\\ThingsRememberedSLC\\Solar";
     private static String Version;
     public static int i = 5;
-    private static ArrayList <String> dirPath = new ArrayList <String>(); 
+    private static ArrayList <String> dirPath = new ArrayList <String>();
     private static double Tax;
     private static customScanner scan = new customScanner();
     /**
@@ -22,6 +22,10 @@ public class Setup{
      * Starts program setup
      */
     public static void startSetup(){
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Setup:");
+        System.out.println("==========================================");
         mainBody.setNewMessage("[System]: Starting Setup!...");
         System.out.println(mainBody.getLastMessage());
         if(path.equals("Null")){
@@ -149,6 +153,8 @@ public class Setup{
      * @return The New Path or Old Path
      */
     public static String setProgramDirectory(){
+        Login.displaySolarLogo();
+        System.out.println();
         setOldPath(getPath());
         String Path = "Default";
         System.out.println("Change Program Directory");
@@ -168,6 +174,8 @@ public class Setup{
         String pathLetter =  customScanner.nextLine();
         String tempPath;
         while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
+            Login.displaySolarLogo();
+            System.out.println();
             //here
             tempPath = completeManualDir(pathLetter + ":");
             mainBody.setNewMessage("[System]: Current Path Defined as: " + tempPath);
@@ -182,6 +190,8 @@ public class Setup{
                 size--;
                 dirPath.remove(size);
             }else if(extraPath.equals("done") || extraPath.equals("Done")){
+                Login.displaySolarLogo();
+                System.out.println();
                 mainBody.setNewMessage("[System]: User Completed Program Directory Path");
                 System.out.println(mainBody.getLastMessage());
                 Path = completeManualDir(pathLetter + ":");
@@ -238,6 +248,8 @@ public class Setup{
      * Settings Menu
      */
     public static void Settings(){
+        Login.displaySolarLogo();
+        System.out.println();
         String user = Login.getUser();
         System.out.println("Settings Menu");
         System.out.println("========================================");
@@ -348,6 +360,11 @@ public class Setup{
         // to see if it exists.
         String pathLetter=  "A";
         mainBody.setNewMessage("[System]: Searching for a directory");
+        mainBody.clear();
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Program Directory:");
+        System.out.println("==========================================");
         for (int i = 1; i < 26; i++) {
             switch (i) {
                 case 1:
@@ -384,6 +401,11 @@ public class Setup{
                     int size;
                     String tempPath;
                     while(!extraPath.equals("done") || !extraPath.equals("Done")){ 
+                        mainBody.clear();
+                        Login.displaySolarLogo();
+                        System.out.println();
+                        System.out.println("Program Directory:");
+                        System.out.println("==========================================");
                         tempPath = completeManualDir("C:");
                         mainBody.setNewMessage("[System]: Current Path Defined as: " + tempPath);
                         System.out.println(mainBody.getLastMessage());
@@ -410,6 +432,8 @@ public class Setup{
                         }
                     }
                 }else if(option.equals("n")){
+                    Login.displaySolarLogo();
+                    System.out.println();
                     mainBody.setNewMessage("[System ERROR]: Skipping C: Drive");
                     System.out.println(mainBody.getLastMessage());
                 }else{
@@ -593,6 +617,8 @@ public class Setup{
      * @param Path A parameter
      */
     public static boolean createProgramDir(String Path) {
+        Login.displaySolarLogo();
+        System.out.println();
         try {
             String path;
             path = Path + defaultPath;

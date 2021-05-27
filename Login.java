@@ -18,6 +18,7 @@ public class Login{
      * @return Logo
      */
     public static String displaySolarLogo(){
+        mainBody.clear();
         String Logo = "SOLAR";
         System.out.println(" #####  ####### #          #    ######  ");
         System.out.println("#     # #     # #         # #   #     #"); 
@@ -36,8 +37,8 @@ public class Login{
      *
      */
     public static void loginPage() {
-        
         displaySolarLogo();
+        System.out.println();
         System.out.println("Welcome to Solar!");
         System.out.println("========================================");
         System.out.println("Version: " + Setup.getVersion());
@@ -131,6 +132,8 @@ public class Login{
         }
     }
     public static boolean changePass(){
+        Login.displaySolarLogo();
+        System.out.println();
         String path = Setup.getPath();
         System.out.println("ChangePass:");
         System.out.println("========================================");
@@ -215,6 +218,8 @@ public class Login{
     }
 
     public static boolean changeAdminPass(){
+        Login.displaySolarLogo();
+        System.out.println();
         String path = Setup.getPath();
         System.out.println("ChangePass:");
         System.out.println("========================================");
@@ -301,7 +306,8 @@ public class Login{
      * Controls active users, allows users to switch between other users, must use original password of account you are switching to.
      */
     public static void switchUserController(){
-        
+        Login.displaySolarLogo();
+        System.out.println();
         int allActiveUsers = activeUsers.size();
         int j =1;
         if(allActiveUsers > 1){// if the activeusers array has more than 1 value stored do this

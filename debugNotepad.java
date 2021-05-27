@@ -52,6 +52,8 @@ public class debugNotepad
      * Notepad Menu
      */
     public static void Notepad(){
+        Login.displaySolarLogo();
+        System.out.println();
         String User = Login.getUser();
         System.out.println(mainBody.getLastMessage());
         System.out.println("NOTEPAD, User: " + User);
