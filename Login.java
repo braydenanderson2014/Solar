@@ -266,10 +266,14 @@ public class Login{
         }else{
             String path = Setup.getPath();
             path = path + "\\Users/" + Username + ".txt";
-            System.out.println(path);
             File file = new File(path);
             if(!file.exists()){
                 mainBody.setNewMessage("[Warning]: Username or Password is incorrect");
+                System.out.println(mainBody.getLastMessage());
+                mainBody.setNewMessage("[System]: Press Enter To Continue");
+                System.out.println(mainBody.getLastMessage());
+                String Enter = customScanner.nextLine();
+                mainBody.setNewMessage("[System]: User Pressed: " + Enter);
                 loginPage();
             }else{
                 try{

@@ -15,7 +15,7 @@ public class customScanner
     public static Scanner getScanner(){
         return scan;
     }
-    public double nextDouble(){
+    public static double nextDouble(){
         double d = scan.nextDouble();
         return d;
     }

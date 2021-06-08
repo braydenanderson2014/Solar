@@ -17,12 +17,14 @@ public class POS{
     //private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
-    private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
+    //private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
     private static double origSubtotal;//original Subtotal Before Discount
     private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
     private static double origTotal = 0;// original Total
     private static double amountT = 0;//Amount Tendered
     private static double amountR = 0;//Amount Remaining
+    private static ArrayList<Boolean> isItemDiscounted = new ArrayList<Boolean>();
+    private static ArrayList<Double> origPrices = new ArrayList<Double>();
     /**
      * POS Constructor
      *
@@ -31,15 +33,18 @@ public class POS{
         POSMenu();//goto POSMenu Function
     }
     public static String viewItemsOnInvoice(){
-        int num = 1;
+        
             if(itemOnInvoice.size() > 0){
                 Login.displaySolarLogo();
                 System.out.println();
                 System.out.println("Items On Invoice:");
                 System.out.println("========================================");
                 for(int i = 0; i < itemOnInvoice.size(); i++){
-                    System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
-                    num++;
+                    if(isItemDiscounted.get(i) == true){
+                        System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" [Discounted] Original Price: " + origPrices.get(i) + "$ Discount Price: " + pricesForInvoice.get(i) + "$");
+                    }else{
+                        System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
+                    }
                 }
             }else{
                 mainBody.setNewMessage("[System]: No Items On Invoice");
@@ -55,7 +60,7 @@ public class POS{
         Login.displaySolarLogo();
         System.out.println("POS Menu:");
         System.out.println();
-        String user = Login.getUser(); //Get Current User Logged in
+        String user = Login.getUser(); //Get Current User Logged 
         System.out.println("Welcome: " + user);
         System.out.println("========================================");
         System.out.println("[CAT]: Categories"); //[Menu item code] item name
@@ -94,7 +99,7 @@ public class POS{
                 tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);//Temporaily holds the savings amount
             }
             if(tempSavingsHolder > 0){
-                System.out.println("Savings: $" + savings * (-1));
+                System.out.println("Savings: $" + savings);
             }
         }
         System.out.println("Console: ");
@@ -128,7 +133,8 @@ public class POS{
                     mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be negative");
                     POSMenu();
                 }else{
-                    addDiscount();
+                    //addDiscount();
+                    discountMenu();
                     POSMenu();
                 }
             break;
@@ -145,6 +151,7 @@ public class POS{
                 viewItemsOnInvoice();
                 System.out.println("Press Enter to Continue");
                 String Enter = customScanner.nextLine();
+                mainBody.setNewMessage("[System]: User Pressed: " + Enter);
                 POSMenu();
             break;
             case "sil":
@@ -256,7 +263,7 @@ public class POS{
                 System.out.println("Fridge: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Fridge", Price);
                 categories();
             }else if(option2.equals("mix")){
@@ -265,7 +272,7 @@ public class POS{
                 System.out.println("Mixer: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Mixer", Price);
                 categories();
             }else if(option2.equals("mic")){
@@ -274,7 +281,7 @@ public class POS{
                 System.out.println("Microwave: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Microwave", Price);
                 categories();
             }else if(option2.equals("dis")){
@@ -283,7 +290,7 @@ public class POS{
                 System.out.println("Dishwasher: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Dishwasher", Price);
                 categories();
             }else if(option2.equals("toa")){
@@ -292,7 +299,7 @@ public class POS{
                 System.out.println("Toaster: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Toaster", Price);
                 categories();
             }else if(option2.equals("ove")){
@@ -301,7 +308,7 @@ public class POS{
                 System.out.println("Oven, Range, Cooktop: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Oven, Range, Cooktop", Price);
                 categories();
             }else if(option2.equals("ble")){
@@ -310,7 +317,7 @@ public class POS{
                 System.out.println("Blender: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Blender", Price);
                 categories();
             }else{
@@ -374,7 +381,7 @@ public class POS{
                 System.out.println("Gaming Laptops: ");
                 System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Gaming Laptop", Price);
                     categories();
                 }else if(option3.equals("nor")){
@@ -383,7 +390,7 @@ public class POS{
                     System.out.println("Normal Laptops: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Normal Laptop", Price);
                     categories();
                 }else{
@@ -419,7 +426,7 @@ public class POS{
                     System.out.println("Gaming Desktop: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Gaming Desktop", Price);
                     categories();
                 }else if(option3.equals("nor")){
@@ -428,7 +435,7 @@ public class POS{
                     System.out.println("Normal Desktop: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Normal Desktop", Price);
                     categories();
                 }else{
@@ -441,7 +448,7 @@ public class POS{
                 System.out.println("Server:");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Server", Price);
                 categories();
             }else if(option2.equals("tel")){
@@ -451,7 +458,7 @@ public class POS{
                 System.out.println("Telephones: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Telephones", Price);
                 categories();
             }else if(option2.equals("tev")){
@@ -461,7 +468,7 @@ public class POS{
                 System.out.println("Televison (TV): ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Television (TV)", Price);
                 categories();
             }else if(option2.equals("har")){
@@ -503,7 +510,7 @@ public class POS{
                     System.out.println("Central Processing Unit (CPU): ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("CPU", Price);
                     categories();
                 }else if(option3.equals("gpu")){
@@ -512,7 +519,7 @@ public class POS{
                     System.out.println("Graphical Processing Unit (GPU): ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("GPU", Price);
                     categories();
                 }else if(option3.equals("ram")){
@@ -521,7 +528,7 @@ public class POS{
                     System.out.println("Random Access Memory (RAM MODULE): ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("RAM Module", Price);
                     categories();
                 }else if(option3.equals("pow")){
@@ -530,7 +537,7 @@ public class POS{
                     System.out.println("Power Supply: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Power Supply", Price);
                     categories();
                 }else if(option3.equals("mot")){
@@ -539,7 +546,7 @@ public class POS{
                     System.out.println("Motherboard: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("MotherBoard", Price);
                     categories();
                 }else if(option3.equals("the")){
@@ -548,7 +555,7 @@ public class POS{
                     System.out.println("Thermal Paste: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Thermal Paste", Price);
                     categories();
                 }else if(option3.equals("fan")){
@@ -557,7 +564,7 @@ public class POS{
                     System.out.println("Fans: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Fans", Price);
                     categories();
                 }else if(option3.equals("cas")){
@@ -566,7 +573,7 @@ public class POS{
                     System.out.println("Computer Case: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Computer Case", Price);
                     categories();
                 }else if(option3.equals("mon")){
@@ -575,7 +582,7 @@ public class POS{
                     System.out.println("Computer Monitor: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Computer Monitor", Price);
                     categories();
                 }else if(option3.equals("mou")){
@@ -584,7 +591,7 @@ public class POS{
                     System.out.println("Computer Mouse: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Computer Mouse", Price);
                     categories();
                 }else if(option3.equals("key")){
@@ -593,7 +600,7 @@ public class POS{
                     System.out.println("Computer Keyboard: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem("Computer Keyboard", Price);
                     categories();
                 }else{
@@ -629,7 +636,7 @@ public class POS{
                     System.out.println("Software: ");
                     System.out.println("==========================================");
                     System.out.println("Price: ");
-                    double Price = scan.nextDouble();
+                    double Price = customScanner.nextDouble();
                     addItem(name, Price);
                     categories();
                 }
@@ -668,7 +675,7 @@ public class POS{
                 System.out.println("Couch: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Couch", Price);
                 categories();
             }else if(option2.equals("cha")){
@@ -677,7 +684,7 @@ public class POS{
                 System.out.println("Chair: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Chair", Price);
                 categories();
             }else if(option2.equals("tab")){
@@ -686,7 +693,7 @@ public class POS{
                 System.out.println("Table: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Tables", Price);
                 categories();
             }else if(option2.equals("ben")){
@@ -695,7 +702,7 @@ public class POS{
                 System.out.println("Bench: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Bench", Price);
                 categories();
             }else{
@@ -732,7 +739,7 @@ public class POS{
                 System.out.println("Pictures/Picture Frames: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Pictures/Picture Frames", Price);
                 categories();
             }else if(option2.equals("kni")){
@@ -741,7 +748,7 @@ public class POS{
                 System.out.println("Knick Knacks: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("General Knick Knacks", Price);
                 categories();
             }else if(option2.equals("stu")){
@@ -750,7 +757,7 @@ public class POS{
                 System.out.println("Stuffed Animals: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Stuffed Animals", Price);
                 categories();
             }else{
@@ -788,7 +795,7 @@ public class POS{
                 System.out.println("Pots: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Pot", Price);
                 categories();
             }else if(option2.equals("pan")){
@@ -797,7 +804,7 @@ public class POS{
                 System.out.println("Pans: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Pan", Price);
                 categories();
             }else if(option2.equals("cut")){
@@ -806,7 +813,7 @@ public class POS{
                 System.out.println("Cutting Board: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Cutting Board", Price);
                 categories();
             }else if(option2.equals("sil")){
@@ -815,7 +822,7 @@ public class POS{
                 System.out.println("Silverware: ");
                 System.out.println("==========================================");
                 System.out.println("Price: ");
-                double Price = scan.nextDouble();
+                double Price = customScanner.nextDouble();
                 addItem("Silverware", Price);
                 categories();
             }else{
@@ -841,7 +848,6 @@ public class POS{
         System.out.println();
         System.out.println("Total: ");
         System.out.println("==========================================");
-        double total = 0;
         double taxP = Setup.getTax();//Tax Percentage
         double taxD = Setup.getTax()/100;//Tax as a Decimal
         if(Subtotal < 0){
@@ -870,7 +876,7 @@ public class POS{
         viewItemsOnInvoice();
         System.out.println();
         System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
-        System.out.println("Discounts: " + df.format(Savings) + "$");//Discounts
+        System.out.println("Discounts: " + df.format(Savings * (-1)) + "$");//Discounts
         setTotal(Subtotal);
         System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(origTotal * taxD) + "$");//Tax Percentage and then the $ Amount of tax
         origTotal = origTotal * taxD; //Dollar amount of tax Calculated
@@ -894,7 +900,7 @@ public class POS{
         Login.displaySolarLogo();
         System.out.println();
         double origTotal = getTotal();
-        double amountT = 0;
+        //double amountT = 0;
         System.out.println("Payment Options");
         System.out.println("========================================");
         System.out.println("Amount Remaining: " + df.format(getAmountR()));
@@ -913,7 +919,7 @@ public class POS{
         }else if(option.equals("car")){
             cardPayment();
         }else if(option.equals("tot")){
-            double total = 0;
+            //double total = 0;
             double taxP = Setup.getTax();//Tax Percentage
             double taxD = Setup.getTax()/100;//Tax as a Decimal
             viewItemsOnInvoice();
@@ -926,6 +932,7 @@ public class POS{
             System.out.println("Total: " + df.format(origTotal));
             System.out.println("Press Enter to Continue");
             String enter = customScanner.nextLine();
+            mainBody.setNewMessage("[System]: User Pressed: " + enter);
             paymentMenu();
         }else if(option.equals("can")){
             POSMenu();
@@ -947,6 +954,7 @@ public class POS{
             System.out.println("Change due: " + df.format(amountD) + "$");
             System.out.println("Press Enter To Continue");
             String Enter = customScanner.nextLine();
+            mainBody.setNewMessage("[System]: User Pressed: " + Enter);
         }
         pricesForInvoice.clear();
         itemOnInvoice.clear();
@@ -961,13 +969,13 @@ public class POS{
     }
     public static void cashPayment(){
         Login.displaySolarLogo();
-        System.out.println();   
+        System.out.println();
         System.out.println("Cash: ");
         System.out.println("========================================");
         System.out.println("Amount Remaining: " + df.format(getAmountR()));
         System.out.println("Type 0 to Return to Payment Menu");
         System.out.println("Amount To Tender: ");
-        double cashP = scan.nextDouble();
+        double cashP = customScanner.nextDouble();
         if(cashP == 0){
             paymentMenu();
         }else if(cashP > 0){
@@ -991,7 +999,7 @@ public class POS{
         System.out.println("========================================");
         System.out.println("Amount Remaining: " + df.format(getAmountR()));
         System.out.println("Type 0 to Return to Payment Menu");
-        double checkP = scan.nextDouble();
+        double checkP = customScanner.nextDouble();
         if(checkP == 0){
             paymentMenu();
         }else if(checkP > 0){
@@ -1008,12 +1016,12 @@ public class POS{
     }
     public static void cardPayment(){
         Login.displaySolarLogo();
-        System.out.println();    
+        System.out.println();
         System.out.println("Card: ");
         System.out.println("========================================");
         System.out.println("Amount Remaining: " + df.format(getAmountR()));
         System.out.println("Type 0 to Return to Payment Menu");
-        double cardP = scan.nextDouble();
+        double cardP = customScanner.nextDouble();
         if(cardP == 0){
             paymentMenu();
         }else if(cardP > 0){
@@ -1070,7 +1078,7 @@ public class POS{
             POSMenu();
         }else{
             System.out.println("Price: ");
-            double manualPrice = scan.nextDouble();
+            double manualPrice = customScanner.nextDouble();
             addItem(manualEntry, manualPrice);
             POSMenu();
         }
@@ -1086,6 +1094,9 @@ public class POS{
     public static String addItem(String item, double price){
         itemOnInvoice.add(item);
         pricesForInvoice.add(price);
+        invoiceSavings.add(0.00);
+        origPrices.add(price);
+        isItemDiscounted.add(false);
         if(itemOnInvoice.contains(item) && pricesForInvoice.contains(price)){
             mainBody.setNewMessage("[System]: " + item + " $" + price);
         }else if(itemOnInvoice.contains(item) && !pricesForInvoice.contains(price)){
@@ -1099,13 +1110,7 @@ public class POS{
         }
         return item;
     }
-
-    /**
-     * Method addDiscount
-     * adds discount to item or invoice
-     * @return The return value
-     */
-    public static double addDiscount(){
+    public static void discountMenu(){
         Login.displaySolarLogo();
         System.out.println();
         System.out.println("Apply Discount");
@@ -1113,17 +1118,29 @@ public class POS{
         System.out.println("Would you like to Apply Discount to a specific item or total invoice?");
         System.out.println("1. Sigle item");
         System.out.println("2. Total Invoice");
+        System.out.println("3. Cancel and return to POS Menu");
+        System.out.println("Console: ");
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size) + time);
+        }
         int selection = customScanner.nextInt();
-        switch(selection){//single item discount
+        switch(selection){
             case 1:
-            int item = 0;//numbers for items
-            int choice = 0;//user choice
-            double dAmountOff;//dollar amount off
-            double pAmountOff;//percent off
+            int item = 0;
+            int choice = 0;
+            Login.displaySolarLogo();
             System.out.println("Which Item: ");
             for(int i = 0; i < itemOnInvoice.size(); i++){
-                item++;
-                System.out.println(item + ". " + itemOnInvoice.get(i) + " $" + pricesForInvoice.get(i));//Print items and their respective prices
+                item ++;
+                System.out.println(item + ". " + itemOnInvoice.get(i) + " $" + pricesForInvoice.get(i));
             }
             System.out.println("Choice: ");
             try{
@@ -1133,128 +1150,158 @@ public class POS{
             }catch(Exception e){
                 mainBody.setNewMessage("[System ERROR]: Invalid Option");
                 e.printStackTrace();
-                mainBody.setNewMessage("[System ERROR]: " + e.toString());
+                mainBody.setNewMessage("[System Error]: " + e.toString());
                 POSMenu();
             }
-            Login.displaySolarLogo();
-            System.out.println();
-            System.out.println("Single Item Discount: ");
-            System.out.println("==========================================");
-            System.out.println("1. $off");
-            System.out.println("2. %off");
-            System.out.println("Choice: ");
-            int choices = 0;
-            choices = customScanner.nextInt();
-            if(choices == 1){
+            singleItemDiscount(choice);
+            break;
+
+            case 2:
+            invoiceLevelDiscount();
+            break;
+
+            case 3:
+                POSMenu();
+            break;
+
+            default:
+                mainBody.setNewMessage("[System ERROR]: Invalid Option, Try again");
+                discountMenu();
+            break;
+        }
+    }
+    public static void singleItemDiscount(int index){
+        double dAmountOff;
+        double pAmountOff;
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Single Item Discount: ");
+        System.out.println("==========================================");
+        System.out.println("1. $off");
+        System.out.println("2. %off");
+        System.out.println("Choice: ");
+        System.out.println("Console: ");
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size) + time);
+        }
+        int choice = customScanner.nextInt();
+        switch (choice){
+            case 1:
+            //$off
                 Login.displaySolarLogo();
                 System.out.println();
                 System.out.println("Single Item Discount ($ Amount Off): ");
                 System.out.println("==========================================");
                 System.out.println("$ Amount Off: ");
-                dAmountOff = scan.nextDouble();//The Amount off
-                //dAmountOff = dAmountOff;
-                double placeHolder = choice;
-                placeHolder = placeHolder - dAmountOff;
-                pricesForInvoice.set(choice, placeHolder);
-                itemOnInvoice.set(choice, itemOnInvoice.get(choice) + "*Discounted*");
-                invoiceSavings.add(dAmountOff * (-1));
-                mainBody.setNewMessage("[System]: Discount Applied to " + itemOnInvoice.get(choice));
-                POSMenu();
-            }else if(choices == 2){
-                Login.displaySolarLogo();
-                System.out.println();
-                System.out.println("Single Item Discount (% off): ");
-                System.out.println("==========================================");
-                mainBody.setNewMessage("[System]: Please write as a % and not a decimal");
-                double chosenOption;
-                String chosenStringValue = itemOnInvoice.get(choice);
-                chosenOption = pricesForInvoice.get(choice);//simplified code
-                System.out.println(mainBody.getLastMessage());
-                System.out.println("% Off: ");
-                pAmountOff = scan.nextDouble();//percent off as stated by User
-                if(pAmountOff > 100 || pAmountOff < 0){
-                    mainBody.setNewMessage("[System]: Invalid Percentage, try again");
-                    POSMenu();
-                }else{
-                    pAmountOff = 100 - pAmountOff;
-                    pAmountOff = pAmountOff / 100;//converts to a decimal
-                    double placeHolder = chosenOption * pAmountOff;//takes the value of the6 chosen item and multiplies it by the decimal form of the percent
-                    double discountedAmount = chosenOption - placeHolder;//takes the value of the chosen item and subtracts the placeHolder variable from it.
-                    invoiceSavings.add(discountedAmount * (-1));
-                    itemOnInvoice.set(choice, chosenStringValue + "*Discounted*");
-                    pricesForInvoice.set(choice, placeHolder);//edits the original price.
-                    mainBody.setNewMessage("[System]: Discount Applied to " + itemOnInvoice.get(choice));
-                    POSMenu();
-                }
-            }
+                dAmountOff = customScanner.nextDouble();
+                double priceToDiscount = pricesForInvoice.get(index);
+                double discounted = priceToDiscount - dAmountOff;
+                invoiceSavings.set(index, dAmountOff);
+                isItemDiscounted.set(index, true);
+                pricesForInvoice.set(index, discounted);
+                POSMenu();;
             break;
-            case 2:
-            Login.displaySolarLogo();
-            System.out.println();
-            System.out.println("Invoice Level Discount: ");
-            System.out.println("==========================================");
-            double subtotal = 0;
-            if(fullInvoiceDiscount > 0){
-                mainBody.setNewMessage("[System]: A Invoice Level Discount was already applied.");
-                System.out.println(mainBody.getLastMessage());
-            }else if(fullInvoiceDiscount < 0){
-                mainBody.setNewMessage("[System]: Warning, Invoice Level Discount cannot be Negative! Setting Discount to 0");
-                fullInvoiceDiscount = 0;
-                POSMenu();
-            }else{
-                System.out.println("1. $ off");
-                System.out.println("2. % off");
-                int option = customScanner.nextInt();
-                if(option == 1){
-                    Login.displaySolarLogo();
-                    System.out.println();
-                    System.out.println("Invoice Level Discount ($ off): ");
-                    System.out.println("==========================================");
-                    System.out.println("$: ");
-                    dAmountOff = scan.nextDouble();
-                    dAmountOff = dAmountOff * -1;
-                    addItem("Discount", 0);
-                    Savings = Savings + dAmountOff;
-                    invoiceSavings.add(Savings);
-                    return dAmountOff;
-                }else if(option == 2){
-                    Login.displaySolarLogo();
-                    System.out.println();
-                    System.out.println("Invoice Level Discount (% off): ");
-                    System.out.println("==========================================");
-                    System.out.println("%: ");
-                    double percentOff = scan.nextDouble();//% off
-                    subtotal = 0;
-                    double savingsAmount;//$amount off based of percentage
-                    for(int i = 0; i < pricesForInvoice.size(); i++){
-                        subtotal = subtotal + pricesForInvoice.get(i);//getting value for subtotal
-                    }
-                    System.out.println("Subtotal: " + subtotal);//displays subtotal
-                    df.format(percentOff);//formats percent to 0.00 appearance
-                    System.out.println("Percent: " + percentOff);//displays percent off decimal
-                    percentOff = percentOff / 100; //converts percent to decimal
-                    System.out.println("Percent: " + percentOff);
-                    savingsAmount = subtotal * percentOff; // savings calc
-                    System.out.println("Savings: " + savingsAmount);// savings amount displays
-                    Savings = (Savings + savingsAmount);
-                    System.out.println("Savings: " + savingsAmount);
-                    invoiceSavings.add(Savings);// adds savings to total savings
-                    addItem("Discount", 0);
-                    return subtotal;
-                }else{
-                    mainBody.setNewMessage("Invalid Option");
-                    return 0.00;
-                }
-                    }
-                    break;
-                    default:
-                    mainBody.setNewMessage("[System]: Invalid Option, try again");
-                    POSMenu();
-                    break;
-                }
 
-        return 0.00;
+            case 2:
+            //%off
+                Login.displaySolarLogo();  
+                System.out.println();
+                System.out.println("Single Item Discount (% Amount Off): ");
+                System.out.println("==========================================");
+                System.out.println("Please write Percent Off as a Percentage");
+                System.out.println("% Amount Off: ");
+                pAmountOff = customScanner.nextDouble();
+                if(pAmountOff < 0 || pAmountOff > 100){
+                    mainBody.setNewMessage("[System Error]: Percent cannot be greater than 100 or less then 0");
+                    POSMenu();
+                }else{
+                    double discountD = 100 - pAmountOff;
+                    if(discountD < 0){
+                       discountD =  discountD * (-1);
+                    }else if(discountD > 100){
+                        mainBody.setNewMessage("[System ERROR]: Invalid option, try again.");
+                        discountMenu();
+                    }
+                    discountD = pAmountOff/100; //converts to a decimal
+                    priceToDiscount = pricesForInvoice.get(index);//get the price to discount
+                    discounted = priceToDiscount * discountD;//calculation 
+                    dAmountOff = priceToDiscount - discounted;//$amountoff is = priceToDiscount - the discount
+                    invoiceSavings.set(index, discounted);
+                    pricesForInvoice.set(index, dAmountOff);
+                    isItemDiscounted.set(index, true);
+                    POSMenu();                
+                }
+            break;
+
+            default:
+                mainBody.setNewMessage("[System ERROR]: Invalid Option, try again");
+                System.out.println(mainBody.getLastMessage());
+                singleItemDiscount(index);
+            break;
+        }
     }
+    public static double invoiceLevelDiscount(){
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Invoice Level Discount: ");
+        System.out.println("==========================================");
+        System.out.println("1. $off");
+        System.out.println("2. %off");
+        System.out.println("Choice: ");
+        System.out.println("Console: ");
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size) + time);
+        }
+        int choice = customScanner.nextInt();        
+        switch(choice){
+            case 1:
+                Login.displaySolarLogo();
+                System.out.println("Invoice Level Discount ($ Amount Off): ");
+                System.out.println("==========================================");
+                System.out.println("$ Amount Off: ");
+                double dAmountOff = customScanner.nextDouble();
+                addItem("Invoice Discount", (dAmountOff * -1));
+                int index = invoiceSavings.size();
+                index--;
+                invoiceSavings.set(index, dAmountOff);
+                POSMenu();
+            break;
+
+            case 2:
+                Login.displaySolarLogo();
+                System.out.println("Invoice Level Discount (% Amount Off): ");
+                System.out.println("==========================================");
+                System.out.println("% Amount Off: ");
+                double pAmountOff = customScanner.nextDouble();
+            break;
+
+            default:
+            break;
+        }
+        return 0.0;
+    }
+    /**
+     * Method addDiscount
+     * adds discount to item or invoice
+     * @return The return value
+     */
+    
 
     /**
      * Method updateSubtotalDiscount

@@ -31,7 +31,7 @@ public class mainBody{
         System.out.println("========================================");
         System.out.println("1. [SS]: Start Setup");
         System.out.println("2. [MS]: Manual Setup");
-	    System.out.println("3. [SP]: Start Program [WARNING]: Program must be installed First");
+	System.out.println("3. [SP]: Start Program [WARNING]: Program must be installed First");
         System.out.println("4. [QP]: Quit Program");
         System.out.println("Console: ");
         System.out.println(getLastMessage());
@@ -158,10 +158,10 @@ public class mainBody{
         System.out.println("[SFI]: Search for an Invoice");
         System.out.println("[VSM]: View System Messages");
         System.out.println("[VCL]: View ChangeLog");
-        if(user.equals("admin") || user.equals("test")){   
+        if(user.equals("admin") || user.equals("test")){
             System.out.println("[DI]:  Delete an Invoice");
             System.out.println("[RFR]: Run Final Report");
-            System.out.println("[CRE]: Create new Account"); 
+            System.out.println("[CRE]: Create new Account");
             System.out.println("[DEA]: Delete an Existing Account");
         }
         if(!user.equals("test")){
@@ -175,6 +175,7 @@ public class mainBody{
         }
         System.out.println("[OFF]: Log off");
         System.out.println("[SWI]: Switch User");
+        System.out.println();
         System.out.println("Console: ");
         if(mainBody.Messages.size() > 0){
             int size = mainBody.Messages.size();
@@ -185,7 +186,7 @@ public class mainBody{
             }else{
                 time = "";
             }
-            System.out.println(Messages.get(size) + time); 
+            System.out.println(Messages.get(size) + time);
         }
         String selection = customScanner.nextLine().toLowerCase();
         switch(selection){
@@ -223,13 +224,11 @@ public class mainBody{
                 setNewMessage("[System]: Report A Bug Invoked");
                 try {
                     URI uri= new URI("https://github.com/braydenanderson2014/Solar/issues/new/choose");
-   
                     java.awt.Desktop.getDesktop().browse(uri);
                     System.out.println("[System]: Web page opened in browser");
                 } catch (Exception e) {
                     setNewMessage("[Warning]: " + e.toString());
                 }
-                
             }else{
                 setNewMessage("[Warning]: You do not have the proper permissions");
             }
@@ -273,7 +272,7 @@ public class mainBody{
             }else{
                 setNewMessage("[Warning]: You do not have the proper permissions");
             }
-            mainMenu(); 
+            mainMenu();
             break;
 
             case "cap":
@@ -315,7 +314,6 @@ public class mainBody{
                 setNewMessage("[System]: ADMINISTRATIVE FEATURE: BUG REPORT INVOKED...");
                 try {
                     URI uri= new URI("https://github.com/braydenanderson2014/Solar/issues");
-   
                     java.awt.Desktop.getDesktop().browse(uri);
                     System.out.println("[System]: Web page opened in browser");
                 } catch (Exception e) {
@@ -359,7 +357,6 @@ public class mainBody{
             mainMenu();
             break;
         }
-
     }
 
     /**
@@ -395,7 +392,7 @@ public class mainBody{
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(Version);
             bw.close();
-            setNewMessage("[System]: Version: " + Version + " was successfully updated"); 
+            setNewMessage("[System]: Version: " + Version + " was successfully updated");
             setNewMessage("[System]: Auto opening ChangeLog Updater");
             changeLog.clear();
             updateChangeLog();
@@ -454,7 +451,6 @@ public class mainBody{
                 return "Failed";
             }catch(Exception e){
                 setNewMessage("[Warning]: Failed to start Task...([ChangeLog Updater])");
-                
                 return "Failed";
             }
         }else{
@@ -476,14 +472,12 @@ public class mainBody{
                 setNewMessage("[System]: Closing down task...([SystemRecovery])");
                 System.out.println("[System]: ([SystemRecovery]) Closed, Restarting ChangeLog Updater...");
                 setNewMessage("[System]: ([SystemRecovery]) Closed, Restarting ChangeLog Updater...");
-                
                 updateChangeLog();
             }catch(Exception e){
                 e.printStackTrace();
                 System.out.println(e);
                 setNewMessage("[SystemRecovery ERROR]: Failed to Repair File");
                 System.out.println("[SystemRecovery ERROR]: Failed to Repair File");
-                
                 return "Failed";
             }
         }
@@ -517,6 +511,7 @@ public class mainBody{
         String Enter = customScanner.nextLine();
         if(Enter.equals("sav") || Enter.equals("SAV")){
             setNewMessage("[Warning]: This Feature is not yet available");
+            startLog();
             return "Flagged";
         }else if(Enter.equals("CLS") || Enter.equals("cls")){
             Messages.clear();
@@ -529,6 +524,9 @@ public class mainBody{
             return "Invalid";
         }
     }
+    public static boolean startLog(){
+        return true;
+    }
     //admin region
     /**
      * Method createNewAccount
@@ -536,6 +534,10 @@ public class mainBody{
      * @return success of account creation
      */
     public static boolean createNewAccount(){
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Create New Account");
+        System.out.println("==========================================");
         String path = Setup.getPath();
         boolean success = false;
         System.out.println("New User: ");
@@ -569,10 +571,18 @@ public class mainBody{
      * @return account deletion success
      */
     public static boolean deleteAnAccount(){
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Delete An Account");
+        System.out.println("==========================================");
         String path = Setup.getPath();//get standard program path
         boolean success = false;//needed a value;
         System.out.println("Account: ");
         String Account = customScanner.nextLine();//account name
+        if(Account.equals("admin") || Account.equals("Admin")){
+            setNewMessage("[Warning]: Cannot Delete Administrative Account");
+            return false;
+        }
         path = path + "\\Users/" + Account + ".txt";//path to account file
         File file = new File(path);
         if(file.exists()){//tests to see if file exists, if it does, delete account

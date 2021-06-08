@@ -16,7 +16,7 @@ public class Setup{
     public static int i = 5;
     private static ArrayList <String> dirPath = new ArrayList <String>();
     private static double Tax;
-    private static customScanner scan = new customScanner();
+    //private static customScanner scan = new customScanner();
     /**
      * Method startSetup
      * Starts program setup
@@ -281,7 +281,7 @@ public class Setup{
             double tax = getTax();
             System.out.println("Current Tax Value: " + tax);
             System.out.println("New Tax Value: ");
-            double TaxValue = scan.nextDouble();
+            double TaxValue = customScanner.nextDouble();
             setTax(TaxValue);
             Settings();
             break;
@@ -409,6 +409,7 @@ public class Setup{
                         tempPath = completeManualDir("C:");
                         mainBody.setNewMessage("[System]: Current Path Defined as: " + tempPath);
                         System.out.println(mainBody.getLastMessage());
+                        System.out.println("Next Directory: ");
                         extraPath =  customScanner.nextLine();  
                         if(extraPath.equals("cancel") || extraPath.equals("Cancel")){
                             dirPath.clear();

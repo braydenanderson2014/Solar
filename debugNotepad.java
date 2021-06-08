@@ -55,7 +55,6 @@ public class debugNotepad
         Login.displaySolarLogo();
         System.out.println();
         String User = Login.getUser();
-        System.out.println(mainBody.getLastMessage());
         System.out.println("NOTEPAD, User: " + User);
         System.out.println("========================================");
         System.out.println("[CRE]: Create Notebook");
@@ -160,6 +159,8 @@ public class debugNotepad
      * @return useless value
      */
     public static boolean addNote(){
+        Login.displaySolarLogo();
+        System.out.println();
         System.out.println("New Note: ");
         String note = customScanner.nextLine();
         debugNotepad.add(note);
@@ -173,6 +174,8 @@ public class debugNotepad
      * @return Useless value
      */
     public static boolean viewNotes(){
+        Login.displaySolarLogo();
+        System.out.println();
         for(int i = 0; i<debugNotepad.size();i++){
             System.out.println("[*] " + debugNotepad.get(i));
         }
@@ -190,6 +193,8 @@ public class debugNotepad
      * @return True or false based off abiltiy to delete a note
      */
     public static boolean deleteNote(){  
+        Login.displaySolarLogo();
+        System.out.println();
         int j = 1;
         for(int i = 0; i<debugNotepad.size();i++){
             System.out.println("[*]" + j + " " + debugNotepad.get(i));
