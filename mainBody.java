@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
  * Write a description of class mainBody here.
  *
  * @author (Brayden Anderson)
- * @version (Beta 1.0.1, 05/26/2021)
+ * @version (Beta 1.0.1, Snapshot 3xWav-7)
  */
 public class mainBody{
     public static ArrayList<String> Messages = new ArrayList<String>();
@@ -15,11 +15,9 @@ public class mainBody{
     public static ArrayList<String> timeStamp = new ArrayList<String>();
     public static customScanner scan = new customScanner();
     public static LocalDateTime myDateObj = LocalDateTime.now();
-    public static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    public static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
     public static String dTime  = myDateObj.format(myFormatObj);
     public static boolean timeSet = true;
-
-
     /**
      * mainBody Constructor
      * Setup Menu
@@ -31,7 +29,7 @@ public class mainBody{
         System.out.println("========================================");
         System.out.println("1. [SS]: Start Setup");
         System.out.println("2. [MS]: Manual Setup");
-	System.out.println("3. [SP]: Start Program [WARNING]: Program must be installed First");
+	    System.out.println("3. [SP]: Start Program [WARNING]: Program must be installed First");
         System.out.println("4. [QP]: Quit Program");
         System.out.println("Console: ");
         System.out.println(getLastMessage());

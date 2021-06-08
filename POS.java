@@ -5,26 +5,27 @@ import java.text.*;
  * Write a description of class POS here.
  *
  * @author (Brayden Anderson)
- * @version (Base Version: ALPHA V2.1.4, Snapshot 3xWav-6)
+ * @version (Base Version: Beta 1.0.1, Snapshot 3xWav-7)
  */
 public class POS{
     private static double Savings = 0;//$amount saved
     private static ArrayList<String> itemOnInvoice = new ArrayList<String>();//Items on Current invoice
     private static ArrayList<Double> pricesForInvoice = new ArrayList<Double>();//Prices for current invoice (in same order as itemsOnInvoice Array[])
-    // private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
-    // private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
+    private static ArrayList<Boolean> isItemDiscounted = new ArrayList<Boolean>();
+    private static ArrayList<Double> origPrices = new ArrayList<Double>();
     private static ArrayList<Double> invoiceSavings = new ArrayList<Double>();//all invoice savings
+    //private static ArrayList<Double> pOff = new ArrayList<Double>();
+    //private static ArrayList<String> allItemsSold = new ArrayList<String>();//List of all items sold from all invoices
+    //private static ArrayList<Double> allPricesSold = new ArrayList<Double>();//List of all prices for items sold on all invoices (Same order as allItemsSold Array[])
     //private static int invoiceNum = invoice.invoiceNumGenerator();//gets a invoice number from invoice class to use for a receipt
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
-    //private static customScanner scan = new customScanner(); //Gets an instance of customScanner class which implements the Scanner class(Scanner scan = new Scanner(System.in);)
     private static double origSubtotal;//original Subtotal Before Discount
-    private static double fullInvoiceDiscount; // Holds invoice level discount amount Percentage
+    private static double pfullInvoiceDiscount; // Holds invoice level discount amount Percentage
     private static double origTotal = 0;// original Total
     private static double amountT = 0;//Amount Tendered
     private static double amountR = 0;//Amount Remaining
-    private static ArrayList<Boolean> isItemDiscounted = new ArrayList<Boolean>();
-    private static ArrayList<Double> origPrices = new ArrayList<Double>();
+    
     /**
      * POS Constructor
      *
@@ -32,24 +33,27 @@ public class POS{
     public POS(){//new instance of POS class
         POSMenu();//goto POSMenu Function
     }
+    /**
+     * Shows all items on invoice including discounts
+     * @return
+     */
     public static String viewItemsOnInvoice(){
-        
-            if(itemOnInvoice.size() > 0){
-                Login.displaySolarLogo();
-                System.out.println();
-                System.out.println("Items On Invoice:");
-                System.out.println("========================================");
-                for(int i = 0; i < itemOnInvoice.size(); i++){
-                    if(isItemDiscounted.get(i) == true){
-                        System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" [Discounted] Original Price: " + origPrices.get(i) + "$ Discount Price: " + pricesForInvoice.get(i) + "$");
-                    }else{
-                        System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
-                    }
+        if(itemOnInvoice.size() > 0){
+            Login.displaySolarLogo();
+            System.out.println();
+            System.out.println("Items On Invoice:");
+            System.out.println("========================================");
+            for(int i = 0; i < itemOnInvoice.size(); i++){
+                if(isItemDiscounted.get(i) == true){
+                    System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" [Discounted] Original Price: " + origPrices.get(i) + "$ Current Price: " + pricesForInvoice.get(i) + "$");
+                }else{
+                    System.out.println("Item: \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i) + "$");
                 }
-            }else{
-                mainBody.setNewMessage("[System]: No Items On Invoice");
-                System.out.println(mainBody.getLastMessage());
             }
+        }else{
+            mainBody.setNewMessage("[System]: No Items On Invoice");
+            System.out.println(mainBody.getLastMessage());
+        }
         return "";
     }
     /**
@@ -69,6 +73,7 @@ public class POS{
         if(user.equals("admin") || user.equals("test")){
             System.out.println("[RIT]: Return items");
         }
+        System.out.println("[REM]: Remove Item/Discount");
         System.out.println("[VII]: View Items on Invoice");
         System.out.println("[SIL]: Save Invoice for later");
         System.out.println("[CLS]: Clear Sales Data");
@@ -147,6 +152,9 @@ public class POS{
                     POSMenu();
                 }
             break;
+            case "rem":
+                removeMenu();
+            break;
             case "vii":
                 viewItemsOnInvoice();
                 System.out.println("Press Enter to Continue");
@@ -166,6 +174,8 @@ public class POS{
                     pricesForInvoice.clear();
                     itemOnInvoice.clear();
                     invoiceSavings.clear();
+                    isItemDiscounted.clear();
+                    origPrices.clear();
                     Savings = 0;
                     mainBody.setNewMessage("[System]: Sales Data Cleared");
                     POSMenu();
@@ -184,7 +194,127 @@ public class POS{
                 POSMenu();
             break;
         }
-    }/**
+    }
+    private static void removeMenu() {
+        if(itemOnInvoice.size() == 0){
+            mainBody.setNewMessage("[System]: No Items to Remove");
+            POSMenu();
+        }
+        boolean hasDiscount;
+        for (int i = 0; i < isItemDiscounted.size(); i++) {
+            if(isItemDiscounted.get(i) == false){
+                 hasDiscount = false;
+                 mainBody.setNewMessage("[System]: No Discounts Exist, Discount Status:" + hasDiscount);
+                 break;
+            }
+        }
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Remove Menu:");
+        System.out.println("========================================");
+        System.out.println("[DIS]: Remove a Discount");
+        System.out.println("[ITM]: Remove an Item");
+        System.out.println("[RET]: Return to POS Menu");
+        System.out.println();
+        System.out.println("Console: ");
+        Subtotal = 0;
+        for(int i = 0; i < pricesForInvoice.size(); i++){
+            Subtotal = Subtotal + pricesForInvoice.get(i);
+        }
+        if(Subtotal == 0){
+            System.out.println("Subtotal: $" + df.format(0.00));
+        }else if(Subtotal > 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }else if(Subtotal < 0){
+            System.out.println("Subtotal: $" + df.format(Subtotal));
+        }
+        if(mainBody.Messages.size() > 0){
+            int size = mainBody.Messages.size();
+            size--;
+            String time;
+            if(mainBody.getTimeSet() == true){
+                time = mainBody.getLastTime();
+            }else{
+                time = "";
+            }
+            System.out.println(mainBody.Messages.get(size) + time);
+        } 
+        String option = customScanner.nextLine().toLowerCase();
+        switch(option){
+            case "dis":
+                removeDiscount();
+            break;
+
+            case "itm":
+                removeItem();
+            break;
+
+            case "ret":
+                POSMenu();
+            break;
+
+            default:
+                mainBody.setNewMessage("[Warning]: Invalid Option, Try again");
+                removeMenu();
+            break;
+        }
+    }
+    private static void removeItem() {
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Remove an Item: ");
+        System.out.println("========================================");
+        int item = 1;
+        for (int i = 0; i < itemOnInvoice.size(); i++) {
+            System.out.println(item + " Item \"" + itemOnInvoice.get(i) + "\" Price: " + pricesForInvoice.get(i));
+            item++;
+        }
+        System.out.println("Item to Remove: ");
+        try {
+            int itemToRemove = customScanner.nextInt();
+            itemToRemove--;
+            itemOnInvoice.remove(itemToRemove);
+            pricesForInvoice.remove(itemToRemove);
+            origPrices.remove(itemToRemove);
+            isItemDiscounted.remove(itemToRemove);
+            invoiceSavings.remove(itemToRemove);
+            mainBody.setNewMessage("[System]: Successfully removed Item");
+            POSMenu();
+        } catch (Exception e) {
+            mainBody.setNewMessage("[Warning]: " + e.toString());
+            removeMenu();
+        }
+    }
+    private static void removeDiscount() {
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
+        Login.displaySolarLogo();
+        System.out.println();
+        System.out.println("Remove a Discount: ");
+        System.out.println("========================================");
+        int item = 1;
+        for (int i = 0; i < itemOnInvoice.size(); i++) {
+            if(isItemDiscounted.get(i) == true){
+                System.out.println(item + " "  + itemOnInvoice.get(i) + " Original Price: " + origPrices.get(i) + " Current Price: " + pricesForInvoice.get(i));
+                indexes.add(i);
+                item++;
+            }
+        }
+        System.out.println("Discount to remove: ");
+        try {
+            int discountToRemove = customScanner.nextInt();
+            discountToRemove--;
+            int index = indexes.get(discountToRemove);
+            pricesForInvoice.set(index, origPrices.get(index));
+            isItemDiscounted.set(index, false);
+            invoiceSavings.set(index, 0.00);
+            mainBody.setNewMessage("[System]: Successfully Removed Discount");
+            removeMenu();
+        } catch (Exception e) {
+            mainBody.setNewMessage("[Warning]: " + e.toString());
+            removeMenu();
+        }
+    }
+    /**
      * Method categories
      * Categories for POS items
      * Menu Logic is not neccessarily in the same order as the Menu Items
@@ -1100,13 +1230,13 @@ public class POS{
         if(itemOnInvoice.contains(item) && pricesForInvoice.contains(price)){
             mainBody.setNewMessage("[System]: " + item + " $" + price);
         }else if(itemOnInvoice.contains(item) && !pricesForInvoice.contains(price)){
-            mainBody.setNewMessage("[System ERROR]: Failed to add Price of $" + price + " to " + item + ", Removing item...");
+            mainBody.setNewMessage("[Warning]: Failed to add Price of $" + price + " to " + item + ", Removing item...");
             itemOnInvoice.remove(item);
         }else if(!itemOnInvoice.contains(item) && pricesForInvoice.contains(price)){
-            mainBody.setNewMessage("[System ERROR]: Failed to add Item: " + item + ", removing price of $" + price);
+            mainBody.setNewMessage("[Warning]: Failed to add Item: " + item + ", removing price of $" + price);
             pricesForInvoice.remove(price);
         }else{
-            mainBody.setNewMessage("[System ERROR]: Failed to add Item: " + item + ", and Failed to add price: $" + price);
+            mainBody.setNewMessage("[Warning]: Failed to add Item: " + item + ", and Failed to add price: $" + price);
         }
         return item;
     }
@@ -1148,9 +1278,9 @@ public class POS{
                 choice--;
                 System.out.println("Item Selected: " + itemOnInvoice.get(choice) + " $" + pricesForInvoice.get(choice));
             }catch(Exception e){
-                mainBody.setNewMessage("[System ERROR]: Invalid Option");
+                mainBody.setNewMessage("[Warning]: Invalid Option");
                 e.printStackTrace();
-                mainBody.setNewMessage("[System Error]: " + e.toString());
+                mainBody.setNewMessage("[Warning]: " + e.toString());
                 POSMenu();
             }
             singleItemDiscount(choice);
@@ -1165,7 +1295,7 @@ public class POS{
             break;
 
             default:
-                mainBody.setNewMessage("[System ERROR]: Invalid Option, Try again");
+                mainBody.setNewMessage("[Warning]: Invalid Option, Try again");
                 discountMenu();
             break;
         }
@@ -1220,14 +1350,14 @@ public class POS{
                 System.out.println("% Amount Off: ");
                 pAmountOff = customScanner.nextDouble();
                 if(pAmountOff < 0 || pAmountOff > 100){
-                    mainBody.setNewMessage("[System Error]: Percent cannot be greater than 100 or less then 0");
+                    mainBody.setNewMessage("[Warning]: Percent cannot be greater than 100 or less then 0");
                     POSMenu();
                 }else{
                     double discountD = 100 - pAmountOff;
                     if(discountD < 0){
                        discountD =  discountD * (-1);
                     }else if(discountD > 100){
-                        mainBody.setNewMessage("[System ERROR]: Invalid option, try again.");
+                        mainBody.setNewMessage("[Warning]: Invalid option, try again.");
                         discountMenu();
                     }
                     discountD = pAmountOff/100; //converts to a decimal
@@ -1242,7 +1372,7 @@ public class POS{
             break;
 
             default:
-                mainBody.setNewMessage("[System ERROR]: Invalid Option, try again");
+                mainBody.setNewMessage("[Warning]: Invalid Option, try again");
                 System.out.println(mainBody.getLastMessage());
                 singleItemDiscount(index);
             break;

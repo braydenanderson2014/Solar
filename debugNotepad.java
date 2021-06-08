@@ -6,11 +6,11 @@ import java.nio.file.*;
  * Write a description of class debugNotepad here.
  *
  * @author (Brayden Anderson)
- * @version (ALPHA V2.1.4, Snapshot 3xWav-6, Beta 1.0.0)
+ * @version (Beta V1.0.1, Snapshot 3xWav-6, Beta 1.0.0)
  */
 public class debugNotepad 
 {
-    public static ArrayList<String>debugNotepad = new ArrayList<String>();
+    public static ArrayList<String>debugNotepad = new ArrayList<String>();//Contains all the Notes in the notebook
     /**
      * Method autoLoadDebugNotepad
      * reads notepad file if it exists and adds contents into debugNotepad Arraylist
@@ -107,7 +107,7 @@ public class debugNotepad
             try{
                 deleteNotebook();
             }catch(IOException e){
-                mainBody.setNewMessage("[System ERROR]: " + e.toString());
+                mainBody.setNewMessage("[Warning]: " + e.toString());
             }
             Notepad();
         }else if(option.equals("sav")){

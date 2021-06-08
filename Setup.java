@@ -4,7 +4,7 @@ import java.io.*;
  * Write a description of class Setup here.
  *
  * @author (Brayden Anderson)
- * @version (a version number or a date)
+ * @version (Base Version: Beta 1.0.1, Snapshot 3xWav-7)
  */
 public class Setup{
     private static String path = "Null";
@@ -76,7 +76,7 @@ public class Setup{
         }catch(IOException e){
             e.printStackTrace();
             System.out.println(e);
-            mainBody.setNewMessage("[System ERROR]: Failed to Set Version in Version File");
+            mainBody.setNewMessage("[Warning]: Failed to Set Version in Version File");
         }
         return Version;
     }
@@ -101,7 +101,7 @@ public class Setup{
         }catch(IOException e){
             e.printStackTrace();
             System.out.println(e);
-            mainBody.setNewMessage("[System ERROR]: Failed to Set Tax Value in Tax File");
+            mainBody.setNewMessage("[Warning]: Failed to Set Tax Value in Tax File");
         }
         return tax;
     }
@@ -225,7 +225,7 @@ public class Setup{
                         Login.loginPage();
                     }
                     // }catch(IOException e){
-                    // mainBody.setNewMessage("[System ERROR]: " + e.toString());
+                    // mainBody.setNewMessage("[Warning]: " + e.toString());
                     // }//generateFileList.fileList(oldPath, Path);
                     return Path;
                 }else if(answer.equals("n") || answer.equals("no")){
@@ -435,10 +435,10 @@ public class Setup{
                 }else if(option.equals("n")){
                     Login.displaySolarLogo();
                     System.out.println();
-                    mainBody.setNewMessage("[System ERROR]: Skipping C: Drive");
+                    mainBody.setNewMessage("[Warning]: Skipping C: Drive");
                     System.out.println(mainBody.getLastMessage());
                 }else{
-                    mainBody.setNewMessage("[System ERROR]: Invalid Option, Restarting Setup...");
+                    mainBody.setNewMessage("[Warning]: Invalid Option, Restarting Setup...");
                     System.out.println(mainBody.getLastMessage());
                     autoSearchForDir();
                 }

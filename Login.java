@@ -4,7 +4,7 @@ import java.io.*;
  * Write a description of class Login here.
  *
  * @author (Brayden Anderson)
- * @version (a version number or a date)
+ * @version (Base Version: Beta 1.0.1, Snapshot 3xWav-7)
  */
 public class Login{
     private static ArrayList<String> activeUsers = new ArrayList<String>(); // any user who is logged in

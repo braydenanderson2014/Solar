@@ -2,8 +2,8 @@ import java.util.Scanner;
 /**
  * Write a description of class customScanner here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author (Brayden Anderson)
+ * @version (Base Version: Beta 1.0.1, Snapshot 3xWav-7)
  */
 public class customScanner
 {
