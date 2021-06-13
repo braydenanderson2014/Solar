@@ -21,7 +21,7 @@ public class POS{
     private static double Subtotal;//invoice subtotal
     private static DecimalFormat df = new DecimalFormat("0.00");//Decimal Formatter... converts decimals from 0.000000+ to 0.00 format
     private static double origSubtotal;//original Subtotal Before Discount
-    private static double pfullInvoiceDiscount; // Holds invoice level discount amount Percentage
+    private static double pfullInvoiceDiscount = 0; // Holds invoice level discount amount Percentage
     private static double origTotal = 0;// original Total
     private static double amountT = 0;//Amount Tendered
     private static double amountR = 0;//Amount Remaining
@@ -177,6 +177,7 @@ public class POS{
                     isItemDiscounted.clear();
                     origPrices.clear();
                     Savings = 0;
+                    pfullInvoiceDiscount = 0;
                     mainBody.setNewMessage("[System]: Sales Data Cleared");
                     POSMenu();
                 }else if(answer.equals("n") || answer.equals("no")){
@@ -1003,18 +1004,47 @@ public class POS{
                 POSMenu();
             }
         }
+        Subtotal =0;
+        for (int i = 0; i < itemOnInvoice.size(); i++) {
+            Subtotal = Subtotal + pricesForInvoice.get(i);
+        }
+        setTotal(Subtotal);
+        double discounts = pfullInvoiceDiscount * 100; // converts decimal to percent
+        discounts = 100 - discounts;//100 - the percent
+        discounts = discounts/100;//converts percent to decimal
+        Subtotal = Subtotal * discounts;
+        double tempSubtotal = 0;
+        for (int i = 0; i < itemOnInvoice.size(); i++) {
+            tempSubtotal = tempSubtotal + pricesForInvoice.get(i);
+        }
+        tempSubtotal = tempSubtotal - Subtotal;
+        //if(pfullInvoiceDiscount > 0){
+         int index = itemOnInvoice.indexOf("Invoice Level Discount");
+            invoiceSavings.set(index, tempSubtotal);
+         //   itemOnInvoice.add("Invoice Discount");
+         pricesForInvoice.set(index, -tempSubtotal);
+         ///   origPrices.add(0.00);
+          //  isItemDiscounted.add(true);
+        //}
+        Savings = 0;
+        for (int i = 0; i < invoiceSavings.size(); i++) {
+            Savings = Savings + invoiceSavings.get(i);
+        }
         viewItemsOnInvoice();
         System.out.println();
-        System.out.println("Subtotal: " + Subtotal + "$");//Subtotal
+        System.out.println("Subtotal: " + df.format(Subtotal) + "$");//Subtotal
         System.out.println("Discounts: " + df.format(Savings * (-1)) + "$");//Discounts
-        setTotal(Subtotal);
         System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(origTotal * taxD) + "$");//Tax Percentage and then the $ Amount of tax
         origTotal = origTotal * taxD; //Dollar amount of tax Calculated
         origTotal = origTotal + Subtotal;//Total amount
-        System.out.println("Total: " + df.format(origTotal));
+        origTotal = origTotal - discounts;
+        System.out.println("Total: $" + df.format(origTotal));
         System.out.println();
         df.format(origTotal);
         setTotal(origTotal);
+        System.out.println("Press Enter to Continue");
+        String Enter = customScanner.nextLine();
+        mainBody.setNewMessage("[System]: User Pressed " + Enter);
         calcAmountR();
         paymentMenu();
     }
@@ -1406,7 +1436,7 @@ public class POS{
                 System.out.println("==========================================");
                 System.out.println("$ Amount Off: ");
                 double dAmountOff = customScanner.nextDouble();
-                addItem("Invoice Discount", (dAmountOff * -1));
+                addItem("Invoice Level Discount", (dAmountOff * -1));
                 int index = invoiceSavings.size();
                 index--;
                 invoiceSavings.set(index, dAmountOff);
@@ -1419,6 +1449,14 @@ public class POS{
                 System.out.println("==========================================");
                 System.out.println("% Amount Off: ");
                 double pAmountOff = customScanner.nextDouble();
+                dAmountOff = pAmountOff/100;
+                pfullInvoiceDiscount = dAmountOff;
+                invoiceSavings.add(0.00);
+                itemOnInvoice.add("Invoice Level Discount");
+                pricesForInvoice.add(0.00);
+                origPrices.add(0.00);
+				isItemDiscounted.add(true);
+                POSMenu();
             break;
 
             default:

@@ -20,13 +20,13 @@ public class Login{
     public static String displaySolarLogo(){
         mainBody.clear();
         String Logo = "SOLAR";
-        System.out.println(" #####  ####### #          #    ######  ");
-        System.out.println("#     # #     # #         # #   #     #"); 
-        System.out.println("#       #     # #        #   #  #     #");
-        System.out.println(" #####  #     # #       #     # ###### "); 
-        System.out.println("      # #     # #       ####### #   #   ");
-        System.out.println("#     # #     # #       #     # #    #  ");
-        System.out.println(" #####  ####### ####### #     # #     #  ");   
+        System.out.println(" #####  ####### #          #    ######    ");
+        System.out.println("#     # #     # #         # #   #     #   "); 
+        System.out.println("#       #     # #        #   #  #     #   ");
+        System.out.println(" #####  #     # #       #     # ######    "); 
+        System.out.println("      # #     # #       ####### #   #     ");
+        System.out.println("#     # #     # #       #     # #    #    ");
+        System.out.println(" #####  ####### ####### #     # #     #   ");   
         System.out.println("==========================================");
         System.out.println("Copyright 2021");    
         return Logo;
