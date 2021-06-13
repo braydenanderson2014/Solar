@@ -39,6 +39,39 @@ while System means a notification of some kind. EX [System]: Item "test item" wa
 - The Console has 2 options that are controlled via the settings menu. It can show the time of each message or no. To change this setting you must be on the Main Menu. Once on the Main Menu Type "set" to access the settings menu. Once on the Settings menu type "dts" (Display Time Stamps). This command is automatic and will set a system message showing the current status of the setting. 
 
 @mainBody
+*Calls Login.displaySolarLogo() to show the Logo above the menu items.
+**Global Variables**
+  -Messages -Type ArrayList<String> //Holds System Messages
+  -changeLog -Type ArrayList<String>//Holds the Change Log line by line
+  -timeStamp -Type ArrayList<String>//records time stamps for all System Messages.
+  -scan -Type customScanner (Object of customScanner.java)// User input
+  -myDateObj -Type LocalDateTime (Object of LocalDateTime) -Stores: LocalDateTime.now();//time stamp object
+  -myFormatObj -Type DateTimeFormatter (Object of DateTimeFormatter) - Stores: DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss"); //Formats the Date/Time
+  -dTime -Type String Stores: myDateObj.format(myFormatObj); //Stores the formatted date/time
+  -timeSet -Type boolean Default Value: true; // controls Consoles date/time setting
+
+
+**Functions**
+-mainBody -Return Type: None, Function Type: Non-Static Constructor, "Program Start Menu"
+-clear -Return Type: boolean, Function Type: Static, "Clears text off display"
+-setTimeSet -Return Type: boolean, Function Type: Static, -Arg: boolean timeOnOff "Updates time Setting variable"
+-getTimeSet -Return Type: boolean, Function Type: Static, "returns time Setting variable"
+-getLastTime -Return Type: String, Function Type: Static, "returns last time in the timeStamp ArrayList"
+-setNewMessage -Return Type: boolean, Function Type: Static, Arg: String message, "Adds new Message to the Messages ArrayList"
+-getMesssageSize -Return Type: Int, Function Type: Static, "returns Message ArrayList Size"
+-getLastMessage -Return Type: String, Function Type: Static, "returns Last Message in ArrayList"
+-getLastMessageSize -Return Type: int, Function Type: Static, "Returns last index in the Messages ArrayList"
+-removeLastMessage -Return Type: int, Function Type: Static, Arg: int size, "Removes Last Message in the Messages ArrayList"
+-mainMenu -Return Type: Void, Function Type: Static, "Main Menu for Program"
+-viewChangeLog -Return Type: String, Function Type: Static, "Displays contents of changeLog line by line"
+-changeVersion -Return Type: String, Function Type: Static, "Change Program Version" *Can only be ran by Debug account & admin Account (User: test/admin)*
+-updateChangeLog -Return Type: String, Function Type: Static, "Updates the Change Log" *Can Only be ran by Debug Account & admin Account(User: test/admin)*
+-viewSystemMessages -Return Type: String, Function Type: Static, "Displays contents of System Messages Line by Line"
+-startLog -Return Type: boolean, Function Type: Static, "Temporarily just return a boolean value." **Not Finished**
+-createNewAccount -Return Type: boolean, Function Type: Static, "Creates a new Account" *Can Only be ran by Debug Account & admin Account(User: test/admin)*
+-deleteAnAccount -Return Type: boolean, Function Type: Static, "Deletes Existing Account (Except Debug and administrative Accounts)" *Can Only be ran by Debug Account & admin Account(User: test/admin)* -Known Issues: if the user has logged in at one point while the program has not shutdown, the account wont delete-
+*main -Return Type: None, Function Type: Static, Arg: String[]args, "Main method - Program call"
+
 *Setup 
 *Menu
 

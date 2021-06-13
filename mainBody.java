@@ -98,7 +98,6 @@ public class mainBody{
             return success;
         }
     }
-
     /**
      * Method getMessageSize
      *
@@ -107,7 +106,6 @@ public class mainBody{
     public static int getMessageSize(){
         return Messages.size();
     }
-
     /**
      * Method getLastMessage
      *
@@ -118,7 +116,6 @@ public class mainBody{
         size--;
         return Messages.get(size);
     }
-
     /**
      * Method getLastMessageNum
      *
@@ -129,7 +126,6 @@ public class mainBody{
         size--;
         return size;
     }
-
     /**
      * Method removeLastMessage
      *
@@ -140,7 +136,6 @@ public class mainBody{
         Messages.remove(size);
         return size;
     }
-
     /**
      * Method mainMenu
      * Main Menu
@@ -356,7 +351,6 @@ public class mainBody{
             break;
         }
     }
-
     /**
      * Method viewChangeLog
      * NEEDS TO BE REWRITTEN... READ FROM FILE INSTEAD OF ARRAYLIST
@@ -371,7 +365,6 @@ public class mainBody{
         setNewMessage("[System]: User pressed: " + Enter);
         return "Success";
     }
-
     /**
      * Method changeVersion
      *
@@ -401,7 +394,6 @@ public class mainBody{
         }
         return "VERSION";
     }
-
     /**
      * Method updateChangeLog
      * updates changelog, saves to file
@@ -481,7 +473,6 @@ public class mainBody{
         }
         return "h";
     }
-
     /**
      * Method viewSystemMessages
      * Displays System Messages
@@ -562,7 +553,6 @@ public class mainBody{
         }
         return success;
     }
-
     /**
      * Method deleteAnAccount
      * deletes account of choosing
@@ -597,7 +587,6 @@ public class mainBody{
         return success;
     }
     //Region: DEBUG MODE
-
     /**
      * Method main
      *
