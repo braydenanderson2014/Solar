@@ -16,6 +16,11 @@ Steps to reproduce the behavior:
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
+**Affected Versions**
+- Snapshot:
+- Alpha: V
+- Beta: Beta 
+- Release: V
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.

@@ -80,32 +80,11 @@ public class POS{
         System.out.println("[TOT]: Total");
         System.out.println("[RET]: Return to Main Menu");
         System.out.println();
-        double savings = 0; //reset savings amount fo recalculation
-        Subtotal = 0; //reset Subtotal amount
-        origSubtotal = 0; //reset origSubtotal amount
-        for(int j = 0; j < invoiceSavings.size(); j++){
-            savings = savings + invoiceSavings.get(j);
-        }
-        for(int i = 0; i < pricesForInvoice.size(); i++){
-            Subtotal = Subtotal + pricesForInvoice.get(i);
-            origSubtotal = origSubtotal + pricesForInvoice.get(i);
-        }
-        //Subtotal = Subtotal - savings;
-        if(Subtotal == 0){
-            System.out.println("Subtotal: $" + df.format(0.00));
-        }else if(Subtotal > 0){
-            System.out.println("Subtotal: $" + df.format(Subtotal));
-        }else if(Subtotal < 0){
-            System.out.println("Subtotal: $" + df.format(Subtotal));
-        }
-        double tempSavingsHolder = 0;
-        if(invoiceSavings.size() > 0){
-            for(int i = 0; i < invoiceSavings.size(); i++){
-                tempSavingsHolder = tempSavingsHolder + invoiceSavings.get(i);//Temporaily holds the savings amount
-            }
-            if(tempSavingsHolder > 0){
-                System.out.println("Savings: $" + savings);
-            }
+        if(itemOnInvoice.size() > 0){
+            Subtotal = 5;
+            //updateSubtotalDiscount();
+            applyFullInvoicePToItem();
+            updateSubtotal();
         }
         System.out.println("Console: ");
         if(mainBody.Messages.size() > 0){
@@ -131,17 +110,9 @@ public class POS{
                 manualEntry();
             break;
             case "app":
-                if(Subtotal == 0){
-                    mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be 0$");
-                    POSMenu();
-                }else if(Subtotal < 0){
-                    mainBody.setNewMessage("[System]: In order to apply discount, subtotal cannot be negative");
-                    POSMenu();
-                }else{
-                    //addDiscount();
-                    discountMenu();
-                    POSMenu();
-                }
+                discountMenu();
+                POSMenu();
+                
             break;
             case "rit":
                 if(!user.equals("test") || !user.equals("admin")){
@@ -177,6 +148,8 @@ public class POS{
                     isItemDiscounted.clear();
                     origPrices.clear();
                     Savings = 0;
+                    Subtotal = 0;
+                    origTotal = 0;
                     pfullInvoiceDiscount = 0;
                     mainBody.setNewMessage("[System]: Sales Data Cleared");
                     POSMenu();
@@ -979,8 +952,8 @@ public class POS{
         System.out.println();
         System.out.println("Total: ");
         System.out.println("==========================================");
-        double taxP = Setup.getTax();//Tax Percentage
-        double taxD = Setup.getTax()/100;//Tax as a Decimal
+        //double taxP = Setup.getTax();//Tax Percentage
+        //double taxD = Setup.getTax()/100;//Tax as a Decimal
         if(Subtotal < 0){
             mainBody.setNewMessage("[Warning]: Total Cannot be Negative");
             POSMenu();
@@ -1004,49 +977,63 @@ public class POS{
                 POSMenu();
             }
         }
-        Subtotal =0;
-        for (int i = 0; i < itemOnInvoice.size(); i++) {
-            Subtotal = Subtotal + pricesForInvoice.get(i);
-        }
-        setTotal(Subtotal);
-        double discounts = pfullInvoiceDiscount * 100; // converts decimal to percent
-        discounts = 100 - discounts;//100 - the percent
-        discounts = discounts/100;//converts percent to decimal
-        Subtotal = Subtotal * discounts;
-        double tempSubtotal = 0;
-        for (int i = 0; i < itemOnInvoice.size(); i++) {
-            tempSubtotal = tempSubtotal + pricesForInvoice.get(i);
-        }
-        tempSubtotal = tempSubtotal - Subtotal;
-        //if(pfullInvoiceDiscount > 0){
-         int index = itemOnInvoice.indexOf("Invoice Level Discount");
-            invoiceSavings.set(index, tempSubtotal);
-         //   itemOnInvoice.add("Invoice Discount");
-         pricesForInvoice.set(index, -tempSubtotal);
-         ///   origPrices.add(0.00);
-          //  isItemDiscounted.add(true);
-        //}
-        Savings = 0;
-        for (int i = 0; i < invoiceSavings.size(); i++) {
-            Savings = Savings + invoiceSavings.get(i);
-        }
         viewItemsOnInvoice();
-        System.out.println();
-        System.out.println("Subtotal: " + df.format(Subtotal) + "$");//Subtotal
-        System.out.println("Discounts: " + df.format(Savings * (-1)) + "$");//Discounts
-        System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(origTotal * taxD) + "$");//Tax Percentage and then the $ Amount of tax
-        origTotal = origTotal * taxD; //Dollar amount of tax Calculated
-        origTotal = origTotal + Subtotal;//Total amount
-        origTotal = origTotal - discounts;
-        System.out.println("Total: $" + df.format(origTotal));
-        System.out.println();
-        df.format(origTotal);
-        setTotal(origTotal);
+        updateSubtotal();
         System.out.println("Press Enter to Continue");
         String Enter = customScanner.nextLine();
         mainBody.setNewMessage("[System]: User Pressed " + Enter);
         calcAmountR();
         paymentMenu();
+    }
+    public static double applyFullInvoicePToItem(){
+        mainBody.setNewMessage("[System]: Applying Invoice % off Discount to item");
+        double discounts = pfullInvoiceDiscount * 100; // converts decimal to percent
+        discounts = 100 - discounts;//100 - the percent
+        discounts = discounts/100;//converts percent to decimal
+        if(pfullInvoiceDiscount > 0){
+            for (int i = 0; i < isItemDiscounted.size(); i++) {
+                if(isItemDiscounted.get(i) == false){
+                    isItemDiscounted.set(i, true);
+                    double price = origPrices.get(i);
+                    double itemTotal = price * discounts;
+                    double placeHolder = pricesForInvoice.get(i) - itemTotal;
+                    pricesForInvoice.set(i, placeHolder);
+                    invoiceSavings.set(i, invoiceSavings.get(i) + itemTotal);
+                }else{
+                    mainBody.setNewMessage("[Warning]: Item: " + itemOnInvoice.get(i) + " Is already Discounted, Cannot apply Invoice % Off Discount to item.");
+                }
+            }
+        }else{
+            mainBody.setNewMessage("[System]: No Invoice discounts to apply to item");
+        }
+        return 0.00;
+    }
+    public static double updateSubtotal(){
+        mainBody.setNewMessage("[System]: Updating Subtotal...");
+        double taxP = Setup.getTax();//Tax as a Percentage
+        double taxD = Setup.getTax()/100;//Tax as a Decimal
+        origSubtotal = 0;
+        double discountPrices = 0;
+       // double discounts = 0;
+        for (int i = 0; i < itemOnInvoice.size(); i++) {
+            origSubtotal = origSubtotal + origPrices.get(i);//populates subtotal
+        }
+        origTotal = origSubtotal;
+        for (int i = 0; i < itemOnInvoice.size(); i++){
+            discountPrices = discountPrices + pricesForInvoice.get(i);
+        }
+        Subtotal = origSubtotal - discountPrices;
+        setTotal(discountPrices);
+        System.out.println("Subtotal: " + df.format(discountPrices) + "$");//Subtotal
+        System.out.println("Original total: " + origSubtotal + "$");
+        System.out.println("Discounts: " + Subtotal + "$");
+        System.out.println("Tax%: " + taxP + "%" + " Tax Amount: " + df.format(origTotal * taxD) + "$");//Tax Percentage and then the $ Amount of tax
+        origTotal = discountPrices + (origTotal * taxD); //Dollar amount of tax Calculated
+        //origTotal = origTotal + discountPrices;//Total amount
+        //origTotal = origTotal - Subtotal;
+        System.out.println("Total: $" + df.format(origTotal));
+        System.out.println();
+        return 0.00;
     }
     public static double calcAmountR(){// amount CT = Amount Currently Tendered
         amountR = origTotal - amountT;
@@ -1063,7 +1050,7 @@ public class POS{
         //double amountT = 0;
         System.out.println("Payment Options");
         System.out.println("========================================");
-        System.out.println("Amount Remaining: " + df.format(getAmountR()));
+        System.out.println("Amount Remaining: " + df.format(getAmountR()) + "$");
         System.out.println("[CAS]: Cash Payment");
         System.out.println("[CHE]: Check Payment");
         System.out.println("[CAR]: Card Payment");
@@ -1476,8 +1463,4 @@ public class POS{
      *
      * @return subtotal discount
      */
-    public static boolean updateSubtotalDiscount(){
-        return true;
-        //not implemented yet
-    }
 }

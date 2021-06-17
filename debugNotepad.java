@@ -59,6 +59,7 @@ public class debugNotepad
         System.out.println("========================================");
         System.out.println("[CRE]: Create Notebook");
         System.out.println("[ADD]: Add a New Note");
+        System.out.println("[EDT]: Edit a note");
         System.out.println("[VN]:  View Notebook");
         System.out.println("[DEL]: Delete a Note");
         System.out.println("[DAN]: Delete all Notes");
@@ -88,9 +89,22 @@ public class debugNotepad
             //add a new note
             addNote();
             Notepad();
+        }else if(option.equals("edt")){
+            mainBody.setNewMessage("[System]: This Feature is Coming soon, Check in a later Snapshot or release");
+            Notepad();   
         }else if(option.equals("vn")){
             //View Notebook
-            viewNotes();
+            if(debugNotepad.size() == 0){
+                autoLoadDebugNotepad();
+                if(debugNotepad.size() == 0){
+                    mainBody.setNewMessage("[Warning]: No Notes in notebook");
+                    Notepad();
+                }else{
+                    viewNotes();
+                }
+            }else{
+                viewNotes();
+            }
             String Continue = customScanner.nextLine();
             mainBody.setNewMessage("[System]: User pressed: " + Continue);
             Notepad();
@@ -119,6 +133,8 @@ public class debugNotepad
             deleteAllNotes();
             mainBody.mainMenu();
         }else if(option.equals("ret")){
+            saveNotesToFile();
+            deleteAllNotes();
             mainBody.setNewMessage("[System]: Main Menu");
             mainBody.mainMenu();
         }else{
@@ -176,6 +192,8 @@ public class debugNotepad
     public static boolean viewNotes(){
         Login.displaySolarLogo();
         System.out.println();
+        System.out.println("Notebook: ");
+        System.out.println("==========================================");
         for(int i = 0; i<debugNotepad.size();i++){
             System.out.println("[*] " + debugNotepad.get(i));
         }
